@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --box-bg-color: #333333;
+  --border-bg-color: #e2e2e2;
+  --title-font-color: #949494;
+  --title-bg-color: #eeeeee;
+}
+
+.box {
+  width: 215px;
+  height: 315px;
+  background-color: var(--box-bg-color);
+  color: white;
+}
+
+.title {
+  color: var(--title-font-color);
+  background-color: var(--title-bg-color);
+}
