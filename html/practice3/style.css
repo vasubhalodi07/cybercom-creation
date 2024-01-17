@@ -1,0 +1,36 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+.center {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.table1,
+.table1 th,
+.table1 td {
+  border: 2px solid black;
+  border-collapse: collapse;
+  padding: 4px;
+}
+
+.table2,
+.table2 th,
+.table2 td {
+  border: 2px solid black;
+  padding: 0px;
+}
+
+th,
+td {
+  text-align: center;
+}
+
+.gender {
+  width: 10%;
+}
