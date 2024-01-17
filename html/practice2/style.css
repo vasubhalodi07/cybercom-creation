@@ -1,0 +1,85 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+:root {
+  --box-bg-color: #333333;
+  --border-bg-color: #e2e2e2;
+  --title-font-color: #949494;
+  --title-bg-color: #eeeeee;
+}
+
+h1 {
+  font-size: 35px;
+}
+
+p {
+  text-align: center;
+  width: 30%;
+  color: var(--title-font-color);
+}
+
+.center {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.card {
+  width: 280px;
+  height: 330px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 1);
+  color: #000;
+  box-shadow: 0px 26px 58px 0px rgba(0, 0, 0, 0.1),
+    0px 5px 14px 0px rgba(0, 0, 0, 0.1);
+}
+
+.image {
+  padding-bottom: 10px;
+}
+
+.image img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50px;
+}
+
+.description {
+  width: 80%;
+  text-align: center;
+  color: black;
+  font-size: 15px;
+  padding-bottom: 15px;
+}
+
+hr {
+  width: 80%;
+}
+
+.title {
+  padding-top: 15px;
+  font-weight: 600;
+  text-align: center;
+  font-size: 14px;
+}
+
+.profile {
+  font-weight: 500;
+  color: var(--title-font-color);
+  font-size: 12px;
+}
