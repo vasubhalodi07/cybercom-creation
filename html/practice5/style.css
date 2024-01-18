@@ -1,0 +1,135 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+:root {
+  --btn-color: #836ae0;
+  --placeholder-color: #949494;
+  --input-focus-color: #ededed;
+}
+
+.center {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 500px;
+  padding: 10px;
+}
+
+.image-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.image-container img {
+  width: 450px;
+  height: 170px;
+  opacity: 0.9;
+  object-fit: cover;
+}
+.overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+  letter-spacing: 1.2px;
+}
+
+form {
+  text-align: center;
+}
+form div {
+  margin-top: 10px;
+}
+
+input,
+textarea {
+  width: 350px;
+  padding: 10px 0px 10px 0px;
+  border: 2px solid var(--input-focus-color);
+}
+textarea {
+  resize: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--placeholder-color);
+}
+
+.input-group input,
+textarea {
+  padding-left: 50px;
+}
+
+.input-group {
+  position: relative;
+}
+.input-group i {
+  color: var(--placeholder-color);
+  position: absolute;
+  margin-left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.textarea-group {
+  position: relative;
+}
+.textarea-group i {
+  position: absolute;
+  padding: 12px 0 0 20px;
+  color: var(--placeholder-color);
+}
+
+button {
+  margin-top: 10px;
+  border: none;
+  color: white;
+  background-color: var(--btn-color);
+  padding: 10px 20px;
+  border-radius: 20px;
+  box-shadow: 0px 40px 58px 0px rgba(0, 0, 0, 0.1),
+    0px 5px 10px 0px rgba(0, 0, 0, 0.1);
+}
+button:hover {
+  opacity: 0.9;
+}
+
+@media screen and (min-width: 0px) and (max-width: 900px) {
+  .container {
+    width: 300px;
+  }
+  .image-container img {
+    width: 100%;
+    opacity: 0.8;
+  }
+  .overlay-text {
+    font-size: 20px;
+  }
+  input,
+  textarea {
+    width: 80%;
+  }
+  .input-group input,
+  textarea {
+    padding-left: 40px;
+  }
+  .input-group i {
+    margin-left: 10px;
+  }
+  .textarea-group i {
+    padding: 12px 0 0 10px;
+  }
+}
