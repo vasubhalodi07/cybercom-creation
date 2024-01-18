@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Practice 6</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main>
+      <form action="./success.html">
+        <fieldset>
+          <legend>Your Address</legend>
+          <div>
+            <div>First name</div>
+            <input type="text" />
+          </div>
+          <div>
+            <div>Last name</div>
+            <input type="text" />
+          </div>
+          <div>
+            <div>Street name</div>
+            <input type="text" />
+          </div>
+          <div>
+            <div>City name</div>
+            <input type="text" />
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Additional details</legend>
+          <div>
+            <div>Biography</div>
+            <textarea rows="3" cols="30"></textarea>
+          </div>
+          <div>
+            <div>Image</div>
+            <input type="file" />
+          </div>
+          <div>
+            <div>Age Group</div>
+            <select class="group">
+              <option>0 to 9 Years</option>
+              <option>10 to 19 Years</option>
+              <option>20 to 29 Years</option>
+              <option>30 to 39 Years</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Interests</legend>
+          <div>
+            <div>Hobbies</div>
+            <select multiple class="hobbies" size="4">
+              <option>Playing soccer</option>
+              <option>Dancing</option>
+              <option>Gardening</option>
+              <option>Watching movies</option>
+              <option>Playing Cricket</option>
+              <option>Coding</option>
+            </select>
+          </div>
+          <div>
+            <div>Favourite Car?</div>
+            <select class="car">
+              <option>Volvo</option>
+              <option>BMW</option>
+              <option>Supra mk4</option>
+            </select>
+          </div>
+          <div>
+            <div>Favourite public transport?</div>
+            <select multiple class="transport" size="4">
+              <optgroup label="Ground">
+                <option>Train</option>
+                <option>Bus</option>
+              </optgroup>
+              <optgroup label="Water">
+                <option>Ship</option>
+                <option>Airboat</option>
+                <option>Hovecraft</option>
+              </optgroup>
+            </select>
+          </div>
+        </fieldset>
+
+        <input type="submit" />
+        <input type="reset" />
+      </form>
+    </main>
+
+    <script>
+      function handleRedirect() {
+        window.location.href = "./success.html";
+      }
+    </script>
+  </body>
+</html>
