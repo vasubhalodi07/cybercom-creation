@@ -11,91 +11,101 @@
       <form action="./success.html">
         <fieldset>
           <legend>Your Address</legend>
-          <div>
-            <div>First name</div>
-            <input type="text" />
-          </div>
-          <div>
-            <div>Last name</div>
-            <input type="text" />
-          </div>
-          <div>
-            <div>Street name</div>
-            <input type="text" />
-          </div>
-          <div>
-            <div>City name</div>
-            <input type="text" />
-          </div>
+          <table>
+            <tr>
+              <th><label for="first">First name</label></th>
+              <td><input type="text" /></td>
+            </tr>
+            <tr>
+              <th><label for="last">Last name</label></th>
+              <td><input type="text" /></td>
+            </tr>
+            <tr>
+              <th><label for="street">Street name</label></th>
+              <td><input type="text" /></td>
+            </tr>
+            <tr>
+              <th><label for="city">City name</label></th>
+              <td><input type="text" /></td>
+            </tr>
+          </table>
         </fieldset>
 
         <fieldset>
           <legend>Additional details</legend>
-          <div>
-            <div>Biography</div>
-            <textarea rows="3" cols="30"></textarea>
-          </div>
-          <div>
-            <div>Image</div>
-            <input type="file" />
-          </div>
-          <div>
-            <div>Age Group</div>
-            <select class="group">
-              <option>0 to 9 Years</option>
-              <option>10 to 19 Years</option>
-              <option>20 to 29 Years</option>
-              <option>30 to 39 Years</option>
-            </select>
-          </div>
+          <table>
+            <tr>
+              <th><label for="biography">Biography</label></th>
+              <td><textarea rows="3" cols="30"></textarea></td>
+            </tr>
+            <tr>
+              <th><label for="image">Image</label></th>
+              <td><input type="file" /></td>
+            </tr>
+            <tr>
+              <th><label for="age">Age Group</label></th>
+              <td>
+                <select class="age">
+                  <option>0 to 9 Years</option>
+                  <option>10 to 19 Years</option>
+                  <option>20 to 29 Years</option>
+                  <option>30 to 39 Years</option>
+                </select>
+              </td>
+            </tr>
+          </table>
         </fieldset>
 
         <fieldset>
           <legend>Interests</legend>
-          <div>
-            <div>Hobbies</div>
-            <select multiple class="hobbies" size="4">
-              <option>Playing soccer</option>
-              <option>Dancing</option>
-              <option>Gardening</option>
-              <option>Watching movies</option>
-              <option>Playing Cricket</option>
-              <option>Coding</option>
-            </select>
-          </div>
-          <div>
-            <div>Favourite Car?</div>
-            <select class="car">
-              <option>Volvo</option>
-              <option>BMW</option>
-              <option>Supra mk4</option>
-            </select>
-          </div>
-          <div>
-            <div>Favourite public transport?</div>
-            <select multiple class="transport" size="4">
-              <optgroup label="Ground">
-                <option>Train</option>
-                <option>Bus</option>
-              </optgroup>
-              <optgroup label="Water">
-                <option>Ship</option>
-                <option>Airboat</option>
-                <option>Hovecraft</option>
-              </optgroup>
-            </select>
-          </div>
+          <table>
+            <tr>
+              <th><label for="hobbies">Hobbies</label></th>
+              <td>
+                <select multiple class="hobbies" size="4">
+                  <option>Playing soccer</option>
+                  <option>Dancing</option>
+                  <option>Gardening</option>
+                  <option>Watching movies</option>
+                  <option>Playing Cricket</option>
+                  <option>Coding</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th><label for="favorite-car">Favourite Car?</label></th>
+              <td>
+                <select class="car">
+                  <option>Volvo</option>
+                  <option>BMW</option>
+                  <option>Supra mk4</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label for="transport">Favourite public transport?</label>
+              </th>
+              <td>
+                <select multiple class="transport" size="4">
+                  <optgroup label="Ground">
+                    <option>Train</option>
+                    <option>Bus</option>
+                  </optgroup>
+                  <optgroup label="Water">
+                    <option>Ship</option>
+                    <option>Airboat</option>
+                    <option>Hovecraft</option>
+                  </optgroup>
+                </select>
+              </td>
+            </tr>
+          </table>
         </fieldset>
 
         <input type="submit" />
         <input type="reset" />
       </form>
     </main>
-
-    <script>
-      function handleRedirect() {
-        window.location.href = "./success.html";
-      }
-    </script>
   </body>
 </html>

@@ -1,53 +1,68 @@
 * {
   margin: 0px;
   padding: 0px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 }
 
 main {
-  background-color: beige;
   display: flex;
   justify-content: center;
+  padding: 10px;
 }
 
 form {
-  background-color: lightblue;
   padding: 20px;
   min-width: 1000px;
 }
 
 fieldset {
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 legend {
   font-weight: 600;
-  margin-left: 10px;
+  margin-left: 20px;
 }
 
-fieldset div {
-  padding: 5px 10px;
-  display: flex;
-  justify-content: flex-start;
+table {
+  width: 100%;
+  padding: 10px;
 }
 
-fieldset div div {
-  width: 300px;
-  font-weight: 600;
+th {
+  font-size: 14px;
+  text-align: start;
+  vertical-align: top;
+  width: 30%;
+  padding: 8px;
 }
 
-input {
+input[type="text"] {
   padding: 5px;
 }
-
 input[type="file"] {
   font-weight: 600;
 }
 
+select {
+  padding: 3px;
+}
+
+.age,
+.car {
+  border-radius: 5px;
+}
+
+input[type="submit"],
+input[type="reset"] {
+  padding: 5px 20px;
+  font-size: 15px;
+}
+
 .transport {
-  min-width: 150px;
+  width: 120px;
 }
 
 .transport option {
-  padding-left: 20px;
+  margin-left: 20px;
 }
