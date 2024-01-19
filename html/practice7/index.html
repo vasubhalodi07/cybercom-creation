@@ -3,10 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>HTML Practice 7 - Form</title>
-
-    <link rel="stylesheet" href="style.css" />
+    <title>Practice7 - Form</title>
+    <link rel="stylesheet" href="./css/index.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -15,21 +13,21 @@
 
   <body>
     <main>
-      <form action="information.php">
+      <form action="./information.php" method="POST">
         <h3>Personal Information</h3>
         <section>
           <table>
             <tr>
               <th><label for="fname">First Name:</label></th>
               <td>
-                <input type="text" name="fname" required />
+                <input type="text" name="fname" id="fname" required />
               </td>
             </tr>
 
             <tr>
               <th><label for="lname">Last Name:</label></th>
               <td>
-                <input type="text" name="lname" required />
+                <input type="text" name="lname" id="lname" required />
               </td>
             </tr>
 
@@ -37,7 +35,7 @@
               <th><label for="dob">Date of Birth:</label></th>
               <td class="flex">
                 <select name="month" id="month" required>
-                  <option value="" disabled selected>Month</option>
+                  <option>Month</option>
                   <option value="01">January</option>
                   <option value="02">February</option>
                   <option value="03">March</option>
@@ -54,8 +52,8 @@
                 <select name="day" id="day" required>
                   <option>Day</option>
                 </select>
-                <select name="year" id="year">
-                  <option value="" disabled selected>Year</option>
+                <select name="year" id="year" required>
+                  <option>Year</option>
                 </select>
                 <i class="fa fa-question-circle" aria-hidden="true"></i>
               </td>
@@ -64,7 +62,7 @@
             <tr>
               <th><label for="gender">Gender:</label></th>
               <td class="flex">
-                <select name="gender" id="gender">
+                <select name="gender" id="gender" required>
                   <option>Choose a gender</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
@@ -83,7 +81,7 @@
               <td>
                 <input type="email" id="email" name="email" required />
                 <br />
-                <font>(Your email address will be your username)</font>
+                <small>(Your email address will be your username)</small>
               </td>
             </tr>
 
@@ -92,7 +90,7 @@
                 <label for="re-email">Re-type Email:</label>
               </th>
               <td>
-                <input type="email" id="re-email" name="re-email" />
+                <input type="email" id="re-email" name="re-email" required />
               </td>
             </tr>
 
@@ -100,7 +98,9 @@
               <th><label for="password">Password:</label></th>
               <td>
                 <input type="password" id="pwd" name="pwd" required /><br />
-                <font>(Min 8 characters, 1 number, case-sensitive)</font>
+                <small id="pass-message"
+                  >(Min 8 characters, 1 number, case-sensitive)</small
+                >
               </td>
             </tr>
 
@@ -109,7 +109,13 @@
                 <label for="re-pass">Re-type Password:</label>
               </th>
               <td>
-                <input type="password" id="re-pass" name="re-pass" />
+                <input
+                  type="password"
+                  id="re-pass"
+                  name="re-pass"
+                  required
+                /><br />
+                <small id="recheck"></small>
               </td>
             </tr>
 
@@ -118,11 +124,17 @@
                 <label for="question">Security Question:</label>
               </th>
               <td class="flex">
-                <select name="quetion" id="quetion">
-                  <option>Choose a security question</option>
-                  <option value="que1">What is favourite colour?</option>
-                  <option value="que2">What is nick name?</option>
-                  <option value="que3">what is your first school name?</option>
+                <select name="question" id="question" required>
+                  <option value="">Choose a security question</option>
+                  <option value="What is favourite colour?">
+                    What is favourite color?
+                  </option>
+                  <option value="What is favourite movie?">
+                    What is favourite movie?
+                  </option>
+                  <option value="What is your first school name?">
+                    What is your first school name?
+                  </option>
                 </select>
                 <i class="fa fa-question-circle" aria-hidden="true"></i>
               </td>
@@ -134,7 +146,7 @@
               </th>
               <td>
                 <input type="text" id="answer" name="answer" /><br />
-                <font>(Not case-sensitive)</font>
+                <small>(Not case-sensitive)</small>
               </td>
             </tr>
           </table>
@@ -147,21 +159,21 @@
             <tr>
               <th><label for="address">Address:</label></th>
               <td>
-                <input type="text" name="address" id="address" />
+                <input type="text" name="address" id="address" required />
               </td>
             </tr>
 
             <tr>
               <th><label for="city">City:</label></th>
               <td>
-                <input type="text" name="city" id="city" />
+                <input type="text" name="city" id="city" required />
               </td>
             </tr>
 
             <tr>
               <th><label for="state">State:</label></th>
               <td>
-                <select name="state" id="state">
+                <select name="state" id="state" required>
                   <option value="">Choose a state</option>
                   <option value="Gujarat">Gujarat</option>
                   <option value="Maharastra">Maharastra</option>
@@ -174,8 +186,8 @@
             <tr>
               <th><label for="zip">Zip Code:</label></th>
               <td class="flex">
-                <input type="text" name="zip" id="zip" />
-                <input type="text" value="Optional" required />
+                <input type="text" name="zip" id="zip" required />
+                <input type="text" value="Optional" />
               </td>
             </tr>
 
@@ -184,13 +196,8 @@
                 <label for="phone">Phone:</label>
               </th>
               <td class="flex">
-                <div>
-                  <input type="text" required /><br /><font
-                    >No space or dashes</font
-                  >
-                </div>
-
-                <select>
+                <input type="text" id="phone" name="phone" required />
+                <select id="mobile" name="mobile" required>
                   <option value="mobile">Mobile</option>
                   <option value="landline">Landline</option>
                 </select>
@@ -200,13 +207,13 @@
           </table>
         </section>
 
-        <div class="flex">
+        <div class="flex width">
           <input type="submit" />
           <input type="reset" />
         </div>
       </form>
     </main>
 
-    <script src="./main.js"></script>
+    <script src="./js/main.js"></script>
   </body>
 </html>
