@@ -1,0 +1,62 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+:root {
+  --bgcolor: #f7f6f5;
+}
+
+.flex {
+  display: flex;
+  gap: 10px;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+form {
+  width: 50%;
+  background-color: var(--bgcolor);
+  padding: 20px;
+}
+
+section {
+  margin-bottom: 30px;
+}
+
+th {
+  font-size: 12px;
+  width: 20%;
+  text-align: right;
+  padding: 5px;
+}
+
+td {
+  width: 100%;
+  padding: 5px;
+  text-align: left;
+}
+
+table {
+  width: 100%;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 5px;
+}
+
+font {
+  font-size: 12px;
+}
+
+i {
+  color: indigo;
+}

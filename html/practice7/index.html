@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>HTML Practice 7 - Form</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
+
+  <body>
+    <main>
+      <form action="information.php">
+        <h3>Personal Information</h3>
+        <section>
+          <table>
+            <tr>
+              <th><label for="fname">First Name:</label></th>
+              <td>
+                <input type="text" name="fname" required />
+              </td>
+            </tr>
+
+            <tr>
+              <th><label for="lname">Last Name:</label></th>
+              <td>
+                <input type="text" name="lname" required />
+              </td>
+            </tr>
+
+            <tr>
+              <th><label for="dob">Date of Birth:</label></th>
+              <td class="flex">
+                <select name="month" id="month" required>
+                  <option value="" disabled selected>Month</option>
+                  <option value="01">January</option>
+                  <option value="02">February</option>
+                  <option value="03">March</option>
+                  <option value="04">April</option>
+                  <option value="05">May</option>
+                  <option value="06">June</option>
+                  <option value="07">July</option>
+                  <option value="08">August</option>
+                  <option value="09">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+                <select name="day" id="day" required>
+                  <option>Day</option>
+                </select>
+                <select name="year" id="year">
+                  <option value="" disabled selected>Year</option>
+                </select>
+                <i class="fa fa-question-circle" aria-hidden="true"></i>
+              </td>
+            </tr>
+
+            <tr>
+              <th><label for="gender">Gender:</label></th>
+              <td class="flex">
+                <select name="gender" id="gender">
+                  <option>Choose a gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+                <i class="fa fa-question-circle" aria-hidden="true"></i>
+              </td>
+            </tr>
+          </table>
+        </section>
+
+        <section>
+          <h3>Account Information</h3>
+          <table>
+            <tr>
+              <th><label for="email">Email:</label></th>
+              <td>
+                <input type="email" id="email" name="email" required />
+                <br />
+                <font>(Your email address will be your username)</font>
+              </td>
+            </tr>
+
+            <tr>
+              <th>
+                <label for="re-email">Re-type Email:</label>
+              </th>
+              <td>
+                <input type="email" id="re-email" name="re-email" />
+              </td>
+            </tr>
+
+            <tr>
+              <th><label for="password">Password:</label></th>
+              <td>
+                <input type="password" id="pwd" name="pwd" required /><br />
+                <font>(Min 8 characters, 1 number, case-sensitive)</font>
+              </td>
+            </tr>
+
+            <tr>
+              <th>
+                <label for="re-pass">Re-type Password:</label>
+              </th>
+              <td>
+                <input type="password" id="re-pass" name="re-pass" />
+              </td>
+            </tr>
+
+            <tr>
+              <th>
+                <label for="question">Security Question:</label>
+              </th>
+              <td class="flex">
+                <select name="quetion" id="quetion">
+                  <option>Choose a security question</option>
+                  <option value="que1">What is favourite colour?</option>
+                  <option value="que2">What is nick name?</option>
+                  <option value="que3">what is your first school name?</option>
+                </select>
+                <i class="fa fa-question-circle" aria-hidden="true"></i>
+              </td>
+            </tr>
+
+            <tr>
+              <th>
+                <label for="answer">Security Answer:</label>
+              </th>
+              <td>
+                <input type="text" id="answer" name="answer" /><br />
+                <font>(Not case-sensitive)</font>
+              </td>
+            </tr>
+          </table>
+        </section>
+
+        <!-- Contact Information -->
+        <section>
+          <h3 id="h3">Contact Information</h3>
+          <table class="t3">
+            <tr>
+              <th><label for="address">Address:</label></th>
+              <td>
+                <input type="text" name="address" id="address" />
+              </td>
+            </tr>
+
+            <tr>
+              <th><label for="city">City:</label></th>
+              <td>
+                <input type="text" name="city" id="city" />
+              </td>
+            </tr>
+
+            <tr>
+              <th><label for="state">State:</label></th>
+              <td>
+                <select name="state" id="state">
+                  <option value="">Choose a state</option>
+                  <option value="Gujarat">Gujarat</option>
+                  <option value="Maharastra">Maharastra</option>
+                  <option value="Rajesthan">Rajesthan</option>
+                  <option value="Madhyapradesh">Madhyapradesh</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr>
+              <th><label for="zip">Zip Code:</label></th>
+              <td class="flex">
+                <input type="text" name="zip" id="zip" />
+                <input type="text" value="Optional" required />
+              </td>
+            </tr>
+
+            <tr>
+              <th id="ph">
+                <label for="phone">Phone:</label>
+              </th>
+              <td class="flex">
+                <div>
+                  <input type="text" required /><br /><font
+                    >No space or dashes</font
+                  >
+                </div>
+
+                <select>
+                  <option value="mobile">Mobile</option>
+                  <option value="landline">Landline</option>
+                </select>
+                <i class="fa fa-question-circle" aria-hidden="true"></i>
+              </td>
+            </tr>
+          </table>
+        </section>
+
+        <div class="flex">
+          <input type="submit" />
+          <input type="reset" />
+        </div>
+      </form>
+    </main>
+
+    <script src="./main.js"></script>
+  </body>
+</html>
