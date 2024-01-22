@@ -12,29 +12,35 @@
 
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css"
-      integrity="sha384-BY+fdrpOd3gfeRvTSMT+VUZmA728cfF9Z2G42xpaRkUGu2i3DyzpTURDo5A6CaLK"
-      crossorigin="anonymous"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
   </head>
   <body>
     <main>
       <header>
-        <a class="logo">Vasu</a>
-        <ul>
-          <li><a href="#home" class="active">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#project">Project</a></li>
-          <li><a href="#blog">Blog</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
+        <nav>
+          <a class="logo">Vasu</a>
+          <ul>
+            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#project">Project</a></li>
+            <li><a href="#blog">Blog</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
       </header>
 
       <section id="home">
         <div class="home-container">
-          <h6>HEY! I AM</h6>
-          <h1>Vasu Bhalodi</h1>
-          <h4>I'm a <span id="content"></span></h4>
+          <div class="home-hello">Hello,</div>
+          <div class="home-content">I Am <span id="content"></span></div>
+          <div class="home-icons">
+            <i class="fa-brands fa-facebook-f"></i>
+            <i class="fa-brands fa-linkedin-in"></i>
+            <i class="fa-brands fa-github"></i>
+            <i class="fa-brands fa-medium"></i>
+            <i class="fa-brands fa-instagram"></i>
+          </div>
         </div>
       </section>
 
@@ -44,141 +50,263 @@
             <img src="./assets/1.jpg" alt="profile" />
           </div>
           <div class="details">
-            <h1>About Me</h1>
-            <p>
-              I am B.Tech Information and Communication Technology Student with
-              focused and dedicated skills to achieve goals. Seeking an
-              opportunity to start my career with a reputed organization so that
-              i can improve and enhance my skills.
-            </p>
-            <table>
-              <tr>
-                <th>Name:</th>
-                <td>Vasu Bhalodi</td>
-              </tr>
-              <tr>
-                <th>Date of Birth:</th>
-                <td>April 07, 2003</td>
-              </tr>
-              <tr>
-                <th>Address:</th>
-                <td>Gita Nager, Jetput Road Gondal</td>
-              </tr>
-              <tr>
-                <th>Email:</th>
-                <td>vasubhalodi111@gmail.com</td>
-              </tr>
-              <tr>
-                <th>Phone:</th>
-                <td>+919913260225</td>
-              </tr>
-            </table>
-            <button>
-              <a href="./assets/Vasu Bhalodi Resume.pdf" target="_blank"
-                >Downlond CV</a
-              >
-            </button>
-          </div>
-        </div>
-      </section>
+            <h1 class="section-title">About Me.</h1>
 
-      <section id="project">
-        <div class="project-container">
-          <h1>Our Project</h1>
-          <div class="projects">
-            <div class="project-item">
-              <img src="./assets/project/1.png" alt="project" />
-              <div class="overlay">
-                <div class="text">Hello World</div>
+            <p>
+              I am <span> Vasu Bhalodi</span>. Lorem Ipsum is simply dummy text
+              of the printing and typesetting industry. Lorem Ipsum has been the
+              industry's standard dummy text ever It has survived not only five
+              centuries, but also the leap into electronic but also the leap
+              into electronic typesetting, remaining essentially unchanged. It
+              was popularised in the 1960s with the release of Letraset sheets
+              containing.
+            </p>
+
+            <div class="about-progress">
+              <div class="progress">
+                <div class="progress-value" style="width: 90%">
+                  <div>Web Design</div>
+                  <div>90%</div>
+                </div>
+              </div>
+              <div class="progress">
+                <div class="progress-value" style="width: 95%">
+                  <div>Development</div>
+                  <div>95%</div>
+                </div>
+              </div>
+              <div class="progress">
+                <div class="progress-value" style="width: 80%">
+                  <div>Deployment</div>
+                  <div>80%</div>
+                </div>
+              </div>
+              <div class="progress">
+                <div class="progress-value" style="width: 70%">
+                  <div>Testing</div>
+                  <div>70%</div>
+                </div>
               </div>
             </div>
-            <div class="project-item">
-              <img src="./assets/project/2.png" alt="project" />
-            </div>
-            <div class="project-item">
-              <img src="./assets/project/3.jpg" alt="project" />
-            </div>
-            <div class="project-item">
-              <img src="./assets/project/4.png" alt="project" />
-            </div>
-            <div class="project-item">
-              <img src="./assets/project/5.png" alt="project" />
-            </div>
-            <div class="project-item">
-              <img src="./assets/project/6.png" alt="project" />
-            </div>
-            <div class="project-item">
-              <img src="./assets/project/7.jpg" alt="project" />
+
+            <div class="about-btn-group">
+              <button>
+                <a href="./assets/Vasu Bhalodi Resume.pdf" target="_blank"
+                  >Download CV</a
+                >
+              </button>
+              <button>
+                <a href="#contact">Contact Me</a>
+              </button>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="blog">
+      <section id="project" class="section-container">
         <div class="project-container">
-          <h1>Our Blog</h1>
+          <h1 class="section-title">Our Project</h1>
+          <div class="blog-container">
+            <div class="blog-details">
+              <div class="blog-image-container">
+                <img src="./assets/project/1.png" alt="project" />
+              </div>
+              <div class="blog-content">
+                <h5>Infinite Scrolling with Intersection Observer in React</h5>
+                <a
+                  href="https://github.com/vasubhalodi07/infinite-scroll-intersection-observer-react"
+                  target="_blank"
+                  >Github Link</a
+                >
+              </div>
+            </div>
+
+            <div class="blog-details">
+              <div class="blog-image-container">
+                <img src="./assets/project/2.png" alt="project" />
+              </div>
+              <div class="blog-content">
+                <h5>JWT with Cookies using React, Express, and MongoDB</h5>
+                <a
+                  href="https://github.com/vasubhalodi07/jwt-cookie-auth-express-react"
+                  target="_blank"
+                  >Github Link</a
+                >
+              </div>
+            </div>
+
+            <div class="blog-details">
+              <div class="blog-image-container">
+                <img src="./assets/project/3.jpg" alt="project" />
+              </div>
+              <div class="blog-content">
+                <h5>
+                  Sending and Verifying Mobile OTP with Firebase and React
+                </h5>
+                <a
+                  href="https://github.com/vasubhalodi07/otp-send-firebase-react"
+                  target="_blank"
+                  >Github Link</a
+                >
+              </div>
+            </div>
+
+            <div class="blog-details">
+              <div class="blog-image-container">
+                <img src="./assets/project/4.png" alt="project" />
+              </div>
+              <div class="blog-content">
+                <h5>
+                  CRUD Operation using React, Redux Toolkit, Node, and MongoDB
+                </h5>
+                <a
+                  href="https://github.com/vasubhalodi07/crud-operation-react-redux-toolkit"
+                  target="_blank"
+                  >Github Link</a
+                >
+              </div>
+            </div>
+
+            <div class="blog-details">
+              <div class="blog-image-container">
+                <img src="./assets/project/5.png" alt="project" />
+              </div>
+              <div class="blog-content">
+                <h5>
+                  Razorpay Payment Gateway Integration - React.js & Express.js
+                </h5>
+                <a
+                  href="https://github.com/vasubhalodi07/razorpay-payment-express-react"
+                  target="_blank"
+                  >Github Link</a
+                >
+              </div>
+            </div>
+
+            <div class="blog-details">
+              <div class="blog-image-container">
+                <img src="./assets/project/6.png" alt="project" />
+              </div>
+              <div class="blog-content">
+                <h5>
+                  User Authentication System with Private Routing using React,
+                  Redux, Node.js, and MongoDB
+                </h5>
+                <a
+                  href="https://github.com/vasubhalodi07/user-auth-react-redux"
+                  target="_blank"
+                  >Github Link</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="blog" class="section-container">
+        <div class="project-container">
+          <h1 class="section-title">Our Blog</h1>
           <div class="blog-container">
             <div class="blog-details">
               <div class="blog-image-container">
                 <img src="./assets/blog/1.webp" />
               </div>
-              <h5>
-                CRUD Operation using React, Redux Toolkit, Node, and MongoDB
-              </h5>
+              <div class="blog-content">
+                <h5>
+                  CRUD Operation using React, Redux Toolkit, Node, and MongoDB
+                </h5>
+                <a
+                  href="https://medium.com/stackademic/crud-operations-using-react-redux-toolkit-node-and-mongodb-ded42dfbd7d8"
+                  target="_blank"
+                  >Read More</a
+                >
+              </div>
             </div>
 
             <div class="blog-details">
               <div class="blog-image-container">
                 <img src="./assets/blog/3.webp" alt="blog" />
               </div>
-              <h5>Sending and Verifying Mobile OTP with Firebase and React</h5>
+              <div class="blog-content">
+                <h5>
+                  Sending and Verifying Mobile OTP with Firebase and React
+                </h5>
+                <a
+                  href="https://medium.com/stackademic/sending-and-verifying-mobile-otp-with-firebase-and-react-d1d0244690a9"
+                  target="_blank"
+                  >Read More</a
+                >
+              </div>
             </div>
 
             <div class="blog-details">
               <div class="blog-image-container">
                 <img src="./assets/blog/2.png" alt="blog" />
               </div>
-              <h5>
-                Mastering Async Actions within createAsyncThunk in Redux Toolkit
-              </h5>
+              <div class="blog-content">
+                <h5>
+                  Mastering Async Actions within createAsyncThunk in Redux
+                  Toolkit
+                </h5>
+                <a
+                  href="https://medium.com/stackademic/mastering-async-actions-within-createasyncthunk-in-redux-toolkit-382af0eaae57"
+                  target="_blank"
+                  >Read More</a
+                >
+              </div>
             </div>
 
             <div class="blog-details">
               <div class="blog-image-container">
                 <img src="./assets/blog/4.webp" alt="blog" />
               </div>
-              <h5>
-                Mastering Web APIs: Drag and Drop, Geolocation, Web Storage, and
-                Canvas
-              </h5>
-            </div>
-
-            <div class="blog-details">
-              <div class="blog-image-container">
-                <img src="./assets/blog/5.webp" alt="blog" />
+              <div class="blog-content">
+                <h5>
+                  Mastering Web APIs: Drag and Drop, Geolocation, Web Storage,
+                  and Canvas
+                </h5>
+                <a>Read More</a>
               </div>
-              <h5>How to Stop setInterval Call in JavaScript</h5>
-            </div>
-
-            <div class="blog-details">
-              <div class="blog-image-container">
-                <img src="./assets/blog/6.webp" alt="blog" />
-              </div>
-              <h5>Asynchronous JavaScript: A Deep Dive into Promises</h5>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="contact">
-        <form class="contact-container">
-          <h1>Contact</h1>
-          <input type="text" placeholder="Your Name" />
-          <input type="email" placeholder="Your Email" />
-          <input type="text" placeholder="Your Subject" />
-          <textarea placeholder="Message" rows="5"></textarea>
-          <input type="submit" value="SEND MESSAGE" />
-        </form>
+      <section id="contact" class="section-container">
+        <div class="contact-container">
+          <h1 class="section-title">Contact Us</h1>
+          <div class="contact-icons">
+            <div>
+              <i class="fa-solid fa-address-book"></i>
+              <div>Address</div>
+              <div>Jetpur Road Gondal - Gujarat</div>
+            </div>
+            <div>
+              <i class="fa-solid fa-envelope"></i>
+              <div>Email</div>
+              <div>vasubhalodi111@gmail.com</div>
+            </div>
+            <div>
+              <i class="fa-solid fa-phone"></i>
+              <div>Phone</div>
+              <div>+91 9913260225</div>
+            </div>
+          </div>
+          <div class="form">
+            <div class="form-fields">
+              <input type="text" placeholder="Name" />
+              <input type="email" placeholder="Email" />
+            </div>
+            <textarea
+              name="message"
+              id="message"
+              cols="30"
+              rows="10"
+              placeholder="Message"
+            ></textarea>
+            <input type="submit" />
+          </div>
+        </div>
       </section>
 
       <footer>

@@ -1,12 +1,15 @@
 let sections = document.querySelectorAll("section");
-let navLinks = document.querySelectorAll("header ul li a");
+let navLinks = document.querySelectorAll("header nav ul li a");
 
 function changeActiveLink() {
   let fromTop = window.scrollY + 100;
 
   navLinks.forEach((link) => {
-    let section = document.querySelector(link.getAttribute("href"));
+    let targetId = link.getAttribute("href").substring(1); // remove the # character
+    let section = document.getElementById(targetId);
+
     if (
+      section &&
       section.offsetTop <= fromTop &&
       section.offsetTop + section.offsetHeight > fromTop
     ) {
