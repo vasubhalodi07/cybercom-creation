@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flight Reservation Form</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Flight Reservation Form</h1>
+      <form id="reservationForm">
+        <div class="flex">
+          <div class="flex-col">
+            <label for="firstName">First Name</label>
+            <input type="text" id="txtFirstName" name="txtFirstName" />
+          </div>
+          <div class="flex-col">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="txtLastName" name="txtLastName" />
+          </div>
+        </div>
+
+        <div>
+          <label for="dob">Date of Birth</label>
+          <input type="date" id="dateDOB" name="dateDOB" />
+        </div>
+
+        <div>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" />
+        </div>
+
+        <div>
+          <label for="phone">Phone</label>
+          <input type="tel" id="telPhone" name="telPhone" />
+        </div>
+
+        <div>
+          <label for="address">Address</label>
+          <textarea
+            name="txtAddress"
+            id="textAddress"
+            cols="30"
+            rows="5"
+          ></textarea>
+        </div>
+
+        <div class="flex">
+          <div class="flex-col">
+            <label for="postal">Postal / Zip Code</label>
+            <input type="text" id="txtPostal" name="txtPostal" />
+          </div>
+          <div class="flex-col">
+            <label for="country">Country</label>
+            <select name="selectCountry" id="selectCountry">
+              <option value="" disabled selected>Select Country</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex">
+          <div class="flex-col">
+            <label for="city">City</label>
+            <input type="text" id="txtCity" name="txtCity" />
+          </div>
+          <div class="flex-col">
+            <label for="region">Region</label>
+            <input type="text" id="txtRegion" name="txtRegion" />
+          </div>
+        </div>
+
+        <div class="flex">
+          <div class="flex-col">
+            <label for="departureDate">Departure Date</label>
+            <input type="date" id="dateDeparture" name="dateDeparture" />
+          </div>
+          <div class="flex-col">
+            <label for="departureTime">Departure Time</label>
+            <input type="time" id="timeDeparture" name="timeDeparture" />
+          </div>
+        </div>
+
+        <div class="flex">
+          <div class="flex-col">
+            <label for="returnDate">Return Date</label>
+            <input type="date" id="dateReturn" name="dateReturn" />
+          </div>
+
+          <div class="flex-col">
+            <label for="returnTime">Return Time</label>
+            <input type="time" id="timeReturn" name="timeReturn" />
+          </div>
+        </div>
+
+        <div>
+          <label for="departingForm">Departing From</label>
+          <input type="text" id="txtDepartingFrom" name="txtDepartingFrom" />
+        </div>
+
+        <div>
+          <label for="destination">Destination</label>
+          <input type="text" id="txtDestination" name="txtDestination" />
+        </div>
+
+        <div>
+          <label for="airline">Airline</label>
+          <select name="selectAirLine" id="selectAirLine">
+            <option value="" selected disabled>Select Airline</option>
+            <option value="easyJet">easyJet</option>
+            <option value="Aeroflot">Aeroflot</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="fare">Fare</label>
+          <select name="selectFare" id="selectFare">
+            <option value="One Way">One Way</option>
+            <option value="Round Trip">Round Trip</option>
+          </select>
+        </div>
+
+        <input type="submit" id="#submit-button" />
+      </form>
+    </main>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    <script src="./main.js"></script>
+  </body>
+</html>
