@@ -60,12 +60,11 @@ header.sticky {
   background-color: var(--white);
 }
 header.sticky .logo,
-header.sticky ul li a {
-  color: var(--black);
-}
+header.sticky ul li a,
 header.sticky ul li a.active {
   color: var(--black);
 }
+
 header.sticky ul li a.active:after {
   width: 100%;
   background-color: var(--black);
@@ -78,6 +77,10 @@ header .logo {
   letter-spacing: 2px;
   text-transform: uppercase;
   transition: 0.6s;
+}
+
+.nav-menu i {
+  color: var(--color3);
 }
 
 header nav ul {
@@ -169,7 +172,6 @@ header ul li a.active:after {
   display: flex;
   justify-content: center;
   padding: 100px;
-  /* align-items: center; */
 }
 
 .about-container {
@@ -259,7 +261,6 @@ header ul li a.active:after {
 }
 
 /* project */
-
 .project-container h1 {
   text-align: center;
   margin-bottom: 20px;
@@ -350,8 +351,14 @@ header ul li a.active:after {
 }
 
 /* Contact */
+#contact {
+  display: flex;
+  justify-content: center;
+}
+
 .contact-container {
-  padding: 10px 150px;
+  padding: 70px 150px;
+  width: 1220px;
   text-align: center;
 }
 
@@ -465,16 +472,54 @@ footer li a:hover {
     padding: 0px;
   }
 
-  header ul {
+  header {
+    padding: 10px 20px;
+  }
+  nav {
+    width: 100%;
+  }
+  .nav-links {
     display: none;
   }
+  .nav-menu {
+    display: block;
+  }
+  header.sticky {
+    padding: 10px 20px;
+  }
 
+  .home-hello {
+    font-size: 20px;
+  }
+  .home-content {
+    font-size: 30px;
+  }
+  .home-icons {
+    gap: 10px;
+  }
+  .home-icons i {
+    font-size: 18px;
+  }
+
+  #about {
+    padding: 20px;
+  }
   .about-container {
     flex-direction: column;
+    padding: 0px;
+    width: 100%;
+    gap: 5px;
   }
   .image-container {
     width: 100%;
     text-align: center;
+  }
+  .image-container img {
+    width: 100%;
+  }
+
+  #project {
+    padding: 10px;
   }
   .project-container {
     width: 100%;
@@ -485,8 +530,7 @@ footer li a:hover {
 
   #blog {
     width: 100%;
-    background-color: yellow;
-    padding: 0px;
+    padding: 10px;
   }
   .blog-container {
     width: 100%;
@@ -504,13 +548,31 @@ footer li a:hover {
     width: 100%;
   }
 
+  .contact-container {
+    padding: 0px 0px;
+  }
+  .contact-icons {
+    flex-direction: column;
+  }
+  .form {
+    padding: 10px;
+  }
+  .form-fields {
+    flex-direction: column;
+    gap: 0px;
+  }
+
   /* footer */
   footer {
     padding: 20px;
-    background-color: var(--color2);
-    color: var(--color4);
     display: flex;
     flex-direction: column;
     gap: 20px;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .nav-menu {
+    display: none;
   }
 }
