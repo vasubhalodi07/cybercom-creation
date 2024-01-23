@@ -1,0 +1,156 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+:root {
+  --bg: #f3f3fe;
+  --form-bg: #ffffff;
+  --btn-bg: #18bd5b;
+}
+
+.main-container {
+  background-color: var(--bg);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+form {
+  width: 900px;
+  background-color: var(--form-bg);
+}
+
+h1 {
+  padding: 40px 50px;
+}
+
+hr {
+  border: 1px solid gainsboro;
+  margin-bottom: 30px;
+}
+
+.padding-container {
+  padding: 0px 50px;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+.flex-row div {
+  width: 100%;
+}
+
+#txtFirstName,
+#txtLastName {
+  width: 100%;
+}
+
+small {
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 100;
+  color: gray;
+}
+
+label {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+label span {
+  color: red;
+}
+
+select {
+  width: 100%;
+}
+
+h3 {
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+input,
+textarea,
+select {
+  padding: 8px;
+  border: 1px solid gray;
+  border-radius: 4px;
+}
+
+#txtFirstName,
+#txtLastName {
+  padding: 10px 0px;
+}
+
+#selectPatientGender,
+#numPatientHeight,
+#numPatientWidth,
+#emailPatientEmail,
+#txtReasonForSeeingTheDoctor,
+#txtIllnesses {
+  width: 50%;
+}
+
+#checkboxHaveYouEverHad,
+#rdExercise,
+#rdEatingDiet,
+#rdAlcoholConsumptions,
+#rdCaffeineConsumption,
+#rdSmoke {
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+#checkboxHaveYouEverHad div,
+#rdExercise div,
+#rdEatingDiet div,
+#rdAlcoholConsumptions div,
+#rdCaffeineConsumption div,
+#rdSmoke div {
+  display: flex;
+}
+
+#checkboxHaveYouEverHad div input {
+  width: 18px;
+  height: 18px;
+}
+
+#checkboxHaveYouEverHad div label,
+#rdExercise div label,
+#rdEatingDiet div label,
+#rdAlcoholConsumptions div label,
+#rdCaffeineConsumption div label,
+#rdSmoke div label {
+  padding-left: 10px;
+}
+
+#rdExercise div input,
+#rdEatingDiet div input,
+#rdAlcoholConsumptions div input,
+#rdCaffeineConsumption div input,
+#rdSmoke div input {
+  width: 18px;
+  height: 18px;
+}
+
+.button {
+  margin: 20px 50px;
+}
+.button input {
+  padding: 10px 60px;
+  color: white;
+  background-color: var(--btn-bg);
+  border: none;
+  border-radius: 5px;
+}

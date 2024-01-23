@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Practice 9</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <section class="main-container">
+      <form id="patientInformationForm">
+        <h1>General Patient Information</h1>
+        <hr />
+
+        <div class="padding-container">
+          <div class="flex-col">
+            <label for="patientGender"
+              >Patient Gender<span>&nbsp;*</span></label
+            >
+            <select name="selectPatientGender" id="selectPatientGender">
+              <option value="" disabled selected>Please Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+
+          <div class="flex-col">
+            <label for="patientName">Patient Name<span>&nbsp;*</span></label>
+            <div class="flex-row">
+              <div>
+                <input type="text" id="txtFirstName" name="txtFirstName" />
+                <br /><small>First Name</small>
+              </div>
+              <div>
+                <input type="text" id="txtLastName" name="txtLastName" />
+                <br /><small>Last Name</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex-col">
+            <label for="patientBirthDate"
+              >Patient Birth Date<span>&nbsp;*</span></label
+            >
+            <div class="flex-row">
+              <div>
+                <select name="patientBirthDateMonth" id="patientBirthDateMonth">
+                  <option value="" disabled selected>
+                    Please Select a month
+                  </option>
+                  <option value="01">January</option>
+                  <option value="02">February</option>
+                  <option value="03">March</option>
+                  <option value="04">April</option>
+                  <option value="05">May</option>
+                  <option value="06">June</option>
+                  <option value="07">July</option>
+                  <option value="08">August</option>
+                  <option value="09">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+                <br /><small>Month</small>
+              </div>
+              <div>
+                <select name="patientBirthDateDay" id="patientBirthDateDay">
+                  <option value="" disabled selected>
+                    Please Select a day
+                  </option>
+                  <script>
+                    for (let i = 1; i <= 31; i++) {
+                      document.write(`<option value="${i}">${i}</option>`);
+                    }
+                  </script>
+                </select>
+                <br /><small>Day</small>
+              </div>
+              <div>
+                <select name="patientBirthDateYear" id="patientBirthDateYear">
+                  <option value="" disabled selected>
+                    Please Select a year
+                  </option>
+                  <script>
+                    for (let i = 2024; i >= 1920; i--) {
+                      document.write(`<option value="${i}">${i}</option>`);
+                    }
+                  </script>
+                </select>
+                <br /><small>Year</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex-col">
+            <label for="patientHeight"
+              >Patient Height (cm's)<span>&nbsp;*</span></label
+            >
+            <input
+              type="number"
+              id="numPatientHeight"
+              name="numPatientHeight"
+              placeholder="ex: 176"
+            />
+          </div>
+
+          <div class="flex-col">
+            <label for="patientWeight"
+              >Patient Weight (kg's)<span>&nbsp;*</span></label
+            >
+            <input
+              type="number"
+              id="numPatientWidth"
+              name="numPatientWidth"
+              placeholder="ex: 70"
+            />
+          </div>
+
+          <div class="flex-col">
+            <label for="patientEmail">Patient E-Mail<span>&nbsp;*</span></label>
+            <input
+              type="email"
+              id="emailPatientEmail"
+              name="emailPatientEmail"
+              placeholder="ex: myname@example.com"
+            />
+            <small>example@example.com</small>
+          </div>
+
+          <div class="flex-col">
+            <label for="reasonForSeeingTheDoctor"
+              >Reason for seeing the doctor:<span>&nbsp;*</span></label
+            >
+            <input
+              type="text"
+              id="txtReasonForSeeingTheDoctor"
+              name="txtReasonForSeeingTheDoctor"
+            />
+          </div>
+
+          <div class="">
+            <h3>Patient Medical History</h3>
+            <hr />
+          </div>
+
+          <div class="flex-col">
+            <label for="drugAllergies">Please list any drug allergies</label>
+            <textarea
+              name="txtDrugAllergies"
+              id="txtDrugAllergies"
+              cols="30"
+              rows="10"
+            ></textarea>
+          </div>
+
+          <div>
+            <label for="haveYouEverHad"
+              >Have you ever had (please check all that apply)</label
+            >
+            <div id="checkboxHaveYouEverHad"></div>
+          </div>
+
+          <div class="flex-col">
+            <label for="illnesses">Other illnesses</label>
+            <input type="text" id="txtIllnesses" name="txtIllnesses" />
+          </div>
+
+          <div class="flex-col">
+            <label for="operations"
+              >Please list any Operations and Dates of Each</label
+            >
+            <textarea
+              name="txtOperations"
+              id="txtOperations"
+              cols="30"
+              rows="10"
+            ></textarea>
+          </div>
+
+          <div class="flex-col">
+            <label for="currentMedications"
+              >Please list your Current Medications
+            </label>
+            <textarea
+              name="txtCurrentMedications"
+              id="txtCurrentMedications"
+              cols="30"
+              rows="10"
+            ></textarea>
+          </div>
+
+          <div>
+            <h3>Healthy & Unhealthy Habits</h3>
+            <hr />
+          </div>
+
+          <div>
+            <label for="Exercise">Exercise</label>
+            <div id="rdExercise"></div>
+          </div>
+
+          <div>
+            <label for="eatingDiet">Eating following a diet </label>
+            <div id="rdEatingDiet"></div>
+          </div>
+
+          <div>
+            <label for="alcoholConsumption">Alcohol Consumption </label>
+            <div id="rdAlcoholConsumptions"></div>
+          </div>
+
+          <div>
+            <label for="caffeineConsumption">Caffeine Consumption </label>
+            <div id="rdCaffeineConsumption"></div>
+          </div>
+
+          <div>
+            <label for="smoke">Do you smoke?</label>
+            <div id="rdSmoke"></div>
+          </div>
+
+          <div class="flex-col">
+            <label for="medicalHistory"
+              >Include other comments regarding your Medical History</label
+            >
+            <textarea
+              name="txtMedicalHistory"
+              id="txtMedicalHistory"
+              cols="30"
+              rows="10"
+            ></textarea>
+          </div>
+        </div>
+
+        <hr />
+        <div class="button">
+          <input type="submit" id="submit" name="submit" />
+        </div>
+      </form>
+    </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    <script src="./main.js"></script>
+  </head>
+  </body>
+</html>
