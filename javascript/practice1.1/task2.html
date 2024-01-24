@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task2</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <fieldset class="task2">
+      <legend>Task2</legend>
+      <section>
+        <h3>List of Items</h3>
+        <ul id="task2-list"></ul>
+        <button onclick="addList()">Add</button>
+        <button onclick="removeList()">Remove</button>
+      </section>
+    </fieldset>
+
+    <script>
+      const initalList = ["Apple", "Asus", "Dell", "HP"];
+      const list = ["Google", "Samsung", "Microsoft", "Mi"];
+
+      const taskList = document.getElementById("task2-list");
+      initalList.forEach((list) => {
+        const li = document.createElement("li");
+        li.innerHTML = list;
+        taskList.appendChild(li);
+      });
+
+      function addList() {
+        let randomList = list[Math.floor(Math.random() * list.length)];
+        initalList.push(randomList);
+        const li = document.createElement("li");
+        li.innerHTML = randomList;
+        taskList.appendChild(li);
+      }
+
+      function removeList() {
+        const liTask = document.querySelectorAll("#task2-list li");
+        const lastLi = liTask[liTask.length - 1];
+        if (lastLi) {
+          taskList.removeChild(lastLi);
+          initalList.pop();
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task5</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <fieldset class="task5">
+      <legend>Task5</legend>
+      <h2>Images</h2>
+      <section>
+        <div class="image-container">
+          <img src="./assets/1.jpg" alt="image1" id="image1" />
+          <button onclick="updateImgSrcPath('image1', './assets/4.jpg')">
+            Image1
+          </button>
+        </div>
+        <div class="image-container">
+          <img src="./assets/2.jpg" alt="image2" id="image2" />
+          <button onclick="updateImgSrcPath('image2', './assets/5.jpg')">
+            Image2
+          </button>
+        </div>
+        <div class="image-container">
+          <img src="./assets/3.jpg" alt="image3" id="image3" />
+          <button onclick="updateImgSrcPath('image3', './assets/6.jpg')">
+            Image3
+          </button>
+        </div>
+      </section>
+    </fieldset>
+
+    <script>
+      function updateImgSrcPath(imageId, srcPath) {
+        const imagePath = document.getElementById(imageId);
+        imagePath.src = srcPath;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task1</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <fieldset class="task1">
+      <legend>Task1</legend>
+      <section>
+        <p id="paragraph">
+          Mahendra Singh Dhoni is an Indian professional cricketer. He is a
+          right handed batter and a wicket-keeper. Widely regarded as one of the
+          most prolific wicket-keeper-batsmen and captains, he represented the
+          Indian cricket team and was the captain of the side in limited-overs
+          formats from 2007 to 2017 and in test cricket from 2008 to 2014.
+        </p>
+        <button onclick="changeParagraph()">Change Paragraph</button>
+      </section>
+    </fieldset>
+
+    <script>
+      function changeParagraph() {
+        const listParagraph = [
+          "Virat Kohli is an Indian international cricketer and the former captain of the Indian national cricket team. He currently represents Royal Challengers Bangalore in the IPL and Delhi in domestic cricket. Kohli is widely regarded as one of the greatest batsmen in the history of cricket, and the best of 21st century.",
+          "Sachin Ramesh Tendulkar, is an Indian former international cricketer who captained the Indian national team. He is widely regarded as one of the greatest batsmen in the history of cricket.",
+          "Rohit Gurunath Sharma is an Indian international cricketer who currently captains the India national cricket team across all formats. He is a right-handed batsman.",
+        ];
+        let random =
+          listParagraph[Math.floor(Math.random() * listParagraph.length)];
+        const paragraph = document.getElementById("paragraph");
+        paragraph.innerHTML = random;
+      }
+    </script>
+  </body>
+</html>

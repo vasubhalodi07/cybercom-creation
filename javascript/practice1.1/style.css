@@ -1,0 +1,56 @@
+body {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  padding: 10px 200px;
+}
+
+.task1 #paragraph {
+  font-size: 14px;
+}
+
+.task1 button,
+.task2 button,
+.task5 button {
+  padding: 8px 20px;
+}
+
+.task4 h2,
+.task5 h2 {
+  text-align: center;
+}
+.task4 section {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.task4 form {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+}
+.task4 input {
+  padding: 10px;
+  margin-top: 15px;
+}
+@media screen and (max-width: 1024px) {
+  .task4 form {
+    width: 70%;
+  }
+}
+
+.task5 .image-container {
+  width: 250px;
+  margin-bottom: 50px;
+}
+
+.task5 .image-container img {
+  width: 100%;
+  height: 200px;
+}
+
+.task5 section {
+  display: flex;
+  justify-content: space-around;
+}
