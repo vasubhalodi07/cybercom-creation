@@ -24,10 +24,6 @@ Welcome to the CyberCom Creation Repository! Here is an overview of the practice
 
 ## Task
 
-```sh {"id":"01HMWS34SFX6DHRCMZJM3DCQ25"}
-
-```
-
 |   Title   |                                      Repo                                      |                                    Preview                                     |
 | :-------: | :----------------------------------------------------------------------------: | :----------------------------------------------------------------------------: |
 | Portfolio | [Link](https://github.com/vasubhalodi07/cybercom-creation/tree/main/portfolio) | [Live](https://vasubhalodi07.github.io/cybercom-creation/portfolio/index.html) |
