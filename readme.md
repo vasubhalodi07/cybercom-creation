@@ -1,9 +1,3 @@
----
-runme:
-  id: 01HMRDT9706JY5X7SXE3PZPPP6
-  version: v2.2
----
-
 # CyberCom Creation Repository
 
 Welcome to the CyberCom Creation Repository! Here is an overview of the practices and tasks provided by CyberCom Creation.

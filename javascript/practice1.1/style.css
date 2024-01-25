@@ -10,8 +10,10 @@ body {
 
 .task1 button,
 .task2 button,
+.task3 button,
 .task5 button {
   padding: 8px 20px;
+  cursor: pointer;
 }
 
 .task4 h2,

@@ -22,12 +22,12 @@
     </fieldset>
 
     <script>
+      const listParagraph = [
+        "Virat Kohli is an Indian international cricketer and the former captain of the Indian national cricket team. He currently represents Royal Challengers Bangalore in the IPL and Delhi in domestic cricket. Kohli is widely regarded as one of the greatest batsmen in the history of cricket, and the best of 21st century.",
+        "Sachin Ramesh Tendulkar, is an Indian former international cricketer who captained the Indian national team. He is widely regarded as one of the greatest batsmen in the history of cricket.",
+        "Rohit Gurunath Sharma is an Indian international cricketer who currently captains the India national cricket team across all formats. He is a right-handed batsman.",
+      ];
       function changeParagraph() {
-        const listParagraph = [
-          "Virat Kohli is an Indian international cricketer and the former captain of the Indian national cricket team. He currently represents Royal Challengers Bangalore in the IPL and Delhi in domestic cricket. Kohli is widely regarded as one of the greatest batsmen in the history of cricket, and the best of 21st century.",
-          "Sachin Ramesh Tendulkar, is an Indian former international cricketer who captained the Indian national team. He is widely regarded as one of the greatest batsmen in the history of cricket.",
-          "Rohit Gurunath Sharma is an Indian international cricketer who currently captains the India national cricket team across all formats. He is a right-handed batsman.",
-        ];
         let random =
           listParagraph[Math.floor(Math.random() * listParagraph.length)];
         const paragraph = document.getElementById("paragraph");
