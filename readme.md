@@ -8,7 +8,7 @@ runme:
 
 Welcome to the CyberCom Creation Repository! Here is an overview of the practices and tasks provided by CyberCom Creation.
 
-## Practices
+### HTML, CSS, JQuery, JavaScript
 
 |   Title    |                                        Repo                                         |                                       Preview                                       |
 | :--------: | :---------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------: |
@@ -22,7 +22,13 @@ Welcome to the CyberCom Creation Repository! Here is an overview of the practice
 | Practice 8 | [Link](https://github.com/vasubhalodi07/cybercom-creation/tree/main/html/practice8) | [Live](https://vasubhalodi07.github.io/cybercom-creation/html/practice8/index.html) |
 | Practice 9 | [Link](https://github.com/vasubhalodi07/cybercom-creation/tree/main/html/practice9) | [Live](https://vasubhalodi07.github.io/cybercom-creation/html/practice9/index.html) |
 
-## Task
+### JavaScript
+
+|   Title    |                                            Repo                                             |                                                                                                                                                                                                                                     Preview                                                                                                                                                                                                                                      |
+| :--------: | :-----------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| Practice 1 | [Link](https://github.com/vasubhalodi07/cybercom-creation/tree/main/javascript/practice1.1) | [Task1](https://vasubhalodi07.github.io/cybercom-creation/javascript/practice1.1/task1.html) [Task2](https://vasubhalodi07.github.io/cybercom-creation/javascript/practice1.1/task2.html) [Task3](https://vasubhalodi07.github.io/cybercom-creation/javascript/practice1.1/task3.html) [Task4](https://vasubhalodi07.github.io/cybercom-creation/javascript/practice1.1/task4.html) [Task5](https://vasubhalodi07.github.io/cybercom-creation/javascript/practice1.1/task5.html) |
+
+### Task
 
 |   Title   |                                      Repo                                      |                                    Preview                                     |
 | :-------: | :----------------------------------------------------------------------------: | :----------------------------------------------------------------------------: |
