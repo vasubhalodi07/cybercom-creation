@@ -1,0 +1,97 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+:root {
+  --color1: #161a30;
+  --color2: #31304d;
+  --color4: #b6bbc4;
+  --color3: #f0ece5;
+  --color5: red;
+}
+
+body {
+  background-color: var(--color1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+section {
+  width: 600px;
+  border-radius: 8px;
+  color: white;
+  background-color: var(--color2);
+}
+
+form {
+  padding: 30px 70px;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 30px;
+}
+
+label {
+  padding-bottom: 5px;
+  font-size: 14px;
+}
+
+input {
+  border-radius: 4px;
+  padding: 8px;
+}
+
+small {
+  color: var(--color5);
+  margin-top: 3px;
+}
+
+.center {
+  text-align: center;
+}
+
+input[type="submit"] {
+  border: none;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color1);
+  background-color: var(--color4);
+  transition: 0.2s ease-in;
+  cursor: pointer;
+}
+input[type="submit"]:hover {
+  background-color: var(--color3);
+}
+
+h4 {
+  margin-top: 20px;
+  text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+  section {
+    width: 90%;
+  }
+
+  form {
+    padding: 10px;
+  }
+}
+
+@media screen and (min-width: 600px) and (max-width: 900px) {
+  section {
+    width: 60%;
+  }
+
+  form {
+    padding: 20px 40px;
+  }
+}
