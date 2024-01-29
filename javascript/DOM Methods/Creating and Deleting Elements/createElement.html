@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>createElement</title>
+  </head>
+  <body>
+    <h1>createElement</h1>
+    <ul id="container">
+      <li id="food">food</li>
+      <li id="phone">phone</li>
+    </ul>
+
+    <script>
+      // Create elements but do not add them to the DOM yet because haven't been appended using the appendChild method.
+      // Create the first list item element
+      const createElement1 = document.createElement("li");
+      createElement1.innerHTML = "car";
+
+      // Create the second list item element
+      const createElement2 = document.createElement("li");
+      createElement2.innerHTML = "bike";
+      createElement2.style.color = "red";
+
+      // Create the third list item element
+      const createElement3 = document.createElement("li");
+      createElement3.innerHTML = "laptop";
+      createElement3.className = "flex jcc center";
+      createElement3.setAttribute("data-src", "value1");
+
+      console.log(createElement1);
+      console.log(createElement2);
+      console.log(createElement3);
+    </script>
+  </body>
+</html>

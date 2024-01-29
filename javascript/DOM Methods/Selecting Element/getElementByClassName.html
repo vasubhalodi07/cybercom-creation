@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>getElementsByClassName</title>
+  </head>
+  <body>
+    <h1>getElementsByClassName</h1>
+    <li class="exampleClass">List item 1</li>
+    <p class="exampleClass">Another paragraph.</p>
+
+    <script>
+      // retrieve elements that match the specified class name (returns a collection of elements, HTMLCollection)
+      const classElements = document.getElementsByClassName("exampleClass");
+      console.log("getElementsByClassName():", classElements);
+    </script>
+  </body>
+</html>

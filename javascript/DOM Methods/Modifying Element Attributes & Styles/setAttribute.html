@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>setAttribute</title>
+  </head>
+  <body>
+    <h1>setAttribute</h1>
+    <div id="idElement" data-src="value1">Hello World</div>
+
+    <script>
+      let idElement = document.getElementById("idElement");
+      idElement.setAttribute("data-details", "value2");
+
+      console.log(idElement);
+    </script>
+  </body>
+</html>

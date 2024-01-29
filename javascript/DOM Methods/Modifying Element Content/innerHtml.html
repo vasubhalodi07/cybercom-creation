@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>innerHTML</title>
+  </head>
+  <body>
+    <h1>innerHTML</h1>
+    <div id="idElement">Hello World</div>
+
+    <script>
+      let idElement = document.getElementById("idElement");
+      console.log("Before:", idElement.innerHTML);
+      idElement.innerHTML = "<h4>How are you?</h4>";
+      console.log("After:", idElement.innerHTML);
+    </script>
+  </body>
+</html>

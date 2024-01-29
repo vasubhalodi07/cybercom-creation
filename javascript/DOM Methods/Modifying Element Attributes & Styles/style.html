@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>style</title>
+  </head>
+  <body>
+    <h1>style</h1>
+    <div id="idElement" style="color: red">Hello World</div>
+    <script>
+      let idElement = document.getElementById("idElement");
+      console.log("Before change color:", idElement.style);
+      idElement.style.color = "blue";
+      idElement.style.fontSize = "30px";
+      idElement.style.backgroundColor = "yellow";
+      console.log("After change color:", idElement.style);
+    </script>
+  </body>
+</html>

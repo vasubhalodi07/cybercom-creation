@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>textContent</title>
+  </head>
+  <body>
+    <h1>textContent</h1>
+    <div class="classElement">Hello, Welcome</div>
+
+    <script>
+      let classElement = document.getElementsByClassName("classElement")[0];
+      console.log("Before:", classElement.textContent);
+      classElement.textContent = "<h4>How are you?</h4>";
+      console.log("After:", classElement.textContent);
+    </script>
+  </body>
+</html>

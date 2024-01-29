@@ -1,29 +1,16 @@
-<!-- Modifying Element Content -->
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Modifying Element Content</title>
+    <title>insertAdjacentHTML</title>
   </head>
   <body>
+    <h1>insertAdjacentHTML</h1>
     <div id="idElement">Hello World</div>
-    <div class="classElement">Hello, Welcome</div>
+
     <script>
-      // innerHTML
       let idElement = document.getElementById("idElement");
-      console.log("Before:", idElement.innerHTML);
-      idElement.innerHTML = "<h4>How are you?</h4>";
-      console.log("After:", idElement.innerHTML);
-
-      // textContent
-      let classElement = document.getElementsByClassName("classElement")[0];
-      console.log("Before:", classElement.textContent);
-      classElement.textContent = "<h4>How are you?</h4>";
-      console.log("After:", classElement.textContent);
-
-      // insertAdjustHTML
       idElement.insertAdjacentHTML("beforebegin", "<div>beforebegin</div>");
       idElement.insertAdjacentHTML("afterbegin", "<p>afterbegin</p>");
       idElement.insertAdjacentHTML("beforeend", "<div>beforeend</div>");

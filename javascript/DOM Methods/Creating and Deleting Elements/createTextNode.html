@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>createTextNode</title>
+  </head>
+  <body>
+    <h1>createTextNode</h1>
+    <ul id="container">
+      <li id="food">food</li>
+      <li id="phone">phone</li>
+    </ul>
+
+    <script>
+      let container = document.getElementById("container");
+
+      // create a new text node
+      const textNode = document.createTextNode("Some text");
+      container.appendChild(textNode);
+      console.log(textNode);
+      console.log(container);
+    </script>
+  </body>
+</html>

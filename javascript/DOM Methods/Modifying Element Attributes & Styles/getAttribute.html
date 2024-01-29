@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>getAttribute</title>
+  </head>
+  <body>
+    <h1>getAttribute</h1>
+    <div id="idElement" data-src="value1">Hello World</div>
+    <p></p>
+
+    <script>
+      let idElement = document.getElementById("idElement");
+      let dataSrc = idElement.getAttribute("data-src");
+      document.getElementsByTagName("p")[0].innerText = dataSrc;
+      console.log("Value of data-src attribute:", dataSrc);
+    </script>
+  </body>
+</html>

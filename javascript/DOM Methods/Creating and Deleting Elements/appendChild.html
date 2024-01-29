@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>appendChild</title>
+  </head>
+  <body>
+    <h1>appendChild</h1>
+    <ul id="container">
+      <li id="food">food</li>
+      <li id="phone">phone</li>
+    </ul>
+
+    <script>
+      let container = document.getElementById("container");
+
+      const createElement1 = document.createElement("li");
+      createElement1.innerHTML = "car";
+      const createElement2 = document.createElement("li");
+      createElement2.innerHTML = "bike";
+      const createElement3 = document.createElement("li");
+
+      console.log("Before adding elements to the list: " + container.innerHTML);
+      container.appendChild(createElement1);
+      container.appendChild(createElement2);
+      console.log("After adding elements to the list: " + container.innerHTML);
+    </script>
+  </body>
+</html>

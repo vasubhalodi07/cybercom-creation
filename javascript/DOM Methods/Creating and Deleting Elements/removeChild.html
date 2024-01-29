@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>removeChild</title>
+  </head>
+  <body>
+    <h1>removeChild</h1>
+    <ul id="container">
+      <li id="food">food</li>
+      <li id="phone">phone</li>
+    </ul>
+
+    <script>
+      let container = document.getElementById("container");
+
+      // Create new list items
+      const createElement1 = document.createElement("li");
+      createElement1.innerHTML = "car";
+      const createElement2 = document.createElement("li");
+      createElement2.innerHTML = "bike";
+
+      // Append the new list items to the container
+      console.log("Before adding elements to the list: " + container.innerHTML);
+      container.appendChild(createElement1);
+      container.appendChild(createElement2);
+      console.log("After adding elements to the list: " + container.innerHTML);
+
+      // remove a specific child from the container
+      container.removeChild(document.getElementById("food"));
+      // Remove one of the newly created elements
+      container.removeChild(createElement1);
+    </script>
+  </body>
+</html>

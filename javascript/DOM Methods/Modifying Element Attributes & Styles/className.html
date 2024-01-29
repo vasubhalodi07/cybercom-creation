@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>className</title>
+    <style>
+      .fz--18 {
+        font-size: 18px;
+      }
+      .fz--20 {
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>className</h1>
+    <p class="fz--18">Hello World</p>
+    <p class="fz--18" id="idElement">Hello World</p>
+
+    <script>
+      let idElement = document.getElementById("idElement");
+
+      console.log("Before applying className property:", idElement.className);
+      idElement.className = "fz--20";
+      console.log("After applying className property:", idElement.className);
+    </script>
+  </body>
+</html>

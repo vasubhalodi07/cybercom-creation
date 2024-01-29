@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>classList</title>
+  </head>
+  <body>
+    <h1>classList</h1>
+    <div class="center" id="idElement" style="color: red">Hello World</div>
+
+    <script>
+      let idElement = document.getElementById("idElement");
+      console.log("Before applying methods:", idElement.classList);
+
+      // Add the 'flex' class
+      idElement.classList.add("flex");
+
+      // Remove the 'center' class
+      idElement.classList.remove("center");
+
+      // Toggle the presence of 'toggle-class'
+      idElement.classList.toggle("toggle-class");
+
+      // Check if 'flex' class exists
+      let checkClassExist = idElement.classList.contains("flex");
+      console.log("Does the element contain 'flex' class?", checkClassExist);
+
+      console.log("After applying methods:", idElement.classList);
+    </script>
+  </body>
+</html>
