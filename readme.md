@@ -24,9 +24,10 @@ Welcome to the CyberCom Creation Repository! Here is an overview of the practice
 
 ### Task
 
-|   Title   |                                      Repo                                      |                                    Preview                                     |
-| :-------: | :----------------------------------------------------------------------------: | :----------------------------------------------------------------------------: |
-| Portfolio | [Link](https://github.com/vasubhalodi07/cybercom-creation/tree/main/portfolio) | [Live](https://vasubhalodi07.github.io/cybercom-creation/portfolio/index.html) |
+|     Title      |                                         Repo                                          |                                        Preview                                        |
+| :------------: | :-----------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------: |
+|   Portfolio    |    [Link](https://github.com/vasubhalodi07/cybercom-creation/tree/main/portfolio)     |    [Live](https://vasubhalodi07.github.io/cybercom-creation/portfolio/index.html)     |
+| BMI Calculator | [Link](https://github.com/vasubhalodi07/cybercom-creation/tree/main/BMI%20Calculator) | [Live](https://vasubhalodi07.github.io/cybercom-creation/BMI%20Calculator/index.html) |
 
 ## Getting Started
 
