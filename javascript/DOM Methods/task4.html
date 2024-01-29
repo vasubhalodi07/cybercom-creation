@@ -1,0 +1,52 @@
+<!-- Creating and Deleting Element -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Creating and Deleting Elements</title>
+  </head>
+  <body>
+    <ul id="container">
+      <li id="food">food</li>
+      <li id="phone">phone</li>
+    </ul>
+    <div id="remove">remove</div>
+
+    <script>
+      let container = document.getElementById("container");
+
+      // Create new list items
+      const createElement1 = document.createElement("li");
+      createElement1.innerHTML = "car";
+      const createElement2 = document.createElement("li");
+      createElement2.innerHTML = "bike";
+      const createElement3 = document.createElement("li");
+      createElement3.innerHTML = "laptop";
+      createElement3.className = "flex jcc center";
+
+      // Append the new list items to the container
+      console.log("Before adding elements to the list: " + container.innerHTML);
+      container.appendChild(createElement1);
+      container.appendChild(createElement2);
+      console.log("After adding elements to the list: " + container.innerHTML);
+
+      // remove a specific child from the container
+      container.removeChild(document.getElementById("food"));
+      // Remove one of the newly created elements
+      container.removeChild(createElement1);
+
+      // replace an existing child with a new one
+      console.log("Existing phone element:", document.getElementById("phone"));
+      container.replaceChild(createElement3, document.getElementById("phone"));
+
+      // create a new text node
+      const textNode = document.createTextNode("Some text");
+      container.appendChild(textNode);
+
+      // remove the element with id "remove" from the DOM
+      document.getElementById("remove").remove();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<!-- Modifying Element Attributes & Styles -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modifying Element Attributes & Styles</title>
+  </head>
+  <body>
+    <div class="center" id="idElement" data-src="value1" style="color: red">
+      Hello World
+    </div>
+    <script>
+      let idElement = document.getElementById("idElement");
+
+      // Get value of the 'data-src' attribute
+      let dataSrc = idElement.getAttribute("data-src");
+      console.log("Value of data-src attribute:", dataSrc);
+
+      // Set value of the 'data-details' attribute
+      idElement.setAttribute("data-details", "value2");
+
+      // Change style attributes
+      console.log("Before change color:", idElement.style.color);
+      idElement.style.color = "blue";
+      console.log("After change color:", idElement.style.color);
+
+      // Add, remove, toggle, contains
+      console.log("Before applying methods:", idElement.classList);
+      idElement.classList.add("flex"); // Add the 'flex' class
+      idElement.classList.remove("center"); // Remove the 'center' class
+      idElement.classList.toggle("toggle-class"); // Toggle the presence of 'toggle-class'
+      let checkClassExist = idElement.classList.contains("flex"); // Check if 'flex' class exists
+      console.log("Does the element contain 'flex' class?", checkClassExist);
+      console.log("After applying methods:", idElement.classList);
+
+      // Change or add class attribute using className property
+      console.log("Before applying className property:", idElement.className);
+      idElement.className = "jcc"; // Change class to 'jcc'
+      console.log("After applying className property:", idElement.className);
+    </script>
+  </body>
+</html>
