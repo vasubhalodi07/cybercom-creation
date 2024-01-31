@@ -1,9 +1,9 @@
 const urlParams = new URLSearchParams(window.location.search);
-const uniqueTitle = urlParams.get("title");
+const id = urlParams.get("id");
 
 const products = JSON.parse(localStorage.getItem("products")) || [];
-const filterRecord = products.filter((product) => {
-  return product.title === uniqueTitle;
+const getRecordById = products.filter((product) => {
+  return product.id === id;
 });
 
 const title = document.getElementById("txtTitle");
@@ -11,11 +11,15 @@ const price = document.getElementById("numPrice");
 const description = document.getElementById("txtDescription");
 const category = document.getElementById("selectCategory");
 
-if (uniqueTitle) {
-  title.value = filterRecord[0].title;
-  price.value = filterRecord[0].price;
-  description.value = filterRecord[0].description;
-  category.value = filterRecord[0].category;
+const titleChange = document.getElementById("title");
+if (!id) {
+  titleChange.innerHTML = "Add Product Form";
+} else {
+  titleChange.innerHTML = "Update Product Form";
+  title.value = getRecordById[0].title;
+  price.value = getRecordById[0].price;
+  description.value = getRecordById[0].description;
+  category.value = getRecordById[0].category;
 }
 
 const productForm = document.getElementById("productForm");
@@ -32,30 +36,23 @@ productForm.addEventListener("submit", function (event) {
     return;
   }
 
-  const products = JSON.parse(localStorage.getItem("products")) || [];
-  if (uniqueTitle) {
-    const product = {
-      title: title,
-      price: price,
-      description: description,
-      category: category,
-    };
+  const product = {
+    id: id ? id : new Date(),
+    title: title,
+    price: price,
+    description: description,
+    category: category,
+  };
 
+  if (id) {
     const filterRecord = products.filter((product) => {
-      return product.title !== uniqueTitle;
+      return product.id !== id;
     });
     const filter = [...filterRecord, product];
-    console.log(filter);
     localStorage.setItem("products", JSON.stringify(filter));
     alert("product has been updated");
     window.location.href = "./index.html";
   } else {
-    const product = {
-      title: title,
-      price: price,
-      description: description,
-      category: category,
-    };
     const newObject = [...products, product];
     localStorage.setItem("products", JSON.stringify(newObject));
     productForm.reset();
