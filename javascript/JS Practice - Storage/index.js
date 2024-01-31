@@ -4,10 +4,20 @@ function displayProducts() {
   const tableBody = document.getElementById("tableBody");
   tableBody.innerHTML = "";
 
-  const products = JSON.parse(localStorage.getItem("products")) || [];
+  const products = JSON.parse(localStorage.getItem("products")) || null;
   products.sort((a, b) => {
     return a.title - b.title;
   });
+
+  if (products.length === 0) {
+    const row = document.createElement("tr");
+    const td = document.createElement("td");
+    td.colSpan = 4;
+    td.innerHTML = "product not found!";
+    row.appendChild(td);
+    tableBody.appendChild(row);
+    return;
+  }
 
   products.forEach((product) => {
     const row = document.createElement("tr");
@@ -34,8 +44,8 @@ function displayProducts() {
     updateButton.addEventListener("click", () => {
       handleUpdate(product);
     });
-    actionsCell.appendChild(deleteButton);
     actionsCell.appendChild(updateButton);
+    actionsCell.appendChild(deleteButton);
 
     row.appendChild(actionsCell);
     tableBody.appendChild(row);

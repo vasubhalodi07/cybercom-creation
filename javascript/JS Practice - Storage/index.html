@@ -7,22 +7,24 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <section>
-      <div>
-        <h3>Products</h3>
-        <button onclick="handleAdd()">Add</button>
+    <section class="product-list">
+      <div class="product-container">
+        <div class="product-title">
+          <h2>List of Products</h2>
+          <button onclick="handleAdd()">Add</button>
+        </div>
+        <table class="product-table">
+          <thead>
+            <tr>
+              <th>Product Title</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <td>Product Title</td>
-            <td>Category</td>
-            <td>Price</td>
-            <td>Actions</td>
-          </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-      </table>
     </section>
   </body>
   <script src="./index.js"></script>

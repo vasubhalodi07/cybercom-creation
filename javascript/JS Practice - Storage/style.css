@@ -1,0 +1,115 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.product-list {
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+}
+
+.product-container {
+  width: 60%;
+}
+
+.product-title {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product-title button {
+  padding: 10px 20px;
+}
+
+.product-table {
+  width: 100%;
+}
+
+table,
+td,
+th {
+  border: 2px solid #d3d3d3;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 20px;
+  text-align: center;
+}
+
+th {
+  background-color: gainsboro;
+}
+
+#tableBody button {
+  background-color: transparent;
+  border: none;
+  text-decoration: underline;
+  padding: 2px;
+  cursor: pointer;
+}
+
+#tableBody button:first-child {
+  color: rgb(63, 63, 201);
+}
+
+/* form */
+.product-form-container {
+  width: 50%;
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+}
+
+.input-group {
+  width: 100%;
+}
+
+input,
+textarea,
+select {
+  padding: 10px;
+}
+
+select {
+  width: 40%;
+}
+
+label {
+  padding-bottom: 4px;
+}
+
+.flex {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.form-button {
+  align-items: end;
+}
+.form-button input {
+  width: 10%;
+  border: none;
+  border-radius: 4px;
+  background-color: rgb(47, 133, 218);
+  color: white;
+  transition: 0.2s ease-in-out;
+}
+.form-button input:hover {
+  background-color: rgb(30, 92, 158);
+}
+
+/* common */
+.mb--20 {
+  margin-bottom: 20px;
+}
