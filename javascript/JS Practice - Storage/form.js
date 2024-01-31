@@ -22,41 +22,58 @@ if (!id) {
   category.value = getRecordById[0].category;
 }
 
-const productForm = document.getElementById("productForm");
-productForm.addEventListener("submit", function (event) {
-  event.preventDefault();
+$(document).ready(function () {
+  $("#productForm").validate({
+    rules: {
+      txtTitle: { required: true },
+      numPrice: { required: true },
+      txtDescription: { required: true },
+      selectCategory: { required: true },
+    },
+    messages: {
+      txtTitle: { required: "name is required" },
+      numPrice: { required: "price is required" },
+      txtDescription: { required: "description is required" },
+      selectCategory: { required: "category is required" },
+    },
 
-  const title = document.getElementById("txtTitle").value.trim();
-  const price = document.getElementById("numPrice").value.trim();
-  const description = document.getElementById("txtDescription").value.trim();
-  const category = document.getElementById("selectCategory").value;
+    errorPlacement: function (error, element) {
+      error.css({ color: "red", marginTop: "5px", fontSize: "12px" });
+      error.insertAfter(element);
+    },
 
-  if (title === "" || price === "" || description === "" || category === "") {
-    alert("Please fill in all fields");
-    return;
-  }
+    submitHandler: (form) => {
+      const formData = $(form).serializeArray();
+      handleAddUpdate(formData);
+    },
+  });
+});
 
+function handleAddUpdate(formData) {
   const product = {
     id: id ? id : new Date(),
-    title: title,
-    price: price,
-    description: description,
-    category: category,
+    title: formData.find((field) => field.name === "txtTitle").value,
+    price: formData.find((field) => field.name === "numPrice").value,
+    description: formData.find((field) => field.name === "txtDescription")
+      .value,
+    category: formData.find((field) => field.name === "selectCategory").value,
   };
 
   if (id) {
     const filterRecord = products.filter((product) => {
       return product.id !== id;
     });
-    const filter = [...filterRecord, product];
-    localStorage.setItem("products", JSON.stringify(filter));
+    const updateProducts = [...filterRecord, product];
+    localStorage.setItem("products", JSON.stringify(updateProducts));
+
     alert("product has been updated");
     window.location.href = "./index.html";
   } else {
     const newObject = [...products, product];
     localStorage.setItem("products", JSON.stringify(newObject));
     productForm.reset();
+
     alert("new product created...");
     window.location.href = "./index.html";
   }
-});
+}
