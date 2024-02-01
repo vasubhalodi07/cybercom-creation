@@ -25,14 +25,13 @@ $(document).ready(function () {
     },
 
     submitHandler: (form) => {
-      console.log(form);
       const formData = $(form).serializeArray();
       addRegisterRecord(formData);
     },
   });
 
   const addRegisterRecord = (formData) => {
-    const fetchUsers = JSON.parse(localStorage.getItem("users"));
+    const fetchUsers = JSON.parse(localStorage.getItem("users")) || [];
     const users = {
       id: new Date(),
       name: formData.find((field) => field.name === "txtName").value,
@@ -41,7 +40,7 @@ $(document).ready(function () {
       city: formData.find((field) => field.name === "selectCity").value,
       state: formData.find((field) => field.name === "selectState").value,
       term: formData.find((field) => field.name === "checkboxTerm").value,
-      is_admin: false,
+      is_admin: true,
     };
 
     const addUser = [...fetchUsers, users];

@@ -19,38 +19,27 @@ $(document).ready(function () {
     },
   });
 
-  const adminUser = {
-    adminId: 1,
-    email: "admin@gmail.com",
-    password: "admin1234",
-    is_admin: true,
-  };
-
   const Login = (formData) => {
-    const fetchUsers = JSON.parse(localStorage.getItem("users"));
+    const users = JSON.parse(localStorage.getItem("users"));
     const email = formData.find((field) => field.name === "email").value;
     const password = formData.find((field) => field.name === "password").value;
 
-    if (
-      email === adminUser.email &&
-      password === adminUser.password &&
-      adminUser.is_admin
-    ) {
-      console.log("admin login");
-      localStorage.setItem("admin", true);
-      localStorage.setItem("id", adminUser.adminId);
-      window.location.href = "./Dashboard.html";
-    } else {
-      fetchUsers.map((item, index) => {
+    if (users) {
+      users.map((item) => {
         if (
           item.email === email &&
           item.password === password &&
-          !item.is_admin
+          item.is_admin
         ) {
-          console.log("user login");
+          localStorage.setItem("admin", true);
+          localStorage.setItem("id", item.id);
+          window.location.href = "./Dashboard.html";
+        } else if (item.email === email && item.password && !item.is_admin) {
           localStorage.setItem("admin", false);
           localStorage.setItem("id", item.id);
           window.location.href = "./Dashboard.html";
+        } else {
+          console.log("please check your email and password");
         }
       });
     }

@@ -1,0 +1,61 @@
+<script>
+  const fetchId = localStorage.getItem("id");
+  const admin = JSON.parse(localStorage.getItem("admin"));
+  if (!fetchId) {
+    window.location.href = "./Login.html";
+  }
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <section class="dashboard-section">
+      <aside class="sidebar">
+        <h4 id="admin-name"></h4>
+        <nav>
+          <ul>
+            <li><a href="#">Dashboard</a></li>
+            <li class="admin-route"><a href="./User.html">Users</a></li>
+            <li class="admin-route">
+              <a href="./UserSession.html">Login Session</a>
+            </li>
+            <li><a id="logout">Logout</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <div style="display: none" id="adminDashboard">
+          <h3>Dashboard</h3>
+          <div class="dashboard-container">
+            <div class="dashboard-details-1">
+              <div>Users < 18 Years</div>
+              <div id="under18"></div>
+            </div>
+            <div class="dashboard-details-2">
+              <div>18-50 Years Users</div>
+              <div id="limit18-50"></div>
+            </div>
+            <div class="dashboard-details-3">
+              <div>Users > 50 Years</div>
+              <div id="more50"></div>
+            </div>
+          </div>
+          <h3 id="admin-birthday"></h3>
+        </div>
+        <div style="display: none" id="userDashboard">
+          <h3>Welcome to Cybercom Creation</h3>
+          <h1>Happy Birthday!</h1>
+        </div>
+      </main>
+    </section>
+  </body>
+  <script src="./js/Dashboard.js"></script>
+  <script src="./js/Logout.js"></script>
+</html>

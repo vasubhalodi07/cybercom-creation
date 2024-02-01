@@ -8,16 +8,21 @@
 :root {
   --main-color: #fff2cc;
   --button-color: #ff9900;
+  --content-1: #f9cb9c;
+  --content-2: #b4a7d6;
+  --content-3: #f4cccc;
 }
 
-section {
+#login-section,
+#register-section {
   margin-top: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-form {
+#loginForm,
+#registerForm {
   border: 1px solid black;
   width: 25%;
   padding: 20px;
@@ -57,4 +62,109 @@ form span {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* Dashboard */
+.dashboard-section {
+  display: flex;
+}
+
+.sidebar {
+  background-color: var(--button-color);
+  color: var(--main-color);
+  height: 100vh;
+  width: 250px;
+}
+.sidebar h4 {
+  padding: 20px;
+  margin-bottom: 40px;
+}
+.sidebar ul li {
+  list-style-type: none;
+  margin-bottom: 15px;
+}
+.sidebar ul li a {
+  padding: 20px;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+}
+
+.content {
+  padding: 20px;
+  width: 100%;
+}
+.dashboard-container {
+  width: 100%;
+  padding: 20px 0px;
+  display: flex;
+  gap: 50px;
+}
+.dashboard-details {
+  border: 1px solid black;
+}
+.dashboard-details-1,
+.dashboard-details-2,
+.dashboard-details-3 {
+  padding: 20px;
+}
+.dashboard-details-1 {
+  border: 1px solid black;
+  background-color: var(--content-1);
+}
+.dashboard-details-2 {
+  border: 1px solid black;
+  background-color: var(--content-2);
+}
+.dashboard-details-3 {
+  border: 1px solid black;
+  background-color: var(--content-3);
+}
+.dashboard-details-1 div,
+.dashboard-details-2 div,
+.dashboard-details-3 div {
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+/* Users */
+#userForm {
+  margin-bottom: 20px;
+  width: 100%;
+}
+.user-list h3 {
+  margin-bottom: 20px;
+}
+.user-list table {
+  width: 100%;
+}
+.user-list th {
+  background-color: rgb(42, 40, 54);
+  color: white;
+  padding: 10px;
+  font-size: 15px;
+  font-weight: 100;
+}
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+.user-list td {
+  text-align: center;
+}
+.user-list td:nth-child(2) {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.user-list button {
+  background-color: transparent;
+  color: rgb(34, 142, 230);
+  border: none;
+  text-decoration: underline;
+}
+.user-list button:hover {
+  color: blue;
 }

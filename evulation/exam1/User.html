@@ -1,0 +1,71 @@
+<script>
+  const fetchId = localStorage.getItem("id");
+  const admin = JSON.parse(localStorage.getItem("admin"));
+  if (!fetchId) {
+    window.location.href = "./Login.html";
+  }
+  if (!admin) {
+    window.location.href = "./Dashboard.html";
+  }
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Users</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <section class="dashboard-section">
+      <aside class="sidebar">
+        <h4 id="admin-name"></h4>
+        <nav>
+          <ul>
+            <li><a href="./Dashboard.html">Dashboard</a></li>
+            <li><a href="./User.html">Users</a></li>
+            <li><a href="./UserSession.html">Login Session</a></li>
+            <li><a id="logout">Logout</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <h3>Add User</h3>
+        <div class="dashboard-container">
+          <form id="userForm">
+            <input type="text" name="txtName" placeholder="Name" />
+            <input type="email" name="email" placeholder="Email" />
+            <input type="password" name="password" placeholder="Password" />
+            <input type="date" name="datetime" placeholder="Birthdate" />
+            <input type="submit" value="Add User" />
+          </form>
+        </div>
+
+        <div class="user-list">
+          <h3>User List</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Birthdate</th>
+                <th>Age</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="userTableBody"></tbody>
+          </table>
+        </div>
+      </main>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    <script src="./js/Users.js"></script>
+    <script src="./js/Logout.js"></script>
+  </body>
+</html>

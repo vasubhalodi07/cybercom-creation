@@ -113,3 +113,8 @@ label {
 .mb--20 {
   margin-bottom: 20px;
 }
+
+/* response */
+.message {
+  padding: 20px;
+}
