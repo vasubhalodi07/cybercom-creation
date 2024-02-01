@@ -62,4 +62,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     userDashboard.style.display = "block";
   }
+
+  const id = localStorage.getItem("id");
+  const record = JSON.parse(localStorage.getItem("users"));
+  const recordId = record.filter((item) => {
+    return item.id === id;
+  });
+
+  const birthdayTag = document.getElementById("birthdayTag");
+  const currentDate = new Date();
+  const userdate = new Date(recordId[0].datetime);
+  const month = currentDate.getMonth() + 1;
+  const day = currentDate.getDate();
+  const usermonth = userdate.getMonth() + 1;
+  const userday = userdate.getDate();
+  if (month === usermonth && day === userday) {
+    birthdayTag.innerHTML = "Happy Birthday!";
+  }
 });

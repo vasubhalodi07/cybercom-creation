@@ -9,14 +9,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const fetchUsers = JSON.parse(localStorage.getItem("users"));
   const fetchId = localStorage.getItem("id");
 
-  fetchUsers.map((element) => {
-    console.log(element.id);
-    console.log(fetchId);
-
+  fetchUsers.forEach((element) => {
     if (element.id == fetchId) {
       adminName.innerHTML = `Hello, ${element.name}`;
-    } else {
-      adminName.innerHTML = `Hello, Admin`;
+      return;
     }
   });
 });
