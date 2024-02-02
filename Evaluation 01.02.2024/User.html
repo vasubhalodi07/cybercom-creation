@@ -32,14 +32,14 @@
       </aside>
 
       <main class="content">
-        <h3>Add User</h3>
+        <h3 id="form-title">Add User</h3>
         <div class="dashboard-container">
           <form id="userForm">
-            <input type="text" name="txtName" placeholder="Name" />
-            <input type="email" name="email" placeholder="Email" />
-            <input type="password" name="password" placeholder="Password" />
-            <input type="date" name="datetime" placeholder="Birthdate" />
-            <input type="submit" value="Add User" />
+            <input type="text" id="txtName" placeholder="Name" />
+            <input type="email" id="email" placeholder="Email" />
+            <input type="password" id="password" placeholder="Password" />
+            <input type="date" id="datetime" placeholder="Birthdate" />
+            <input type="submit" id="form-button" value="Add User" />
           </form>
         </div>
 
@@ -56,15 +56,12 @@
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody id="userTableBody"></tbody>
+            <tbody id="tableBody"></tbody>
           </table>
         </div>
       </main>
     </section>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
     <script src="./js/Users.js"></script>
     <script src="./js/Logout.js"></script>
   </body>
