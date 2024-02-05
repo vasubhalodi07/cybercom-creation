@@ -62,10 +62,18 @@ const addUpdateRecord = () => {
     return false;
   }
 
+  const fetchUsers = JSON.parse(localStorage.getItem("users"));
   if (formState) {
-    const fetchUsers = JSON.parse(localStorage.getItem("users"));
     const updateId = JSON.parse(sessionStorage.getItem("id"));
     const findUser = fetchUsers.findIndex((user) => user.id === updateId);
+
+    const existEmail = fetchUsers.find(
+      (user) => user.email === email && user.id !== updateId
+    );
+    if (existEmail) {
+      alert("email already exists");
+      return;
+    }
 
     if (findUser) {
       fetchUsers[findUser] = {
@@ -83,6 +91,12 @@ const addUpdateRecord = () => {
     document.getElementById("form-button").value = "Add User";
     formState = false;
   } else {
+    const existEmail = fetchUsers.find((user) => user.email === email);
+    if (existEmail) {
+      alert("email already exists");
+      return;
+    }
+
     const newUser = {
       id: new Date(),
       name: name,
@@ -91,7 +105,6 @@ const addUpdateRecord = () => {
       date: date,
       is_admin: false,
     };
-    const fetchUsers = JSON.parse(localStorage.getItem("users"));
     const addRecord = [...fetchUsers, newUser];
     localStorage.setItem("users", JSON.stringify(addRecord));
   }

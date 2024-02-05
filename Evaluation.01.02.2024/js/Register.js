@@ -44,6 +44,14 @@ $(document).ready(function () {
 
   const addRegisterRecord = (formData) => {
     const fetchUsers = JSON.parse(localStorage.getItem("users")) || [];
+
+    const email = formData.find((field) => field.name === "email").value;
+    const existEmail = fetchUsers.find((user) => user.email === email);
+    if (existEmail) {
+      alert("email already exists");
+      return;
+    }
+
     const users = {
       id: new Date(),
       name: formData.find((field) => field.name === "txtName").value,
