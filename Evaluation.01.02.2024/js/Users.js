@@ -117,7 +117,9 @@ const deleteRecord = (id) => {
   let fetchUsers = localStorage.getItem("users")
     ? JSON.parse(localStorage.getItem("users"))
     : [];
-  let fetchSessions = JSON.parse(localStorage.getItem("session"));
+  let fetchSessions = localStorage.getItem("session")
+    ? JSON.parse(localStorage.getItem("session"))
+    : null;
 
   if (fetchUsers) {
     const indexOfUser = fetchUsers.findIndex((user) => user.id === id);
@@ -125,6 +127,9 @@ const deleteRecord = (id) => {
       fetchUsers.splice(indexOfUser, 1);
       localStorage.setItem("users", JSON.stringify(fetchUsers));
     }
+  }
+
+  if (fetchSessions) {
     const indexOfSession = fetchSessions.findIndex(
       (element) => element.id === id
     );
@@ -133,6 +138,7 @@ const deleteRecord = (id) => {
       localStorage.setItem("session", JSON.stringify(fetchSessions));
     }
   }
+
   loadUsers();
 };
 
