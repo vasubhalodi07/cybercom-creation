@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const fetchUser = JSON.parse(localStorage.getItem("users"));
+  const LOCALSTORAGE = {
+    users: "users",
+  };
+
+  const fetchUser = JSON.parse(localStorage.getItem(LOCALSTORAGE.users));
   const container = {
     under18: 0,
     limit18_50: 0,
@@ -9,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const birthdateList = [];
   fetchUser.forEach((element) => {
     if (!element.is_admin) {
-      var userDate = new Date(element.datetime);
+      var userDate = new Date(element.date);
       let month_diff = Date.now() - userDate.getTime();
       let age_diff = new Date(month_diff);
       let year = age_diff.getUTCFullYear();
@@ -24,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       const currentDate = new Date();
-      const userdate = new Date(element.datetime);
+      const userdate = new Date(element.date);
       const month = currentDate.getMonth() + 1;
       const day = currentDate.getDate();
       const usermonth = userdate.getMonth() + 1;
@@ -64,14 +68,14 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const id = localStorage.getItem("id");
-  const record = JSON.parse(localStorage.getItem("users"));
+  const record = JSON.parse(localStorage.getItem(LOCALSTORAGE.users));
   const recordId = record.filter((item) => {
     return item.id === id;
   });
 
   const birthdayTag = document.getElementById("birthdayTag");
   const currentDate = new Date();
-  const userdate = new Date(recordId[0].datetime);
+  const userdate = new Date(recordId[0].date);
   const month = currentDate.getMonth() + 1;
   const day = currentDate.getDate();
   const usermonth = userdate.getMonth() + 1;

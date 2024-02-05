@@ -38,10 +38,6 @@ h2 {
   text-align: center;
 }
 
-form div {
-  padding-bottom: 20px;
-}
-
 input,
 select {
   padding: 10px;
@@ -167,4 +163,25 @@ td {
 }
 .user-list button:hover {
   color: blue;
+}
+
+/* normal users */
+#userDashboard h3 {
+  text-align: center;
+}
+
+#birthdayTag {
+  margin-top: 20px;
+  color: red;
+  text-align: center;
+}
+
+/* User Session */
+.userSessionTable td,
+th {
+  padding: 10px;
+}
+
+.session-date {
+  text-decoration: none;
 }

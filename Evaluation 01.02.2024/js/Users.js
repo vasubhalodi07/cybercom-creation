@@ -80,6 +80,7 @@ const addUpdateRecord = () => {
         date: date,
       };
       localStorage.setItem(LOCALSTORAGE.users, JSON.stringify(fetchUsers));
+      sessionStorage.removeItem("id");
     }
     formState = false;
   } else {

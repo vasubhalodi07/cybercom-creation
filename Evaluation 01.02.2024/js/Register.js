@@ -1,27 +1,39 @@
 $(document).ready(function () {
+  const LOCALSTORAGE = {
+    users: "users",
+  };
+
   $("#registerForm").validate({
     rules: {
       txtName: { required: true },
-      txtEmail: { required: true },
+      email: { required: true },
       password: { required: true },
-      confirmPassword: { required: true },
+      confirmPassword: { required: true, equalTo: "#password" },
       selectCity: { required: true },
       selectState: { required: true },
       checkboxTerm: { required: true },
     },
     messages: {
       txtName: { required: "name is required" },
-      txtEmail: { required: "email is required" },
+      email: { required: "email is required" },
       password: { required: "password is required" },
-      confirmPassword: { required: "confirm password must not be empty" },
+      confirmPassword: {
+        required: "Confirm password must not be empty",
+        equalTo: "Passwords do not match",
+      },
       selectCity: { required: "city is required" },
       selectState: { required: "state is required" },
       checkboxTerm: { required: "please allow a terms of condition" },
     },
 
     errorPlacement: function (error, element) {
-      error.css({ color: "red", marginTop: "5px", fontSize: "12px" });
-      error.insertAfter(element);
+      if (element.attr("name") === "checkboxTerm") {
+        error.css({ color: "red", fontSize: "12px" });
+        error.insertAfter(element.closest("div"));
+      } else {
+        error.css({ color: "red", marginTop: "5px", fontSize: "12px" });
+        error.insertAfter(element);
+      }
     },
 
     submitHandler: (form) => {
@@ -31,11 +43,12 @@ $(document).ready(function () {
   });
 
   const addRegisterRecord = (formData) => {
-    const fetchUsers = JSON.parse(localStorage.getItem("users")) || [];
+    const fetchUsers =
+      JSON.parse(localStorage.getItem(LOCALSTORAGE.users)) || [];
     const users = {
       id: new Date(),
       name: formData.find((field) => field.name === "txtName").value,
-      email: formData.find((field) => field.name === "txtEmail").value,
+      email: formData.find((field) => field.name === "email").value,
       password: formData.find((field) => field.name === "password").value,
       city: formData.find((field) => field.name === "selectCity").value,
       state: formData.find((field) => field.name === "selectState").value,
@@ -44,7 +57,7 @@ $(document).ready(function () {
     };
 
     const addUser = [...fetchUsers, users];
-    localStorage.setItem("users", JSON.stringify(addUser));
+    localStorage.setItem(LOCALSTORAGE.users, JSON.stringify(addUser));
     window.location.href = "./Login.html";
   };
 });
