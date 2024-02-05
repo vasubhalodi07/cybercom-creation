@@ -2,6 +2,12 @@
 
 Welcome to the CyberCom Creation Repository! Here is an overview of the practices and tasks provided by CyberCom Creation.
 
+### Evaluation
+
+|    Date    |                                            Repo                                            |                                          Preview                                          |
+| :--------: | :----------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------: |
+| 01.02.2024 | [Link](https://github.com/vasubhalodi07/cybercom-creation/tree/main/Evaluation.01.02.2024) | [Live](https://vasubhalodi07.github.io/cybercom-creation/Evaluation.01.02.2024/User.html) |
+
 ### HTML, CSS, JQuery, JavaScript
 
 |   Title    |                                        Repo                                         |                                       Preview                                       |
