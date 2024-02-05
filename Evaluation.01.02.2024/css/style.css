@@ -185,3 +185,7 @@ th {
 .session-date {
   text-decoration: none;
 }
+
+.message {
+  padding: 10px;
+}

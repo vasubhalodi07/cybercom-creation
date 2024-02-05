@@ -43,8 +43,7 @@ $(document).ready(function () {
   });
 
   const addRegisterRecord = (formData) => {
-    const fetchUsers =
-      JSON.parse(localStorage.getItem(LOCALSTORAGE.users)) || [];
+    const fetchUsers = JSON.parse(localStorage.getItem("users")) || [];
     const users = {
       id: new Date(),
       name: formData.find((field) => field.name === "txtName").value,
@@ -57,7 +56,7 @@ $(document).ready(function () {
     };
 
     const addUser = [...fetchUsers, users];
-    localStorage.setItem(LOCALSTORAGE.users, JSON.stringify(addUser));
+    localStorage.setItem("users", JSON.stringify(addUser));
     window.location.href = "./Login.html";
   };
 });

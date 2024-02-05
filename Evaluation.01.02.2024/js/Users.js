@@ -1,10 +1,6 @@
 var formState = false;
-const LOCALSTORAGE = {
-  users: "users",
-};
-
 function loadUsers() {
-  const fetchNormalUsers = JSON.parse(localStorage.getItem(LOCALSTORAGE.users));
+  const fetchNormalUsers = JSON.parse(localStorage.getItem("users"));
   const tableBody = document.getElementById("tableBody");
   tableBody.innerHTML = "";
 
@@ -15,7 +11,7 @@ function loadUsers() {
 
   if (!count) {
     const row = document.createElement("tr");
-    row.innerHTML = `<td colspan='6'>no record found!</td>`;
+    row.innerHTML = `<td class='message' colspan='6'>no record found!</td>`;
     tableBody.appendChild(row);
   }
 
@@ -67,7 +63,7 @@ const addUpdateRecord = () => {
   }
 
   if (formState) {
-    const fetchUsers = JSON.parse(localStorage.getItem(LOCALSTORAGE.users));
+    const fetchUsers = JSON.parse(localStorage.getItem("users"));
     const updateId = JSON.parse(sessionStorage.getItem("id"));
     const findUser = fetchUsers.findIndex((user) => user.id === updateId);
 
@@ -79,9 +75,12 @@ const addUpdateRecord = () => {
         password: password,
         date: date,
       };
-      localStorage.setItem(LOCALSTORAGE.users, JSON.stringify(fetchUsers));
+      localStorage.setItem("users", JSON.stringify(fetchUsers));
       sessionStorage.removeItem("id");
     }
+
+    document.getElementById("form-title").innerHTML = "Add User";
+    document.getElementById("form-button").value = "Add User";
     formState = false;
   } else {
     const newUser = {
@@ -92,9 +91,9 @@ const addUpdateRecord = () => {
       date: date,
       is_admin: false,
     };
-    const fetchUsers = JSON.parse(localStorage.getItem(LOCALSTORAGE.users));
+    const fetchUsers = JSON.parse(localStorage.getItem("users"));
     const addRecord = [...fetchUsers, newUser];
-    localStorage.setItem(LOCALSTORAGE.users, JSON.stringify(addRecord));
+    localStorage.setItem("users", JSON.stringify(addRecord));
   }
 
   loadUsers();
@@ -102,22 +101,30 @@ const addUpdateRecord = () => {
 };
 
 const deleteRecord = (id) => {
-  let fetchUsers = localStorage.getItem(LOCALSTORAGE.users)
-    ? JSON.parse(localStorage.getItem(LOCALSTORAGE.users))
+  let fetchUsers = localStorage.getItem("users")
+    ? JSON.parse(localStorage.getItem("users"))
     : [];
+  let fetchSessions = JSON.parse(localStorage.getItem("session"));
 
   if (fetchUsers) {
     const indexOfUser = fetchUsers.findIndex((user) => user.id === id);
     if (indexOfUser >= 0) {
       fetchUsers.splice(indexOfUser, 1);
-      localStorage.setItem(LOCALSTORAGE.users, JSON.stringify(fetchUsers));
+      localStorage.setItem("users", JSON.stringify(fetchUsers));
+    }
+    const indexOfSession = fetchSessions.findIndex(
+      (element) => element.id === id
+    );
+    if (indexOfSession >= 0) {
+      fetchSessions.splice(indexOfSession, 1);
+      localStorage.setItem("session", JSON.stringify(fetchSessions));
     }
   }
   loadUsers();
 };
 
 function loadRecordToField(id) {
-  const fetchUsers = JSON.parse(localStorage.getItem(LOCALSTORAGE.users));
+  const fetchUsers = JSON.parse(localStorage.getItem("users"));
   const findRecord = fetchUsers.find((user) => user.id === id);
 
   document.querySelector("input[type='text']").value = findRecord.name;
