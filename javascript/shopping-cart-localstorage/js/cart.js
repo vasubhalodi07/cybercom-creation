@@ -1,8 +1,14 @@
+const LOCALSTORAGE = {
+  productItem: "productItem",
+  cartItem: "cartItem",
+};
+
 const cartList = document.getElementById("cart-list");
 const priceSection = document.getElementById("price-section");
 
-const carts = JSON.parse(localStorage.getItem("carts")) || [];
-const products = JSON.parse(localStorage.getItem("products")) || [];
+const carts = JSON.parse(localStorage.getItem(LOCALSTORAGE.cartItem)) || [];
+const products =
+  JSON.parse(localStorage.getItem(LOCALSTORAGE.productItem)) || [];
 
 loadCartList();
 function loadCartList() {

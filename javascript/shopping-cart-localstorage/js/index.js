@@ -1,10 +1,17 @@
+const LOCALSTORAGE = {
+  productItem: "productItem",
+  cartItem: "cartItem",
+};
+
 const quantityState = [
   { id: 1, quantity: 0 },
   { id: 2, quantity: 0 },
   { id: 3, quantity: 0 },
 ];
-const fetchCarts = JSON.parse(localStorage.getItem("carts")) || [];
-const fetchProducts = JSON.parse(localStorage.getItem("products")) || [];
+const fetchCarts =
+  JSON.parse(localStorage.getItem(LOCALSTORAGE.cartItem)) || [];
+const fetchProducts =
+  JSON.parse(localStorage.getItem(LOCALSTORAGE.productItem)) || [];
 
 if (fetchCarts && fetchCarts.length) {
   quantityState.forEach((item) => {
@@ -93,7 +100,7 @@ function loadCheckout() {
 function addToCart() {
   const filterRecord = quantityState.filter((record) => record.quantity > 0);
   if (filterRecord.length) {
-    localStorage.setItem("carts", JSON.stringify(filterRecord));
+    localStorage.setItem(LOCALSTORAGE.cartItem, JSON.stringify(filterRecord));
     window.location.href = "./cart.html";
   } else {
     alert("product quantitty must be more than zero");

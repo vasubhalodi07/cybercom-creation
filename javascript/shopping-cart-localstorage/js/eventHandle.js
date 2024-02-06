@@ -1,11 +1,11 @@
 window.addEventListener("keydown", function (event) {
   if (event.ctrlKey && event.key === "F5") {
     alert("cart has been removed from LocalStorage");
-    localStorage.removeItem("carts");
+    localStorage.removeItem("cartItem");
   }
 });
 
-const product = JSON.parse(localStorage.getItem("products")) || [];
+const product = JSON.parse(localStorage.getItem("productItem")) || [];
 if (product.length) {
   console.log("product is there in localstorage");
 } else {
@@ -33,5 +33,5 @@ if (product.length) {
     },
   ];
 
-  localStorage.setItem("products", JSON.stringify(products));
+  localStorage.setItem("productItem", JSON.stringify(products));
 }
