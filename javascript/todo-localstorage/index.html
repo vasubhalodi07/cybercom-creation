@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo App</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="todo-container">
+      <h1>Todo List</h1>
+
+      <div class="todo">
+        <section class="topbar">
+          <button id="openModal">Add Task</button>
+          <select name="filter" id="filterTodo">
+            <option value="All">All</option>
+            <option value="Completed">Completed</option>
+            <option value="Due">Due</option>
+            <option value="Priority">Priority</option>
+          </select>
+        </section>
+
+        <section id="todoList" class="todoList"></section>
+      </div>
+    </div>
+
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modal-title">Add Todo</h2>
+          <span class="close" id="closeModal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div class="title-div">
+            <label for="title">Todo Title</label>
+            <input type="text" id="title" />
+          </div>
+          <div class="date-div">
+            <label for="">Due Date</label>
+            <input type="date" id="date" />
+          </div>
+          <div class="priority-div">
+            <input type="checkbox" id="priority" />
+            <div class="priority-title">Task Priority</div>
+          </div>
+          <button id="create-btn">Create</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./main.js"></script>
+  </body>
+</html>

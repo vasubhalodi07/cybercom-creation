@@ -1,0 +1,261 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+:root {
+  --bg-color: rgb(162, 168, 194);
+  --todo-color: #ecedf6;
+  --color1: #d1e2fb;
+  --color2: #b4d4ff;
+  --color3: #86b6f6;
+  --color4: #176b87;
+  --btn-delete: rgb(185, 48, 48);
+  --btn-edit: rgb(40, 40, 186);
+  --btn-add: #6370f5;
+  --btn-add-hover: #7f88ee;
+}
+
+body {
+  background-color: var(--bg-color);
+}
+
+.todo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+h1 {
+  text-transform: uppercase;
+  color: white;
+}
+
+.todo {
+  padding-top: 20px;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.topbar {
+  width: 104%;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.topbar button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--btn-add);
+  color: white;
+  cursor: pointer;
+}
+
+.topbar select {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: var(--todo-color);
+  border: none;
+}
+
+.todoList {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--todo-color);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 5px;
+}
+
+.task {
+  padding: 10px;
+  background-color: white;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.task input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.task-details {
+  flex: 1;
+}
+
+.task-title {
+  font-weight: 500;
+}
+.due-date {
+  font-size: 12px;
+}
+
+.task-actions {
+  margin-left: 10px;
+}
+
+.task-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+i {
+  background-color: var(--todo-color);
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 15px;
+}
+
+.delete-btn {
+  color: var(--btn-delete);
+}
+
+.edit-btn {
+  color: var(--btn-edit);
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 50px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border-radius: 5px;
+  width: 500px;
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
+.modal-header {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 15px 16px;
+  background-color: var(--todo-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close {
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 2px 16px;
+}
+
+@-webkit-keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+.modal-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+}
+
+.modal-body .title-div,
+.modal-body .date-div {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-body div label {
+  font-size: 14px;
+  padding-bottom: 3px;
+}
+
+.modal-body input,
+.modal-body select {
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--todo-color);
+}
+
+.priority-div {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.priority-div input {
+  width: 18px;
+  height: 18px;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.priority-title {
+  font-size: 14px;
+}
+
+.modal-body button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--btn-add);
+  color: white;
+  cursor: pointer;
+  width: min-content;
+  transition: 0.2s ease-in;
+}
+.modal-body button:hover {
+  background-color: var(--btn-add-hover);
+}
+
+/* extra */
+.center {
+  text-align: center;
+}
