@@ -92,10 +92,10 @@ function filterTodoList(value) {
   const fetchTodos = fetchLocalStorageTodos();
 
   if (!fetchTodos.length) {
-    showToast("record not found", "warning");
+    showToast("no record available in storage", "warning");
     const createDiv = document.createElement("div");
     createDiv.innerHTML = `
-        <div class='center'>todo not found!</div>
+        <div class='center'>no record available in storage!</div>
     `;
     todoList.appendChild(createDiv);
     return;
@@ -125,6 +125,17 @@ function filterTodoList(value) {
   }
 
   const sortTodoCompleted = sortTodoList(filterRecord);
+
+  if (!sortTodoCompleted.length) {
+    showToast("record not found", "warning");
+    const createDiv = document.createElement("div");
+    createDiv.innerHTML = `
+        <div class='center'>todo not found!</div>
+    `;
+    todoList.appendChild(createDiv);
+    return;
+  }
+
   sortTodoCompleted.forEach((todo) => {
     const todoItem = createTodoListElement(todo);
     todoList.appendChild(todoItem);
@@ -248,7 +259,7 @@ function showToast(message, type) {
 
   setTimeout(() => {
     toast.remove();
-  }, 3000);
+  }, 1500);
 }
 
 function getIcon(type) {

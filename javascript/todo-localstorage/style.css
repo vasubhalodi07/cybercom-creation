@@ -16,6 +16,8 @@
   --btn-add-hover: #7f88ee;
   --btn-complete: rgb(26, 172, 26);
 
+  --complete-row: rgb(185, 185, 225);
+
   --toast-error: #de4f4f;
   --toast-info: rgb(27, 133, 208);
   --toast-warning: #deab54;
@@ -39,6 +41,21 @@ h1 {
   color: var(--white);
 }
 
+.todo {
+  padding-top: 20px;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.topbar {
+  width: 104%;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
 .todo {
   padding-top: 20px;
   width: 600px;
@@ -270,7 +287,7 @@ h1 {
 }
 
 .complete-color {
-  background-color: rgb(192, 192, 241);
+  background-color: var(--complete-row);
 }
 
 /* toast */
@@ -282,7 +299,7 @@ h1 {
 }
 
 .toast {
-  color: #fff;
+  color: var(--white);
   padding: 12px 20px;
   border-radius: 5px;
   margin-bottom: 10px;
@@ -317,4 +334,20 @@ h1 {
   cursor: pointer;
   padding: 0 5px;
   font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+  .todo {
+    padding-top: 10px;
+    width: 100%;
+  }
+
+  .topbar {
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+
+  .modal-content {
+    width: 100%;
+  }
 }
