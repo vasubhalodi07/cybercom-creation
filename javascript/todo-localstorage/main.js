@@ -12,9 +12,12 @@ const dueDate = document.getElementById("date");
 const priority = document.getElementById("priority");
 const createBtn = document.getElementById("create-btn");
 createBtn.addEventListener("click", () => {
+  console.log(isUpdateMode);
   if (!isUpdateMode) {
     const status = AddTodo();
     if (status) {
+      document.getElementById("modal-title").innerHTML = "Create Todo";
+      document.getElementById("create-btn").innerHTML = "Create";
       console.log("todo created!");
     } else {
       console.log("something went wrong!");
@@ -66,6 +69,8 @@ function clearFields() {
   dueDate.value = "";
   priority.checked = false;
   modal.style.display = "none";
+  document.getElementById("modal-title").innerHTML = "Create Todo";
+  document.getElementById("create-btn").innerHTML = "Create";
 }
 
 // Load Todo List
@@ -139,7 +144,7 @@ openModal.onclick = function () {
   modal.style.display = "block";
 };
 closeModal.onclick = function () {
-  modal.style.display = "none";
+  clearFields();
 };
 window.onclick = function (event) {
   if (event.target == modal) {
