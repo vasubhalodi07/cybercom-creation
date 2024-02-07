@@ -8,16 +8,18 @@
 :root {
   --bg-color: rgb(162, 168, 194);
   --todo-color: #ecedf6;
-  --color1: #d1e2fb;
-  --color2: #b4d4ff;
-  --color3: #86b6f6;
-  --color4: #176b87;
+  --white: white;
+
   --btn-delete: rgb(185, 48, 48);
   --btn-edit: rgb(40, 40, 186);
   --btn-add: #6370f5;
   --btn-add-hover: #7f88ee;
   --btn-complete: rgb(26, 172, 26);
-  --white: white;
+
+  --toast-error: #de4f4f;
+  --toast-info: rgb(27, 133, 208);
+  --toast-warning: #deab54;
+  --toast-success: var(--btn-add);
 }
 
 body {
@@ -100,6 +102,7 @@ h1 {
 
 .task-title {
   font-weight: 500;
+  text-transform: capitalize;
 }
 .due-date {
   font-size: 12px;
@@ -116,7 +119,7 @@ h1 {
   padding: 5px;
 }
 
-i {
+.task-actions i {
   background-color: var(--todo-color);
   padding: 10px;
   border-radius: 5px;
@@ -268,4 +271,50 @@ i {
 
 .complete-color {
   background-color: rgb(192, 192, 241);
+}
+
+/* toast */
+#toast-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.toast {
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.toast-content {
+  display: flex;
+  gap: 10px;
+}
+
+.toast.error {
+  background-color: var(--toast-error);
+}
+
+.toast.warning {
+  background-color: var(--toast-warning);
+}
+
+.toast.success {
+  background-color: var(--toast-success);
+}
+
+.toast.info {
+  background-color: var(--toast-info);
+}
+
+.toast .close-btn {
+  cursor: pointer;
+  padding: 0 5px;
+  font-weight: bold;
 }

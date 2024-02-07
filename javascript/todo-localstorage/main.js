@@ -29,14 +29,16 @@ const filterTodo = document.getElementById("filterTodo");
 // Add and Update
 createBtn.addEventListener("click", () => {
   if (!title.value || !dueDate.value) {
-    alert("require all fields");
+    showToast("please fill all fields", "error");
     return;
   }
 
   if (!isUpdateMode) {
     AddTodo();
+    showToast("new task created!", "success");
   } else {
     UpdateTodo();
+    showToast("task has been updated!", "success");
   }
   clearFields();
   filterTodoList(selectFilter);
@@ -115,6 +117,7 @@ function filterTodoList(value) {
   const sortTodoCompleted = sortTodoList(filterRecord);
 
   if (sortTodoCompleted.length === 0) {
+    showToast("record not found", "warning");
     const createDiv = document.createElement("div");
     createDiv.innerHTML = `
         <div class='center'>todo not found!</div>
@@ -170,6 +173,12 @@ function completeTodo(id) {
     saveLocalStorageTodos(fetchTodos);
   }
   filterTodoList(selectFilter);
+
+  if (fetchTodos[todoIndex].complete) {
+    showToast("mark as completed!", "success");
+  } else {
+    showToast("mark as pending task!", "info");
+  }
 }
 
 // Delete Todo
@@ -184,6 +193,7 @@ function deleteTodo(id) {
     });
     saveLocalStorageTodos(filterRecord);
     filterTodoList(selectFilter);
+    showToast("task removed successfully!", "success");
   }
 }
 
@@ -199,7 +209,6 @@ function openUpdateModal(id) {
   priority.checked = findTodo.priority;
   document.getElementById("modal-title").innerHTML = "Update Todo";
   document.getElementById("create-btn").innerHTML = "Update";
-
   saveSessionStorageId(findTodo.id);
 }
 
@@ -218,3 +227,42 @@ window.onclick = function (event) {
     modal.style.display = "none";
   }
 };
+
+// toast modal
+function showToast(message, type) {
+  const toastContainer = document.getElementById("toast-container");
+  const toast = document.createElement("div");
+  toast.classList.add("toast", type);
+  toast.innerHTML = `
+    <div class='toast-content'>
+      <div class="icon">${getIcon(type)}</div>
+      <div>${message}</div>
+    </div>  
+    <div class="close-btn"><i class="fas fa-times"></i></div>
+  `;
+  toastContainer.appendChild(toast);
+
+  const closeBtn = toast.querySelector(".close-btn");
+  closeBtn.addEventListener("click", () => {
+    toast.remove();
+  });
+
+  setTimeout(() => {
+    toast.remove();
+  }, 3000);
+}
+
+function getIcon(type) {
+  switch (type) {
+    case "error":
+      return '<i class="fas fa-times-circle"></i>';
+    case "warning":
+      return '<i class="fas fa-exclamation-triangle"></i>';
+    case "success":
+      return '<i class="fas fa-check-circle"></i>';
+    case "info":
+      return '<i class="fas fa-info-circle"></i>';
+    default:
+      return "";
+  }
+}
