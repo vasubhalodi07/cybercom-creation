@@ -16,6 +16,8 @@
   --btn-edit: rgb(40, 40, 186);
   --btn-add: #6370f5;
   --btn-add-hover: #7f88ee;
+  --btn-complete: rgb(26, 172, 26);
+  --white: white;
 }
 
 body {
@@ -32,7 +34,7 @@ body {
 
 h1 {
   text-transform: uppercase;
-  color: white;
+  color: var(--white);
 }
 
 .todo {
@@ -56,7 +58,7 @@ h1 {
   border: none;
   border-radius: 5px;
   background-color: var(--btn-add);
-  color: white;
+  color: var(--white);
   cursor: pointer;
 }
 
@@ -79,7 +81,7 @@ h1 {
 
 .task {
   padding: 10px;
-  background-color: white;
+  background-color: var(--white);
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -127,6 +129,10 @@ i {
 
 .edit-btn {
   color: var(--btn-edit);
+}
+
+.complete-btn {
+  color: var(--btn-complete);
 }
 
 /* Modal */
@@ -246,7 +252,7 @@ i {
   border: none;
   border-radius: 5px;
   background-color: var(--btn-add);
-  color: white;
+  color: var(--white);
   cursor: pointer;
   width: min-content;
   transition: 0.2s ease-in;
@@ -258,4 +264,8 @@ i {
 /* extra */
 .center {
   text-align: center;
+}
+
+.complete-color {
+  background-color: rgb(192, 192, 241);
 }
