@@ -88,6 +88,10 @@ function loadTodo(value) {
   if (value === null || value === undefined || value === "") {
     filterRecord = fetchTodos;
   }
+
+  if (value === "Pending") {
+    filterRecord = fetchTodos.filter((todo) => todo.complete === false);
+  }
   if (value === "Completed") {
     filterRecord = fetchTodos.filter((todo) => todo.complete === true);
   }
