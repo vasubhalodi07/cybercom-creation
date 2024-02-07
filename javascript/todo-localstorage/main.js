@@ -2,14 +2,14 @@ const LOCALSTORAGE_TODOS = "todos";
 const SESSIONSTORAGE_ID = "id";
 
 function fetchLocalStorageTodos() {
-  return JSON.parse(localStorage.getItem(LOCALSTORAGE_TODOS));
+  return JSON.parse(localStorage.getItem(LOCALSTORAGE_TODOS)) || [];
 }
 function saveLocalStorageTodos(todo) {
   localStorage.setItem(LOCALSTORAGE_TODOS, JSON.stringify(todo));
 }
 
 function fetchSessionStorageId() {
-  return JSON.parse(sessionStorage.getItem(SESSIONSTORAGE_ID));
+  return JSON.parse(sessionStorage.getItem(SESSIONSTORAGE_ID)) || [];
 }
 function saveSessionStorageId(id) {
   sessionStorage.setItem(SESSIONSTORAGE_ID, JSON.stringify(id));
@@ -91,6 +91,16 @@ function filterTodoList(value) {
   selectFilter = value;
   const fetchTodos = fetchLocalStorageTodos();
 
+  if (!fetchTodos.length) {
+    showToast("record not found", "warning");
+    const createDiv = document.createElement("div");
+    createDiv.innerHTML = `
+        <div class='center'>todo not found!</div>
+    `;
+    todoList.appendChild(createDiv);
+    return;
+  }
+
   let filterRecord = {};
 
   switch (value) {
@@ -115,21 +125,10 @@ function filterTodoList(value) {
   }
 
   const sortTodoCompleted = sortTodoList(filterRecord);
-
-  if (sortTodoCompleted.length === 0) {
-    showToast("record not found", "warning");
-    const createDiv = document.createElement("div");
-    createDiv.innerHTML = `
-        <div class='center'>todo not found!</div>
-    `;
-    todoList.appendChild(createDiv);
-    return;
-  } else {
-    sortTodoCompleted.forEach((todo) => {
-      const todoItem = createTodoListElement(todo);
-      todoList.appendChild(todoItem);
-    });
-  }
+  sortTodoCompleted.forEach((todo) => {
+    const todoItem = createTodoListElement(todo);
+    todoList.appendChild(todoItem);
+  });
 }
 
 function sortTodoList(todo) {
