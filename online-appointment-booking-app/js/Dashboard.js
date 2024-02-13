@@ -52,30 +52,31 @@ function handleMoreInfo(id) {
 
   const findUsers = fetchUsers.find((user) => user.id === id);
   const findDetails = fetchDetails.find((details) => details.doctor_id === id);
-  const findAvailability = fetchAvailability.find(
-    (availability) => availability.id === id
+
+  console.log(fetchAvailability);
+  const findAvailability = fetchAvailability.filter(
+    (availability) => availability.login_id === id
   );
 
-  console.log(findUsers);
-  console.log(findDetails);
-  console.log(findAvailability);
-
   const modalBody = document.getElementById("modal-body");
-
   modalBody.innerHTML = `
-  <div>${findUsers.name}</div>
-  <div>${findUsers.email}</div>
-  <div>${findDetails.telPhone}</div>
-  <div>${findDetails.address}</div>
-  <div>
+  <div>Name: ${findUsers.name}</div>
+  <div>Email: ${findUsers.email}</div>
+  <div>TelPhone: ${findDetails.telPhone}</div>
+  <div>Address: ${findDetails.address}</div>
+  <h4>Select Time</h4>
+  <div class='time-container'>
     ${
+      findAvailability &&
       findAvailability
-        ? findAvailability.availability
-            .map((item) => `<div>${item.key}: ${item.value}</div>`)
-            .join("")
-        : ""
+        .map(
+          (item) =>
+            `<div class='time'>${item.timeStart} - ${item.endStart}</div>`
+        )
+        .join("")
     }
   </div>
+  <button id="appointment-send-btn">Appointment Apply</button>
 `;
 
   var modal = document.getElementById("myModal");
@@ -97,81 +98,4 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   hideSectionByUserType();
-});
-
-$(document).ready(function () {
-  loadAvailabilityList();
-  $("#availbility-form").validate({
-    rules: {
-      day: { required: true },
-      timeStart: { required: true },
-      endStart: { required: true },
-    },
-    message: {
-      day: { required: "requied field" },
-      timeStart: { required: "requied field" },
-      endStart: { required: "requied field" },
-    },
-
-    errorPlacement: function (error, element) {
-      error.css({ color: "red", marginTop: "5px", fontSize: "12px" });
-      error.insertAfter(element);
-    },
-
-    submitHandler: (form) => {
-      const formData = $(form).serializeArray();
-      AvailabilityForm(formData);
-    },
-  });
-
-  function AvailabilityForm(data) {
-    const fetchAvailability =
-      JSON.parse(localStorage.getItem(LOCALSTORAGE_AVAILABILITY)) || [];
-    const day = data.find((field) => field.name === "day").value;
-    const timeStart = data.find((field) => field.name === "timeStart").value;
-    const endStart = data.find((field) => field.name === "endStart").value;
-
-    const newAvailablity = {
-      id: new Date(),
-      login_id: fetchLoginId,
-      day: day,
-      timeStart: timeStart,
-      endStart: endStart,
-    };
-
-    const mergeRecord = [...fetchAvailability, newAvailablity];
-    localStorage.setItem(
-      LOCALSTORAGE_AVAILABILITY,
-      JSON.stringify(mergeRecord)
-    );
-
-    loadAvailabilityList();
-  }
-
-  function loadAvailabilityList() {
-    const fetchAvailability =
-      JSON.parse(localStorage.getItem(LOCALSTORAGE_AVAILABILITY)) || [];
-    console.log(fetchAvailability);
-
-    const tbody = document.getElementById("tbody");
-    tbody.innerHTML = "";
-
-    if (fetchAvailability.length === 0) {
-      console.log("no availability available");
-      return;
-    }
-
-    fetchAvailability.forEach((ele) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${ele.day}</td>
-        <td>${ele.endStart}</td>
-        <td>${ele.timeStart}</td>
-        <td><button>Edit</button></td>
-        <td><button>Delete</button></td>
-      `;
-
-      tbody.appendChild(tr);
-    });
-  }
 });

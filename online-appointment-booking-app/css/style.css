@@ -89,7 +89,7 @@ form select {
 
 .modal-content {
   position: relative;
-  background-color: #fefefe;
+  background-color: white;
   margin: auto;
   padding: 0;
   border-radius: 5px;
@@ -104,7 +104,6 @@ form select {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   padding: 15px 16px;
-  background-color: var(--todo-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -165,7 +164,6 @@ form select {
   padding: 12px;
   border: none;
   border-radius: 5px;
-  background-color: var(--todo-color);
 }
 
 .priority-div {
@@ -189,14 +187,11 @@ form select {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: var(--btn-add);
-  color: var(--white);
   cursor: pointer;
   width: min-content;
   transition: 0.2s ease-in;
-}
-.modal-body button:hover {
-  background-color: var(--btn-add-hover);
+  background-color: var(--dark-light);
+  color: white;
 }
 
 /* Dashboard */
@@ -237,4 +232,70 @@ form select {
   display: flex;
   flex-direction: row;
   gap: 20px;
+}
+
+.table-container {
+  background-color: #427d9d;
+}
+
+#doctor-section table,
+th,
+td {
+  border: 1px solid black;
+}
+
+/* nav */
+nav ul {
+  background-color: var(--dark);
+  padding: 15px;
+}
+
+nav ul li {
+  display: flex;
+  gap: 20px;
+  color: white;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+/* Availability */
+#availability-section {
+  padding: 30px;
+}
+
+.availability-day {
+  margin-bottom: 15px;
+}
+
+.availability-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.availability-record {
+  margin-top: 5px;
+  border: 2px solid #ccc;
+  padding: 10px;
+}
+
+#availability-form input {
+  border: 1px solid black;
+}
+
+/* Dashboard - Patient */
+.time-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+}
+
+.time {
+  padding: 4px;
+  border: 1px solid black;
+  width: fit-content;
+  font-size: 14px;
 }

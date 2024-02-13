@@ -14,11 +14,13 @@
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    <h1>Dashboard</h1>
     <nav>
       <ul>
         <li>
+          <a href="">Dashboard</a>
+          <a href="">Appointment</a>
           <a href="./profile.html">Profile</a>
+          <a href="./availbility.html">Add Availbility</a>
           <a href="" id="logout">Logout</a>
         </li>
       </ul>
@@ -29,53 +31,14 @@
     </section>
 
     <section id="doctor-section">
-      <div id="date-time-slots">
-        <form class="date-time-slot" id="availbility-form">
-          <div>
-            <h1>Add Availbility</h1>
-          </div>
-          <div class="day-container">
-            <label>Select Date</label>
-            <select name="day" id="day">
-              <option value="" disabled selected>Select Day</option>
-              <option value="Sunday">Sunday</option>
-              <option value="Monday">Monday</option>
-              <option value="Tuesday">Tuesday</option>
-              <option value="Wednesday">Wednesday</option>
-              <option value="Thursday">Thursday</option>
-              <option value="Friday">Friday</option>
-              <option value="Saturday">Saturday</option>
-            </select>
-          </div>
-          <div id="time-slot-container">
-            <label>Select Start and End Date</label>
-            <div class="flex-row">
-              <input type="time" name="timeStart" class="start-time" />
-              <input type="time" name="endStart" class="end-time" />
-            </div>
-            <button id="save-btn">Add</button>
-          </div>
-        </form>
-      </div>
-
-      <div id="list-availability">
-        <table>
-          <thead>
-            <tr>
-              <td>Day</td>
-              <td>Availbility Start Time</td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody id="tbody"></tbody>
-        </table>
-      </div>
+      <h1>Welcome To Dashboard</h1>
+      <div id="list-appointment"></div>
     </section>
 
     <div id="myModal" class="modal">
       <div class="modal-content">
         <div class="modal-header">
-          <h2 id="modal-title">Doctor</h2>
+          <h2 id="modal-title">Appointment Section</h2>
           <span class="close" id="closeModal">&times;</span>
         </div>
         <div class="modal-body" id="modal-body"></div>

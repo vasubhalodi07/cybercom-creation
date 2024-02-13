@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Availbility</title>
+    <link rel="stylesheet" href="./css/availability.css" />
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li>
+          <a href="./dashboard.html">Dashboard</a>
+          <a href="">Appointment</a>
+          <a href="./profile.html">Profile</a>
+          <a href="./availbility.html">Add Availbility</a>
+          <a href="" id="logout">Logout</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div id="add-availbility">Add</div>
+    <section id="availability-section"></section>
+
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modal-title">Add Availability</h2>
+          <span class="close" id="closeModal">&times;</span>
+        </div>
+        <div class="modal-body" id="modal-body">
+          <form id="availability-form">
+            <input type="hidden" id="availability-id" name="availabilityId" />
+            <label for="day">Day:</label>
+            <select id="day" name="day">
+              <option value="" disabled selected>Select Day</option>
+              <option value="Sunday">Sunday</option>
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option></select
+            ><br /><br />
+            <label for="timeStart">Start Time:</label>
+            <input type="time" id="timeStart" name="timeStart" /><br /><br />
+            <label for="endStart">End Time:</label>
+            <input type="time" id="endStart" name="endStart" /><br /><br />
+            <button type="submit" id="submitBtn">Add</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="./js/Availability.js"></script>
+  </body>
+</html>
