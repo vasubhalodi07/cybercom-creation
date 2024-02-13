@@ -1,0 +1,51 @@
+<script>
+  const id = JSON.parse(localStorage.getItem("login_id")) || [];
+  if (id.length) {
+    window.location.href = "./dashboard.html";
+  }
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <section class="register-section">
+      <form id="register">
+        <h1>Register</h1>
+        <div>
+          <label>Name</label>
+          <input type="text" id="textName" name="textName" />
+        </div>
+        <div>
+          <label>Email</label>
+          <input type="email" id="email" name="email" />
+        </div>
+        <div>
+          <label>Password</label>
+          <input type="password" id="password" name="password" />
+        </div>
+        <div>
+          <label>Select Type</label>
+          <select name="selectType" id="selectType">
+            <option value="" disabled selected>Select Type</option>
+            <option value="doctor">Doctor</option>
+            <option value="patient">Patient</option>
+          </select>
+        </div>
+        <div>
+          <input type="submit" />
+        </div>
+      </form>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    <script src="./js/Register.js"></script>
+  </body>
+</html>

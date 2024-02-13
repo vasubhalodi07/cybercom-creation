@@ -1,0 +1,240 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+:root {
+  --dark: #164863;
+  --dark-light: #427d9d;
+  --dark-lighter: #9bbec8;
+  --light: #ddf2fd;
+
+  --red: rgb(225, 92, 92);
+  --yellow: #d1d159;
+}
+
+body {
+  background-color: var(--light);
+}
+
+.login-section,
+.register-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 35px;
+}
+
+#login,
+#register {
+  background-color: var(--dark-lighter);
+  border-radius: 5px;
+  width: 30%;
+}
+
+h1 {
+  text-align: center;
+  padding-top: 10px;
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+form label {
+  margin-bottom: 5px;
+}
+
+form input,
+form select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.register-link {
+  text-align: center;
+}
+
+/* Dashboard - patient section */
+.doctor-list-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 20px;
+  padding: 20px;
+}
+
+.doctor-card {
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 50px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border-radius: 5px;
+  width: 500px;
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
+.modal-header {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 15px 16px;
+  background-color: var(--todo-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close {
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 2px 16px;
+}
+
+@-webkit-keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+.modal-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+}
+
+.modal-body .title-div,
+.modal-body .date-div {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-body div label {
+  font-size: 14px;
+  padding-bottom: 3px;
+}
+
+.modal-body input,
+.modal-body select {
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--todo-color);
+}
+
+.priority-div {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.priority-div input {
+  width: 18px;
+  height: 18px;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.priority-title {
+  font-size: 14px;
+}
+
+.modal-body button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--btn-add);
+  color: var(--white);
+  cursor: pointer;
+  width: min-content;
+  transition: 0.2s ease-in;
+}
+.modal-body button:hover {
+  background-color: var(--btn-add-hover);
+}
+
+/* Dashboard */
+#date-time-slots {
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.date-time-slot {
+  width: 40%;
+  background-color: var(--dark-light);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.date-time-slot div {
+  margin-bottom: 10px;
+}
+
+.day-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.date-time-slot input,
+.date-time-slot select {
+  padding: 10px;
+}
+
+.date-time-slot button {
+  padding: 10px;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
