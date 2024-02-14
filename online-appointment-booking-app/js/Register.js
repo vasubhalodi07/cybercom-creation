@@ -40,7 +40,7 @@ $(document).ready(function () {
     const email = data.find((field) => field.name === "email").value;
     const existEmail = fetchUsers.find((user) => user.email === email);
     if (existEmail) {
-      alert("email already exists");
+      showToast("email already exists!", "error");
       return;
     }
 

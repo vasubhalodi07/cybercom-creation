@@ -295,7 +295,7 @@ function displayAppointmentWithActions(appointment, appointmentBody, status) {
             <button onclick="rescheduleAppointment('${appointment.appointment_id}')">Reschedule</button>
           </td>`
         : ""
-    }
+    }x
   `;
   appointmentBody.appendChild(createTr);
 }

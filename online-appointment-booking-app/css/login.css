@@ -10,40 +10,45 @@
   --dark-light: #427d9d;
   --dark-lighter: #9bbec8;
   --light: #ddf2fd;
-
-  --red: rgb(225, 92, 92);
-  --yellow: #d1d159;
 }
-
 body {
-  background-color: var(--light);
+  background-image: url("../assets/background.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
 .login-section,
 .register-section {
   display: flex;
   justify-content: center;
-  margin-top: 100px;
 }
 
 #login,
 #register {
-  background-color: var(--dark);
+  background-color: rgba(22, 72, 99, 0.7);
+  background-color: transparent;
   border-radius: 5px;
   width: 400px;
+  backdrop-filter: blur(5px);
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  margin-top: 20px;
 }
 
-h1 {
-  text-align: center;
-  padding-top: 20px;
-  letter-spacing: 1.2px;
+h2 {
+  margin-top: 30px;
+}
+
+h1,
+h2 {
   color: white;
+  text-align: center;
 }
 
-form div {
+#login div,
+#register div {
   display: flex;
   flex-direction: column;
-  padding: 10px 50px;
 }
 
 form label {
@@ -56,17 +61,24 @@ form select {
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  background-color: var(--light);
 }
 
 .button-container {
-  margin-top: 10px;
+  margin-top: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-container input {
+  width: fit-content;
+  padding: 10px 40px;
 }
 
 .button-container a {
-  color: var(--light);
-  font-size: 12px;
+  font-size: 13px;
   margin-top: 5px;
   text-align: center;
-  margin-bottom: 20px;
+  display: block;
 }

@@ -1,6 +1,7 @@
 $(document).ready(function () {
   const LOCALSTORAGE_USERS = "users";
-  const LOCALSTORAGE_LOGIN_ID = "login_id";
+  const SESSION_ID = "id";
+
   let isLogin = false;
 
   $("#login").validate({
@@ -36,7 +37,9 @@ $(document).ready(function () {
 
     fetchUsers.map((user) => {
       if (user.email === email && user.password === password) {
-        localStorage.setItem(LOCALSTORAGE_LOGIN_ID, JSON.stringify(user.id));
+        localStorage.setItem("login_id", JSON.stringify(user.id));
+        sessionStorage.setItem(SESSION_ID, JSON.stringify(user.id));
+
         isLogin = true;
         window.location.href = "./dashboard.html";
       }
