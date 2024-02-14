@@ -1,18 +1,23 @@
-const LOCALSTORAGE_LOGIN_ID = "login_id";
 const LOCALSTORAGE_USERS = "users";
-const LOCALSTORAGE_AVAILABILITY = "doctor_availability";
 const LOCALSTORAGE_DOCTOR_DETAIL = "doctor_detail";
+const LOCALSTORAGE_AVAILABILITY = "doctor_availability";
+const LOCALSTORAGE_APPOINTMENT = "appointment";
+const LOCALSTORAGE_LOGIN_ID = "login_id";
 
-const fetchUsers = JSON.parse(localStorage.getItem(LOCALSTORAGE_USERS)) || [];
-const fetchProfileDetails =
-  JSON.parse(localStorage.getItem(LOCALSTORAGE_DOCTOR_DETAIL)) || [];
+function getLocalStorageValue(key) {
+  return JSON.parse(localStorage.getItem(key)) || [];
+}
 
-const fetchLoginId =
-  JSON.parse(localStorage.getItem(LOCALSTORAGE_LOGIN_ID)) || [];
+const fetchAppointment = getLocalStorageValue(LOCALSTORAGE_APPOINTMENT);
+const loginId = getLocalStorageValue(LOCALSTORAGE_LOGIN_ID);
+const fetchUsers = getLocalStorageValue(LOCALSTORAGE_USERS);
+const fetchDoctorDetails = getLocalStorageValue(LOCALSTORAGE_DOCTOR_DETAIL);
+const fetchAvailability = getLocalStorageValue(LOCALSTORAGE_AVAILABILITY);
 
-const findRecordById = fetchUsers.find((user) => user.id === fetchLoginId);
-const findRecordByProfileId = fetchProfileDetails.find(
-  (profile) => profile.doctor_id === fetchLoginId
+const findRecordById = fetchUsers.find((user) => user.id === loginId);
+
+const findRecordByProfileId = fetchDoctorDetails.find(
+  (profile) => profile.doctor_id === loginId
 );
 
 function initializeProfileData() {
@@ -27,6 +32,66 @@ function initializeProfileData() {
     document.getElementById("specialization").value =
       findRecordByProfileId.specialization;
   }
+}
+
+$(document).ready(function () {
+  hideSectionByUserType();
+  initializeProfileData();
+  $("#profile-form").validate({
+    rules: {
+      textName: { required: true },
+      email: { required: true },
+      telPhone: { required: true },
+      address: { required: true },
+      specialization: { required: true },
+    },
+    message: {
+      textName: { required: "requied field" },
+      email: { required: "requied field" },
+      telPhone: { required: "requied field" },
+      address: { required: "requied field" },
+      specialization: { required: "requied field" },
+    },
+    errorPlacement: function (error, element) {
+      error.css({ color: "red", marginTop: "5px", fontSize: "12px" });
+      error.insertAfter(element);
+    },
+    submitHandler: (form) => {
+      console.log(form);
+      const formData = $(form).serializeArray();
+      Profile(formData);
+    },
+  });
+});
+
+function Profile(data) {
+  const telPhone = data.find((field) => field.name === "telPhone").value;
+  const address = data.find((field) => field.name === "address").value;
+  const specialization = data.find(
+    (field) => field.name === "specialization"
+  ).value;
+
+  if (findRecordByProfileId) {
+    findRecordByProfileId.telPhone = telPhone;
+    findRecordByProfileId.address = address;
+    findRecordByProfileId.specialization = specialization;
+  } else {
+    const newProfile = {
+      id: new Date(),
+      doctor_id: fetchLoginId,
+      telPhone: telPhone,
+      address: address,
+      specialization: specialization,
+    };
+
+    fetchProfileDetails.push(newProfile);
+  }
+  localStorage.setItem(
+    LOCALSTORAGE_DOCTOR_DETAIL,
+    JSON.stringify(fetchProfileDetails)
+  );
+
+  window.location.href = "./dashboard.html";
 }
 
 function hideSectionByUserType() {
@@ -44,65 +109,3 @@ function hideSectionByUserType() {
 function fetchElementValue(key) {
   return document.getElementById(key);
 }
-
-$(document).ready(function () {
-  hideSectionByUserType();
-  initializeProfileData();
-
-  $("#profile").validate({
-    rules: {
-      textName: { required: true },
-      email: { required: true },
-      telPhone: { required: true },
-      address: { required: true },
-      specialization: { required: true },
-    },
-    message: {
-      textName: { required: "requied field" },
-      email: { required: "requied field" },
-      telPhone: { required: "requied field" },
-      address: { required: "requied field" },
-      specialization: { required: "requied field" },
-    },
-
-    errorPlacement: function (error, element) {
-      error.css({ color: "red", marginTop: "5px", fontSize: "12px" });
-      error.insertAfter(element);
-    },
-
-    submitHandler: (form) => {
-      const formData = $(form).serializeArray();
-      Profile(formData);
-    },
-  });
-
-  function Profile(data) {
-    const telPhone = data.find((field) => field.name === "telPhone").value;
-    const address = data.find((field) => field.name === "address").value;
-    const specialization = data.find(
-      (field) => field.name === "specialization"
-    ).value;
-
-    if (findRecordByProfileId) {
-      findRecordByProfileId.telPhone = telPhone;
-      findRecordByProfileId.address = address;
-      findRecordByProfileId.specialization = specialization;
-    } else {
-      const newProfile = {
-        id: new Date(),
-        doctor_id: fetchLoginId,
-        telPhone: telPhone,
-        address: address,
-        specialization: specialization,
-      };
-
-      fetchProfileDetails.push(newProfile);
-    }
-    localStorage.setItem(
-      LOCALSTORAGE_DOCTOR_DETAIL,
-      JSON.stringify(fetchProfileDetails)
-    );
-
-    window.location.href = "./dashboard.html";
-  }
-});

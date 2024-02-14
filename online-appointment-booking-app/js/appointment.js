@@ -20,10 +20,54 @@ function loadAppointmentData() {
   const appointmentBody = document.getElementById("appointment-tbody");
   appointmentBody.innerHTML = "";
 
+  const message = document.getElementById("no-record-found-message");
   if (fetchAppointment.length === 0) {
-    console.log("no appointments there");
+    const table = document.getElementById("message-table");
+    table.style.display = "none";
+    message.style.display = "block";
     return;
+  } else {
+    message.style.display = "none";
   }
+
+  const addRowsForStatus = (appointments, backgroundColor) => {
+    appointments.forEach((element) => {
+      const fetchUser = fetchUsers.find(
+        (user) => user.id === element.doctor_id
+      );
+
+      const fetchDoctorDetail = fetchDoctorDetails.find((ele) => {
+        return ele.doctor_id === element.doctor_id;
+      });
+
+      const fetchAvailabilityDetails = fetchAvailability.find(
+        (ele) => ele.id === element.slot_id
+      );
+
+      let phoneContent =
+        fetchDoctorDetail && fetchDoctorDetail.telPhone
+          ? fetchDoctorDetail.telPhone
+          : "not available";
+
+      const createTr = document.createElement("tr");
+      createTr.innerHTML = `
+        <td>${fetchUser.name}</td>
+        <td>${phoneContent}</td>
+        <td>${fetchAvailabilityDetails.timeStart}</td>
+        <td>${fetchAvailabilityDetails.endStart}</td>
+        <td style="background-color: ${backgroundColor};">${element.status}</td>
+        <td>
+          ${
+            element.status === "reschedulable"
+              ? `<button onclick="editAppointment('${element.appointment_id}')">Edit</button>
+                 <button onclick="deleteAppointment('${element.appointment_id}')">Delete</button>`
+              : ""
+          }
+        </td>
+      `;
+      appointmentBody.appendChild(createTr);
+    });
+  };
 
   const confirmAppointments = fetchAppointment.filter(
     (appointment) =>
@@ -37,34 +81,38 @@ function loadAppointmentData() {
     (appointment) =>
       appointment.status === "canceled" && appointment.patient_id === loginId
   );
-
-  const addRowsForStatus = (appointments, backgroundColor) => {
-    appointments.forEach((element) => {
-      const fetchUser = fetchUsers.find(
-        (user) => user.id === element.doctor_id
-      );
-      const fetchDoctorDetail = fetchDoctorDetails.find(
-        (ele) => ele.doctor_id === element.doctor_id
-      );
-      const fetchAvailabilityDetails = fetchAvailability.find(
-        (ele) => ele.id === element.slot_id
-      );
-
-      const createTr = document.createElement("tr");
-      createTr.innerHTML = `
-        <td>${fetchUser.name}</td>
-        <td>${fetchDoctorDetail.telPhone}</td>
-        <td>${fetchAvailabilityDetails.timeStart}</td>
-        <td>${fetchAvailabilityDetails.endStart}</td>
-        <td style="background-color: ${backgroundColor};">${element.status}</td>
-      `;
-      appointmentBody.appendChild(createTr);
-    });
-  };
+  const reschedulableAppointments = fetchAppointment.filter(
+    (appointment) =>
+      appointment.status === "reschedulable" &&
+      appointment.patient_id === loginId
+  );
 
   addRowsForStatus(confirmAppointments, "lightgreen");
   addRowsForStatus(pendingAppointments, "lightyellow");
   addRowsForStatus(canceledAppointments, "lightcoral");
+  addRowsForStatus(reschedulableAppointments, "lightblue");
+}
+
+function editAppointment(appointmentId) {
+  console.log(appointmentId);
+}
+
+function deleteAppointment(appointmentId) {
+  const index = fetchAppointment.findIndex(
+    (appointment) => appointment.appointment_id === appointmentId
+  );
+
+  if (index !== -1) {
+    fetchAppointment.splice(index, 1);
+    localStorage.setItem(
+      LOCALSTORAGE_APPOINTMENT,
+      JSON.stringify(fetchAppointment)
+    );
+    showToast("Appointment deleted successfully", "success");
+    loadAppointmentData();
+  } else {
+    showToast("Appointment not found", "error");
+  }
 }
 
 document.addEventListener("DOMContentLoaded", function (e) {

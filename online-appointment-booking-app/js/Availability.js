@@ -92,7 +92,16 @@ function deleteAvailabilityRecord(recordId) {
 }
 
 function updateAvailabilityRecord(recordId) {
-  console.log(recordId);
+  modalState = MODAL_STATE.UPDATE;
+  document.getElementById("modal-title").textContent = "Update Availability";
+  const record = getAvailabilityRecordById(recordId);
+  if (record) {
+    document.getElementById("availability-id").value = record.id;
+    document.getElementById("day").value = record.day;
+    document.getElementById("timeStart").value = record.timeStart;
+    document.getElementById("endStart").value = record.endStart;
+    document.getElementById("myModal").style.display = "block";
+  }
 }
 
 function openModalForAdd() {
@@ -125,12 +134,41 @@ function handleAddOrUpdateAvailability(event) {
   event.preventDefault();
   const formData = new FormData(event.target);
   const availabilityId = formData.get("availabilityId");
+  const loginId = JSON.parse(localStorage.getItem(LOCALSTORAGE_LOGIN_ID));
+
+  const day = formData.get("day");
+  const timeStart = formData.get("timeStart");
+  const endStart = formData.get("endStart");
+
+  const startTimeComponents = timeStart.split(":");
+  let startHour = parseInt(startTimeComponents[0]);
+  const startMinute = parseInt(startTimeComponents[1]);
+  let startPeriod = "AM";
+  if (startHour >= 12) {
+    startPeriod = "PM";
+    if (startHour > 12) {
+      startHour -= 12;
+    }
+  }
+  const formattedTimeStart = `${startHour}:${startMinute} ${startPeriod}`;
+  const endTimeComponents = endStart.split(":");
+  let endHour = parseInt(endTimeComponents[0]);
+  const endMinute = parseInt(endTimeComponents[1]);
+  let endPeriod = "AM";
+  if (endHour >= 12) {
+    endPeriod = "PM";
+    if (endHour > 12) {
+      endHour -= 12;
+    }
+  }
+  const formattedEndStart = `${endHour}:${endMinute} ${endPeriod}`;
+
   const availabilityData = {
     id: availabilityId || new Date().toISOString(),
-    login_id: JSON.parse(localStorage.getItem("login_id")),
-    day: formData.get("day"),
-    timeStart: formData.get("timeStart"),
-    endStart: formData.get("endStart"),
+    login_id: loginId,
+    day: day,
+    timeStart: formattedTimeStart,
+    endStart: formattedEndStart,
   };
 
   let availabilityList =

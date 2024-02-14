@@ -290,4 +290,18 @@ td {
 
 h1 {
   text-align: center;
+  margin-top: 20px;
+}
+
+input {
+  border: 1px solid black;
+}
+
+.more-button {
+  margin-top: 10px;
+  padding: 5px 15px;
+}
+
+#appointment-list-message {
+  text-align: center;
 }

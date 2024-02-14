@@ -47,7 +47,7 @@ function showDoctorList() {
     doctorCard.innerHTML = `
       <h3>${doctor.name}</h3>
       <p>${doctor.email}</p>
-      <button id="more-button" onclick="handleMoreInfo('${doctor.id}')">more...</button>
+      <button id="more-button" class='more-button' onclick="handleMoreInfo('${doctor.id}')">more</button>
     `;
     doctorListContainer.appendChild(doctorCard);
   });
@@ -61,24 +61,37 @@ function handleMoreInfo(id) {
 
   const modalBody = document.getElementById("modal-body");
   modalBody.innerHTML = `
-  <div>Doctor Name: ${findUsers.name}</div>
-  <div>Email: ${findUsers.email}</div>
-  ${
-    findDetails
-      ? `
-      <div>
-        <div>TelPhone: ${findDetails.telPhone}</div>
-        <div>Address: ${findDetails.address}</div>
-      </div>
-    `
-      : ""
-  }
-  <h4>Select Time</h4>
-  <div class='time-container' id="time-container"></div>
-  <button id="appointment-send-btn">Appointment Apply</button>
-`;
+    <div>Doctor Name: ${findUsers.name}</div>
+    <div>Email: ${findUsers.email}</div>
+    ${
+      findDetails
+        ? `
+        <div>
+          <div>TelPhone: ${findDetails.telPhone}</div>
+          <div>Address: ${findDetails.address}</div>
+        </div>
+      `
+        : ""
+    }
+    <h4>Select Date and Time</h4>
+    <label for="appointment-date">Date:</label>
+    <input type="date" id="appointment-date" name="appointment-date" required>
+    <div class='time-container' id="time-container"></div>
+    <button id="appointment-send-btn">Appointment Apply</button>
+  `;
 
-  loadAvailabilityList(id);
+  const appointmentDateInput = document.getElementById("appointment-date");
+  appointmentDateInput.addEventListener("change", () => {
+    const selectedDate = new Date(appointmentDateInput.value);
+    const currentDate = new Date();
+
+    if (selectedDate < currentDate) {
+      appointmentDateInput.value = currentDate.toISOString().split("T")[0];
+      showToast("Please select a future or current date", "error");
+    } else {
+      loadAvailabilityList(id);
+    }
+  });
 
   var modal = document.getElementById("myModal");
   modal.style.display = "block";
@@ -96,16 +109,24 @@ function handleMoreInfo(id) {
     .getElementById("appointment-send-btn")
     .addEventListener("click", () => {
       const selectedTimeSlot = document.querySelector(".time.active");
-      if (selectedTimeSlot) {
+      const selectedDate = document.getElementById("appointment-date").value;
+
+      if (!selectedDate) {
+        showToast("Please select a date", "error");
+        return;
+      }
+
+      if (selectedTimeSlot && selectedDate) {
         const fetchAppointment =
           JSON.parse(localStorage.getItem("appointment")) || [];
 
         const selectedTimeSlotId = selectedTimeSlot.dataset.timeId;
         const newAppointment = {
-          appointment_id: new Date(),
+          appointment_id: new Date().toISOString(),
           doctor_id: id,
           patient_id: loginId,
           slot_id: selectedTimeSlotId,
+          date: selectedDate,
           status: "pending",
         };
 
@@ -113,7 +134,7 @@ function handleMoreInfo(id) {
         localStorage.setItem("appointment", JSON.stringify(mergeRecord));
         showToast("appointment send successfully", "success");
       } else {
-        showToast("no time slot selected", "error");
+        showToast("Please select a date and time slot", "error");
       }
     });
 }
@@ -133,6 +154,11 @@ function loadAvailabilityList(id) {
     return;
   }
 
+  const selectedDate = document.getElementById("appointment-date").value;
+  const selectedDay = new Date(selectedDate).toLocaleDateString("en-US", {
+    weekday: "long",
+  });
+
   const availabilityByDay = {};
   fetchRecord.forEach((availability) => {
     if (!availabilityByDay[availability.day]) {
@@ -141,37 +167,39 @@ function loadAvailabilityList(id) {
     availabilityByDay[availability.day].push(availability);
   });
 
-  const dayOrder = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+  if (availabilityByDay[selectedDay]) {
+    const dayAvailability = availabilityByDay[selectedDay]
+      .map(
+        (record) => `
+            <div class="time" data-time-id="${record.id}">
+              ${record.timeStart} - ${record.endStart}
+            </div>
+          `
+      )
+      .join("");
 
-  dayOrder.forEach((day) => {
-    if (availabilityByDay[day]) {
-      const dayAvailability = availabilityByDay[day]
-        .map(
-          (record) => `
-              <div class="time" data-time-id="${record.id}">
-                ${record.timeStart} - ${record.endStart}
-              </div>
-            `
-        )
-        .join("");
+    const dayContent = `
+      <div class="availability-day">
+        <h4 class='day'>${selectedDay}</h4>
+        <div class="availability-grid">${dayAvailability}</div>
+      </div>
+  `;
+    timeContainer.insertAdjacentHTML("beforeend", dayContent);
 
-      const dayContent = `
-        <div class="availability-day">
-          <h4 class='day'>${day}</h4>
-          <div class="availability-grid">${dayAvailability}</div>
-        </div>
-    `;
-      timeContainer.insertAdjacentHTML("beforeend", dayContent);
-    }
-  });
+    document.querySelectorAll(".time").forEach((timeSlot) => {
+      timeSlot.addEventListener("click", () => {
+        document
+          .querySelectorAll(".time")
+          .forEach((slot) => slot.classList.remove("active"));
+        timeSlot.classList.add("active");
+      });
+    });
+  } else {
+    timeContainer.innerHTML =
+      "<div>No available time slots for selected date.</div>";
+    const appointmentButton = document.getElementById("appointment-send-btn");
+    appointmentButton.disabled = true;
+  }
 }
 
 function showAppointments() {
@@ -180,6 +208,9 @@ function showAppointments() {
   appointmentBody.innerHTML = "";
   if (fetchAppointment.length === 0) {
     console.log("No Appointments!");
+    listAppointments.style.display = "none";
+    const appointmentMess = document.getElementById("appointment-list-message");
+    appointmentMess.style.display = "block";
     return;
   }
 
@@ -208,13 +239,14 @@ function showAppointments() {
       const createTr = document.createElement("tr");
       createTr.innerHTML = `
         <td>${fetchUser.name}</td>
-        <td>${fetchUser.email}</td>
+        <td>${appointment.date}</td>
+        <td>${fetchAvailabilityDetails.day}</td>
         <td>${fetchAvailabilityDetails.timeStart}</td>
         <td>${fetchAvailabilityDetails.endStart}</td>
         <td>
           <button onclick="confirmAppointment('${appointment.appointment_id}')">Confirm</button>
           <button onclick="cancelAppointment('${appointment.appointment_id}')">Decline</button>
-          <button>Reschedule</button>
+          <button onclick="rescheduleAppointment('${appointment.appointment_id}')">Reschedule</button>
         </td>
     `;
       appointmentBody.appendChild(createTr);
@@ -247,6 +279,21 @@ function cancelAppointment(appointmentId) {
       JSON.stringify(fetchAppointment)
     );
     showToast("appointment cancelled", "info");
+    showAppointments();
+  }
+}
+
+function rescheduleAppointment(appointmentId) {
+  const appointmentIndex = fetchAppointment.findIndex(
+    (appointment) => appointment.appointment_id === appointmentId
+  );
+  if (appointmentIndex !== -1) {
+    fetchAppointment[appointmentIndex].status = "reschedulable";
+    localStorage.setItem(
+      LOCALSTORAGE_APPOINTMENT,
+      JSON.stringify(fetchAppointment)
+    );
+    showToast("Appointment is reschedulable", "info");
     showAppointments();
   }
 }
