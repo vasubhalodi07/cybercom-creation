@@ -1,4 +1,8 @@
+const LOCALSTORAGE_USERS = "users";
+const LOCALSTORAGE_DOCTOR_DETAIL = "doctor_detail";
 const LOCALSTORAGE_AVAILABILITY = "doctor_availability";
+const LOCALSTORAGE_APPOINTMENT = "appointment";
+const LOCALSTORAGE_LOGIN_ID = "login_id";
 const MODAL_STATE = {
   ADD: "add",
   UPDATE: "update",
@@ -6,15 +10,31 @@ const MODAL_STATE = {
 
 let modalState = MODAL_STATE.ADD;
 
+function getLocalStorageValue(key) {
+  return JSON.parse(localStorage.getItem(key)) || [];
+}
+
+const fetchAppointment = getLocalStorageValue(LOCALSTORAGE_APPOINTMENT);
+const loginId = getLocalStorageValue(LOCALSTORAGE_LOGIN_ID);
+const fetchUsers = getLocalStorageValue(LOCALSTORAGE_USERS);
+const fetchDoctorDetails = getLocalStorageValue(LOCALSTORAGE_DOCTOR_DETAIL);
+const fetchAvailability = getLocalStorageValue(LOCALSTORAGE_AVAILABILITY);
+
+const findRecordById = fetchUsers.find((user) => user.id === loginId);
+
 function loadAvailabilityList() {
   const availabilityData =
     JSON.parse(localStorage.getItem(LOCALSTORAGE_AVAILABILITY)) || [];
+
+  const filterdAvailability = availabilityData.filter((record) => {
+    return record.login_id === loginId;
+  });
 
   const availabilitySection = document.getElementById("availability-section");
   availabilitySection.innerHTML = "";
 
   const availabilityByDay = {};
-  availabilityData.forEach((availability) => {
+  filterdAvailability.forEach((availability) => {
     if (!availabilityByDay[availability.day]) {
       availabilityByDay[availability.day] = [];
     }
@@ -138,6 +158,7 @@ function closeModal() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  hideSectionByUserType();
   loadAvailabilityList();
   document
     .getElementById("add-availbility")
@@ -147,3 +168,26 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("submit", handleAddOrUpdateAvailability);
   document.getElementById("closeModal").addEventListener("click", closeModal);
 });
+
+function handleLogout() {
+  localStorage.removeItem(LOCALSTORAGE_LOGIN_ID);
+  window.location.href = "index.html";
+}
+
+document.getElementById("logout").addEventListener("click", handleLogout);
+
+function hideSectionByUserType() {
+  const appointment = fetchElementValue("appointment");
+  const profile = fetchElementValue("profile");
+  const availability = fetchElementValue("availbility");
+
+  if (findRecordById.type === "doctor") {
+    appointment.style.display = "none";
+  } else if (findRecordById.type === "patient") {
+    profile.style.display = "none";
+    availability.style.display = "none";
+  }
+}
+function fetchElementValue(key) {
+  return document.getElementById(key);
+}

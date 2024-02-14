@@ -1,3 +1,10 @@
+<script>
+  const id = JSON.parse(localStorage.getItem("login_id")) || [];
+  if (id.length === 0) {
+    window.location.href = "./index.html";
+  }
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>

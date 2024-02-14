@@ -18,38 +18,53 @@ const findRecordById = fetchUsers.find((user) => user.id === loginId);
 
 function loadAppointmentData() {
   const appointmentBody = document.getElementById("appointment-tbody");
+  appointmentBody.innerHTML = "";
+
   if (fetchAppointment.length === 0) {
+    console.log("no appointments there");
     return;
   }
 
-  const filterAppointment = fetchAppointment.filter((appointment) => {
-    console.log(appointment, loginId);
-    return appointment.patient_id === loginId;
-  });
+  const confirmAppointments = fetchAppointment.filter(
+    (appointment) =>
+      appointment.status === "confirmed" && appointment.patient_id === loginId
+  );
+  const pendingAppointments = fetchAppointment.filter(
+    (appointment) =>
+      appointment.status === "pending" && appointment.patient_id === loginId
+  );
+  const canceledAppointments = fetchAppointment.filter(
+    (appointment) =>
+      appointment.status === "canceled" && appointment.patient_id === loginId
+  );
 
-  console.log(filterAppointment);
+  const addRowsForStatus = (appointments, backgroundColor) => {
+    appointments.forEach((element) => {
+      const fetchUser = fetchUsers.find(
+        (user) => user.id === element.doctor_id
+      );
+      const fetchDoctorDetail = fetchDoctorDetails.find(
+        (ele) => ele.doctor_id === element.doctor_id
+      );
+      const fetchAvailabilityDetails = fetchAvailability.find(
+        (ele) => ele.id === element.slot_id
+      );
 
-  filterAppointment.forEach((element) => {
-    const fetchUser = fetchUsers.find((user) => user.id === element.doctor_id);
-    const fetchDoctorDetail = fetchDoctorDetails.find(
-      (ele) => ele.doctor_id === element.doctor_id
-    );
-
-    const fetchAvailabilityDetails = fetchAvailability.find(
-      (ele) => ele.id === element.slot_id
-    );
-
-    const createTr = document.createElement("tr");
-    createTr.innerHTML = `
+      const createTr = document.createElement("tr");
+      createTr.innerHTML = `
         <td>${fetchUser.name}</td>
         <td>${fetchDoctorDetail.telPhone}</td>
         <td>${fetchAvailabilityDetails.timeStart}</td>
         <td>${fetchAvailabilityDetails.endStart}</td>
-        <td>${element.status}</td>
-    `;
+        <td style="background-color: ${backgroundColor};">${element.status}</td>
+      `;
+      appointmentBody.appendChild(createTr);
+    });
+  };
 
-    appointmentBody.appendChild(createTr);
-  });
+  addRowsForStatus(confirmAppointments, "lightgreen");
+  addRowsForStatus(pendingAppointments, "lightyellow");
+  addRowsForStatus(canceledAppointments, "lightcoral");
 }
 
 document.addEventListener("DOMContentLoaded", function (e) {

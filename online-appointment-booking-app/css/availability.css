@@ -15,6 +15,10 @@
   --yellow: #d1d159;
 }
 
+body {
+  background-color: var(--light);
+}
+
 /* nav */
 nav ul {
   background-color: var(--dark);
@@ -177,4 +181,9 @@ nav ul li a {
   transition: 0.2s ease-in;
   background-color: var(--dark-light);
   color: white;
+}
+
+#add-availbility {
+  padding: 20px 0px 0px 30px;
+  cursor: pointer;
 }
