@@ -46,3 +46,58 @@ td {
   border-collapse: collapse;
   padding: 10px;
 }
+
+#form-appointment {
+  padding: 20px 50px;
+}
+
+#form-appointment form {
+  margin-top: 20px;
+}
+
+#form-appointment label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+#form-appointment input[type="date"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+#form-appointment button {
+  padding: 8px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#form-appointment button:hover {
+  background-color: #45a049;
+}
+
+h4 {
+  font-size: 15px;
+  letter-spacing: 1.2px;
+}
+
+#available-time-slots {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.time {
+  margin-top: 5px;
+  border: 1px solid black;
+  width: fit-content;
+  padding: 10px;
+}
+
+.selected {
+  background-color: var(--dark-lighter);
+  border: none;
+  color: white;
+}

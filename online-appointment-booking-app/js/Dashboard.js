@@ -117,9 +117,6 @@ function handleMoreInfo(id) {
       }
 
       if (selectedTimeSlot && selectedDate) {
-        const fetchAppointment =
-          JSON.parse(localStorage.getItem("appointment")) || [];
-
         const selectedTimeSlotId = selectedTimeSlot.dataset.timeId;
         const newAppointment = {
           appointment_id: new Date().toISOString(),
@@ -206,51 +203,101 @@ function showAppointments() {
   const listAppointments = document.getElementById("list-appointment");
   const appointmentBody = document.getElementById("appointment-tbody");
   appointmentBody.innerHTML = "";
-  if (fetchAppointment.length === 0) {
-    console.log("No Appointments!");
+
+  const confirmedAppointments = fetchAppointment.filter(
+    (record) => record.status === "confirmed" && record.doctor_id === loginId
+  );
+  const pendingAppointments = fetchAppointment.filter(
+    (record) => record.status === "pending" && record.doctor_id === loginId
+  );
+  const canceledAppointments = fetchAppointment.filter(
+    (record) => record.status === "canceled" && record.doctor_id === loginId
+  );
+  const reschedulableAppointments = fetchAppointment.filter(
+    (record) =>
+      record.status === "reschedulable" && record.doctor_id === loginId
+  );
+
+  confirmedAppointments.forEach((appointment) => {
+    displayAppointment(appointment, appointmentBody, "confirmed");
+  });
+
+  reschedulableAppointments.forEach((appointment) => {
+    displayAppointment(appointment, appointmentBody, "reschedulable");
+  });
+
+  pendingAppointments.forEach((appointment) => {
+    displayAppointmentWithActions(appointment, appointmentBody, "pending");
+  });
+
+  canceledAppointments.forEach((appointment) => {
+    displayAppointment(appointment, appointmentBody, "canceled");
+  });
+
+  if (
+    fetchAppointment.length === 0 ||
+    (confirmedAppointments.length === 0 &&
+      pendingAppointments.length === 0 &&
+      canceledAppointments.length === 0)
+  ) {
     listAppointments.style.display = "none";
     const appointmentMess = document.getElementById("appointment-list-message");
     appointmentMess.style.display = "block";
-    return;
+  } else {
+    listAppointments.style.display = "block";
+    const appointmentMess = document.getElementById("appointment-list-message");
+    appointmentMess.style.display = "none";
   }
+}
 
-  const filterRecord = fetchAppointment.filter(
-    (record) => record.status === "pending" && record.doctor_id === loginId
+function displayAppointment(appointment, appointmentBody, status) {
+  const fetchUser = fetchUsers.find(
+    (user) => user.id === appointment.patient_id
+  );
+  const fetchAvailabilityDetails = fetchAvailability.find(
+    (ele) => ele.id === appointment.slot_id
   );
 
-  if (filterRecord.length === 0) {
-    listAppointments.style.display = "none";
-    console.log("no record found!");
-    return;
-  }
+  const createTr = document.createElement("tr");
+  createTr.innerHTML = `
+    <td>${fetchUser.name}</td>
+    <td>${appointment.date}</td>
+    <td>${fetchAvailabilityDetails.day}</td>
+    <td>${fetchAvailabilityDetails.timeStart}</td>
+    <td>${fetchAvailabilityDetails.endStart}</td>
+    <td>${status}</td>
+  `;
+  appointmentBody.appendChild(createTr);
+}
 
-  filterRecord &&
-    filterRecord.forEach((appointment) => {
-      const fetchUser = fetchUsers.find(
-        (user) => user.id === appointment.patient_id
-      );
-      const fetchAvailabilityDetails = fetchAvailability.find(
-        (ele) => ele.id === appointment.slot_id
-      );
+function displayAppointmentWithActions(appointment, appointmentBody, status) {
+  const fetchUser = fetchUsers.find(
+    (user) => user.id === appointment.patient_id
+  );
+  const fetchAvailabilityDetails = fetchAvailability.find(
+    (ele) => ele.id === appointment.slot_id
+  );
 
-      console.log(fetchAvailability);
-      console.log(fetchAvailabilityDetails);
-
-      const createTr = document.createElement("tr");
-      createTr.innerHTML = `
-        <td>${fetchUser.name}</td>
-        <td>${appointment.date}</td>
-        <td>${fetchAvailabilityDetails.day}</td>
-        <td>${fetchAvailabilityDetails.timeStart}</td>
-        <td>${fetchAvailabilityDetails.endStart}</td>
-        <td>
-          <button onclick="confirmAppointment('${appointment.appointment_id}')">Confirm</button>
-          <button onclick="cancelAppointment('${appointment.appointment_id}')">Decline</button>
-          <button onclick="rescheduleAppointment('${appointment.appointment_id}')">Reschedule</button>
-        </td>
-    `;
-      appointmentBody.appendChild(createTr);
-    });
+  const createTr = document.createElement("tr");
+  createTr.innerHTML = `
+    <td>${fetchUser.name}</td>
+    <td>${appointment.date}</td>
+    <td>${fetchAvailabilityDetails.day}</td>
+    <td>${fetchAvailabilityDetails.timeStart}</td>
+    <td>${fetchAvailabilityDetails.endStart}</td>
+    <td>${status}</td>
+    ${
+      status === "pending"
+        ? `
+          <td>
+            <button onclick="confirmAppointment('${appointment.appointment_id}')">Confirm</button>
+            <button onclick="cancelAppointment('${appointment.appointment_id}')">Decline</button>
+            <button onclick="rescheduleAppointment('${appointment.appointment_id}')">Reschedule</button>
+          </td>`
+        : ""
+    }
+  `;
+  appointmentBody.appendChild(createTr);
 }
 
 function confirmAppointment(appointmentId) {
