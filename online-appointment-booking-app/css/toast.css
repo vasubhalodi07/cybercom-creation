@@ -1,0 +1,68 @@
+:root {
+  --toast-error: #de4f4f;
+  --toast-info: rgb(27, 133, 208);
+  --toast-warning: #deab54;
+  --toast-success: rgb(54, 146, 54);
+  --white: white;
+}
+
+#toast-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.toast {
+  color: var(--white);
+  padding: 12px 20px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.toast-content {
+  display: flex;
+  gap: 10px;
+}
+
+.toast.error {
+  background-color: var(--toast-error);
+}
+
+.toast.warning {
+  background-color: var(--toast-warning);
+}
+
+.toast.success {
+  background-color: var(--toast-success);
+}
+
+.toast.info {
+  background-color: var(--toast-info);
+}
+
+.toast .close-btn {
+  cursor: pointer;
+  padding: 0 5px;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+  .todo {
+    padding-top: 10px;
+    width: 100%;
+  }
+
+  .topbar {
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+
+  .modal-content {
+    width: 100%;
+  }
+}

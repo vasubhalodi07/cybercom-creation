@@ -1,6 +1,7 @@
 $(document).ready(function () {
   const LOCALSTORAGE_USERS = "users";
   const LOCALSTORAGE_LOGIN_ID = "login_id";
+  let isLogin = false;
 
   $("#login").validate({
     rules: {
@@ -36,8 +37,13 @@ $(document).ready(function () {
     fetchUsers.map((user) => {
       if (user.email === email && user.password === password) {
         localStorage.setItem(LOCALSTORAGE_LOGIN_ID, JSON.stringify(user.id));
+        isLogin = true;
         window.location.href = "./dashboard.html";
       }
     });
+
+    if (!isLogin) {
+      showToast("authentication failed!", "error");
+    }
   }
 });

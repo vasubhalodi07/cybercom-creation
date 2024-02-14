@@ -29,7 +29,24 @@ function initializeProfileData() {
   }
 }
 
+function hideSectionByUserType() {
+  const appointment = fetchElementValue("appointment");
+  const profile = fetchElementValue("profile");
+  const availability = fetchElementValue("availbility");
+
+  if (findRecordById.type === "doctor") {
+    appointment.style.display = "none";
+  } else if (findRecordById.type === "patient") {
+    profile.style.display = "none";
+    availability.style.display = "none";
+  }
+}
+function fetchElementValue(key) {
+  return document.getElementById(key);
+}
+
 $(document).ready(function () {
+  hideSectionByUserType();
   initializeProfileData();
 
   $("#profile").validate({
@@ -89,4 +106,3 @@ $(document).ready(function () {
     window.location.href = "./dashboard.html";
   }
 });
-

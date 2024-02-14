@@ -57,6 +57,6 @@ $(document).ready(function () {
 
     const mergeUsers = [...fetchUsers, users];
     localStorage.setItem(LOCALSTORAGE_USERS, JSON.stringify(mergeUsers));
-    window.location.href = "./index.html";
+    showToast("register successfully!", "success");
   }
 });

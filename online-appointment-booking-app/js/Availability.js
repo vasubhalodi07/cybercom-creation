@@ -9,6 +9,7 @@ let modalState = MODAL_STATE.ADD;
 function loadAvailabilityList() {
   const availabilityData =
     JSON.parse(localStorage.getItem(LOCALSTORAGE_AVAILABILITY)) || [];
+
   const availabilitySection = document.getElementById("availability-section");
   availabilitySection.innerHTML = "";
 
@@ -106,6 +107,7 @@ function handleAddOrUpdateAvailability(event) {
   const availabilityId = formData.get("availabilityId");
   const availabilityData = {
     id: availabilityId || new Date().toISOString(),
+    login_id: JSON.parse(localStorage.getItem("login_id")),
     day: formData.get("day"),
     timeStart: formData.get("timeStart"),
     endStart: formData.get("endStart"),

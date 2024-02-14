@@ -12,15 +12,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
     <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/toast.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
   </head>
   <body>
     <nav>
       <ul>
         <li>
-          <a href="">Dashboard</a>
-          <a href="">Appointment</a>
-          <a href="./profile.html">Profile</a>
-          <a href="./availbility.html">Add Availbility</a>
+          <a id="dashboard" href="./dashboard.html">Dashboard</a>
+          <a id="appointment" href="./appointment.html">Appointment</a>
+          <a id="profile" href="./profile.html">Profile</a>
+          <a id="availbility" href="./availbility.html">Add Availbility</a>
           <a href="" id="logout">Logout</a>
         </li>
       </ul>
@@ -32,7 +37,20 @@
 
     <section id="doctor-section">
       <h1>Welcome To Dashboard</h1>
-      <div id="list-appointment"></div>
+      <div id="list-appointment">
+        <table>
+          <thead>
+            <tr>
+              <th>Patient Name</th>
+              <th>Email</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="appointment-tbody"></tbody>
+        </table>
+      </div>
     </section>
 
     <div id="myModal" class="modal">
@@ -45,9 +63,12 @@
       </div>
     </div>
 
+    <div id="toast-container"></div>
+
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    <script src="./js/toast.js"></script>
     <script src="./js/Dashboard.js"></script>
   </body>
 </html>

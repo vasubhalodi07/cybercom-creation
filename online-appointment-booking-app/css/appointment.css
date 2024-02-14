@@ -1,0 +1,48 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+:root {
+  --dark: #164863;
+  --dark-light: #427d9d;
+  --dark-lighter: #9bbec8;
+  --light: #ddf2fd;
+
+  --red: rgb(225, 92, 92);
+  --yellow: #d1d159;
+}
+
+/* nav */
+nav ul {
+  background-color: var(--dark);
+  padding: 15px;
+}
+
+nav ul li {
+  display: flex;
+  gap: 20px;
+  color: white;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+/* appointment section */
+#show-appointment-section {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 10px;
+}

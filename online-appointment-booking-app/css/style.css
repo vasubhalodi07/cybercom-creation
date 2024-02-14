@@ -19,46 +19,6 @@ body {
   background-color: var(--light);
 }
 
-.login-section,
-.register-section {
-  display: flex;
-  justify-content: center;
-  margin-top: 35px;
-}
-
-#login,
-#register {
-  background-color: var(--dark-lighter);
-  border-radius: 5px;
-  width: 30%;
-}
-
-h1 {
-  text-align: center;
-  padding-top: 10px;
-}
-
-form div {
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-}
-
-form label {
-  margin-bottom: 5px;
-}
-
-form input,
-form select {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-
-.register-link {
-  text-align: center;
-}
-
 /* Dashboard - patient section */
 .doctor-list-container {
   display: grid;
@@ -294,8 +254,40 @@ nav ul li a {
 }
 
 .time {
-  padding: 4px;
+  padding: 8px 6px;
   border: 1px solid black;
   width: fit-content;
   font-size: 14px;
+  cursor: pointer;
+}
+.time:hover {
+  background-color: var(--light);
+}
+.active {
+  background-color: var(--light);
+}
+
+.day {
+  padding-bottom: 4px;
+}
+
+#list-appointment {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+#list-appointment table,
+th,
+td {
+  border-collapse: collapse;
+  padding: 5px;
+}
+
+#list-appointment button {
+  padding: 5px;
+}
+
+h1 {
+  text-align: center;
 }

@@ -1,0 +1,72 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+:root {
+  --dark: #164863;
+  --dark-light: #427d9d;
+  --dark-lighter: #9bbec8;
+  --light: #ddf2fd;
+
+  --red: rgb(225, 92, 92);
+  --yellow: #d1d159;
+}
+
+body {
+  background-color: var(--light);
+}
+
+.login-section,
+.register-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+#login,
+#register {
+  background-color: var(--dark);
+  border-radius: 5px;
+  width: 400px;
+}
+
+h1 {
+  text-align: center;
+  padding-top: 20px;
+  letter-spacing: 1.2px;
+  color: white;
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 50px;
+}
+
+form label {
+  margin-bottom: 5px;
+  color: white;
+}
+
+form input,
+form select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: var(--light);
+}
+
+.button-container {
+  margin-top: 10px;
+}
+
+.button-container a {
+  color: var(--light);
+  font-size: 12px;
+  margin-top: 5px;
+  text-align: center;
+  margin-bottom: 20px;
+}

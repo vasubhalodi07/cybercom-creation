@@ -1,3 +1,16 @@
+<script>
+  const id = JSON.parse(localStorage.getItem("login_id")) || [];
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const findUser = users.find((user) => user.id === id);
+
+  console.log(findUser);
+  if (id.length === 0) {
+    window.location.href = "./index.html";
+  } else if (findUser && findUser.type === "patient") {
+    window.location.href = "./dashboard.html";
+  }
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,6 +20,18 @@
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
+    <nav>
+      <ul>
+        <li>
+          <a id="dashboard" href="./dashboard.html">Dashboard</a>
+          <a id="appointment" href="./appointment.html">Appointment</a>
+          <a id="profile" href="./profile.html">Profile</a>
+          <a id="availbility" href="./availbility.html">Add Availbility</a>
+          <a href="" id="logout">Logout</a>
+        </li>
+      </ul>
+    </nav>
+
     <section id="profile-container">
       <h1>Profile</h1>
       <form id="profile">
