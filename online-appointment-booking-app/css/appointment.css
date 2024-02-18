@@ -10,9 +10,10 @@
   --dark-light: #427d9d;
   --dark-lighter: #9bbec8;
   --light: #ddf2fd;
+}
 
-  --red: rgb(225, 92, 92);
-  --yellow: #d1d159;
+body {
+  background-color: var(--light);
 }
 
 /* nav */
@@ -89,11 +90,32 @@ h4 {
   margin-bottom: 10px;
 }
 
+.time-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+  gap: 10px;
+}
+
 .time {
-  margin-top: 5px;
-  border: 1px solid black;
-  width: fit-content;
-  padding: 10px;
+  padding: 8px 6px;
+  border: 2px solid #d3d3d3;
+  border-radius: 4px;
+  width: 120px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.time:hover {
+  background-color: var(--dark-lighter);
+}
+
+.active {
+  background-color: var(--dark-light);
+  color: white;
+}
+
+.day {
+  padding-bottom: 4px;
 }
 
 .selected {

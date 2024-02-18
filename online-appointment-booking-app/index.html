@@ -1,5 +1,5 @@
 <script>
-  const id = JSON.parse(localStorage.getItem("login_id")) || [];
+  const id = JSON.parse(sessionStorage.getItem("id")) || [];
   if (id.length) {
     window.location.href = "./dashboard.html";
   }

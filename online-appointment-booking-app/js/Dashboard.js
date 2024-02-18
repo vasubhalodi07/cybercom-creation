@@ -1,41 +1,33 @@
-const LOCALSTORAGE_LOGIN_ID = "login_id";
-const LOCALSTORAGE_USERS = "users";
-const LOCALSTORAGE_AVAILABILITY = "doctor_availability";
-const LOCALSTORAGE_DOCTOR_DETAIL = "doctor_detail";
-const LOCALSTORAGE_APPOINTMENT = "appointment";
+const LOCALSTORAGE_KEYS = {
+  USERS: "users",
+  AVAILABILITY: "available",
+  DOCTOR_DETAIL: "doctor_detail",
+  APPOINTMENT: "appointment",
+};
 
-function getLocalStorageData(key) {
+const SESSIONSTORAGE_KEY = {
+  LOGIN_ID: "id",
+};
+
+function fetchLocalStorage(key) {
   return JSON.parse(localStorage.getItem(key)) || [];
 }
+function fetchSessionStorage(key) {
+  return JSON.parse(sessionStorage.getItem(key)) || [];
+}
 
-const fetchAppointment = getLocalStorageData(LOCALSTORAGE_APPOINTMENT);
-const loginId = getLocalStorageData(LOCALSTORAGE_LOGIN_ID);
-const fetchUsers = getLocalStorageData(LOCALSTORAGE_USERS);
-const fetchDoctorDetails = getLocalStorageData(LOCALSTORAGE_DOCTOR_DETAIL);
-const fetchAvailability = getLocalStorageData(LOCALSTORAGE_AVAILABILITY);
+const { USERS, DOCTOR_DETAIL, AVAILABILITY, APPOINTMENT } = LOCALSTORAGE_KEYS;
+const { LOGIN_ID } = SESSIONSTORAGE_KEY;
+
+const fetchAppointment = fetchLocalStorage(APPOINTMENT);
+const loginId = fetchSessionStorage(LOGIN_ID);
+const fetchUsers = fetchLocalStorage(USERS);
+const fetchDoctorDetails = fetchLocalStorage(DOCTOR_DETAIL);
+const fetchAvailability = fetchLocalStorage(AVAILABILITY);
 
 const findRecordById = fetchUsers.find((user) => user.id === loginId);
 
-function hideSectionByUserType() {
-  const patientView = document.getElementById("patient-section");
-  const doctorView = document.getElementById("doctor-section");
-
-  const appointment = fetchElementValue("appointment");
-  const profile = fetchElementValue("profile");
-  const availability = fetchElementValue("availbility");
-
-  if (findRecordById.type === "doctor") {
-    patientView.style.display = "none";
-    appointment.style.display = "none";
-    showAppointments();
-  } else if (findRecordById.type === "patient") {
-    doctorView.style.display = "none";
-    profile.style.display = "none";
-    availability.style.display = "none";
-    showDoctorList();
-  }
-}
-
+// Patient Section
 function showDoctorList() {
   const filterUsers = fetchUsers.filter((user) => user.type === "doctor");
   const doctorListContainer = document.getElementById("doctor-list");
@@ -47,17 +39,19 @@ function showDoctorList() {
     doctorCard.innerHTML = `
       <h3>${doctor.name}</h3>
       <p>${doctor.email}</p>
-      <button id="more-button" class='more-button' onclick="handleMoreInfo('${doctor.id}')">more</button>
+      <div>
+        <button id="more-button" class='more-button' onclick="handleMoreInfo('${doctor.id}')">more</button>
+      </div>
     `;
     doctorListContainer.appendChild(doctorCard);
   });
 }
 
 function handleMoreInfo(id) {
-  const fetchDetails = getLocalStorageData(LOCALSTORAGE_DOCTOR_DETAIL);
-
   const findUsers = fetchUsers.find((user) => user.id === id);
-  const findDetails = fetchDetails.find((details) => details.doctor_id === id);
+  const findDetails = fetchDoctorDetails.find(
+    (details) => details.doctor_id === id
+  );
 
   const modalBody = document.getElementById("modal-body");
   modalBody.innerHTML = `
@@ -73,9 +67,10 @@ function handleMoreInfo(id) {
       `
         : ""
     }
-    <h4>Select Date and Time</h4>
-    <label for="appointment-date">Date:</label>
-    <input type="date" id="appointment-date" name="appointment-date" required>
+    <div>
+      <label for="appointment-date">Date:</label>
+      <input type="date" id="appointment-date" name="appointment-date" required>
+    </div>
     <div class='time-container' id="time-container"></div>
     <button id="appointment-send-btn">Appointment Apply</button>
   `;
@@ -111,6 +106,8 @@ function handleMoreInfo(id) {
       const selectedTimeSlot = document.querySelector(".time.active");
       const selectedDate = document.getElementById("appointment-date").value;
 
+      const fetchAppointment = fetchLocalStorage(APPOINTMENT);
+
       if (!selectedDate) {
         showToast("Please select a date", "error");
         return;
@@ -118,17 +115,22 @@ function handleMoreInfo(id) {
 
       if (selectedTimeSlot && selectedDate) {
         const selectedTimeSlotId = selectedTimeSlot.dataset.timeId;
+        const selectedAvailableId = selectedTimeSlot.dataset.availableId;
         const newAppointment = {
           appointment_id: new Date().toISOString(),
           doctor_id: id,
           patient_id: loginId,
+          availablity_id: selectedAvailableId,
           slot_id: selectedTimeSlotId,
           date: selectedDate,
           status: "pending",
         };
 
         const mergeRecord = [...fetchAppointment, newAppointment];
-        localStorage.setItem("appointment", JSON.stringify(mergeRecord));
+
+        console.log(mergeRecord);
+
+        localStorage.setItem(APPOINTMENT, JSON.stringify(mergeRecord));
         showToast("appointment send successfully", "success");
       } else {
         showToast("Please select a date and time slot", "error");
@@ -137,8 +139,13 @@ function handleMoreInfo(id) {
 }
 
 function loadAvailabilityList(id) {
+  const selectedDate = document.getElementById("appointment-date").value;
+  const selectedDay = new Date(selectedDate).toLocaleDateString("en-US", {
+    weekday: "long",
+  });
+
   const fetchRecord = fetchAvailability.filter(
-    (record) => record.login_id === id
+    (record) => record.userId === id && record.day === selectedDay
   );
 
   const timeContainer = document.getElementById("time-container");
@@ -151,25 +158,14 @@ function loadAvailabilityList(id) {
     return;
   }
 
-  const selectedDate = document.getElementById("appointment-date").value;
-  const selectedDay = new Date(selectedDate).toLocaleDateString("en-US", {
-    weekday: "long",
-  });
-
-  const availabilityByDay = {};
-  fetchRecord.forEach((availability) => {
-    if (!availabilityByDay[availability.day]) {
-      availabilityByDay[availability.day] = [];
-    }
-    availabilityByDay[availability.day].push(availability);
-  });
-
-  if (availabilityByDay[selectedDay]) {
-    const dayAvailability = availabilityByDay[selectedDay]
+  if (fetchRecord.length > 0) {
+    const dayAvailability = fetchRecord[0].timeSlots
       .map(
-        (record) => `
-            <div class="time" data-time-id="${record.id}">
-              ${record.timeStart} - ${record.endStart}
+        (slot) => `
+            <div class="time" data-time-id="${slot.time}" data-available-id="${
+          fetchRecord[0].id
+        }">
+              ${slot.time} - ${slot.isBooked ? "(Booked)" : "(Available)"}
             </div>
           `
       )
@@ -180,7 +176,7 @@ function loadAvailabilityList(id) {
         <h4 class='day'>${selectedDay}</h4>
         <div class="availability-grid">${dayAvailability}</div>
       </div>
-  `;
+    `;
     timeContainer.insertAdjacentHTML("beforeend", dayContent);
 
     document.querySelectorAll(".time").forEach((timeSlot) => {
@@ -199,6 +195,7 @@ function loadAvailabilityList(id) {
   }
 }
 
+// Doctor Appointment Section
 function showAppointments() {
   const listAppointments = document.getElementById("list-appointment");
   const appointmentBody = document.getElementById("appointment-tbody");
@@ -218,16 +215,16 @@ function showAppointments() {
       record.status === "reschedulable" && record.doctor_id === loginId
   );
 
+  pendingAppointments.forEach((appointment) => {
+    displayAppointmentWithActions(appointment, appointmentBody, "pending");
+  });
+
   confirmedAppointments.forEach((appointment) => {
     displayAppointment(appointment, appointmentBody, "confirmed");
   });
 
   reschedulableAppointments.forEach((appointment) => {
     displayAppointment(appointment, appointmentBody, "reschedulable");
-  });
-
-  pendingAppointments.forEach((appointment) => {
-    displayAppointmentWithActions(appointment, appointmentBody, "pending");
   });
 
   canceledAppointments.forEach((appointment) => {
@@ -254,9 +251,17 @@ function displayAppointment(appointment, appointmentBody, status) {
   const fetchUser = fetchUsers.find(
     (user) => user.id === appointment.patient_id
   );
+
   const fetchAvailabilityDetails = fetchAvailability.find(
-    (ele) => ele.id === appointment.slot_id
+    (available) => available.id === appointment.slot_id
   );
+
+  console.log(fetchAvailabilityDetails);
+
+  if (fetchAvailabilityDetails === undefined) {
+    console.log("No availability details");
+    return;
+  }
 
   const createTr = document.createElement("tr");
   createTr.innerHTML = `
@@ -275,7 +280,7 @@ function displayAppointmentWithActions(appointment, appointmentBody, status) {
     (user) => user.id === appointment.patient_id
   );
   const fetchAvailabilityDetails = fetchAvailability.find(
-    (ele) => ele.id === appointment.slot_id
+    (availability) => availability.userId === appointment.doctor_id
   );
 
   const createTr = document.createElement("tr");
@@ -283,8 +288,7 @@ function displayAppointmentWithActions(appointment, appointmentBody, status) {
     <td>${fetchUser.name}</td>
     <td>${appointment.date}</td>
     <td>${fetchAvailabilityDetails.day}</td>
-    <td>${fetchAvailabilityDetails.timeStart}</td>
-    <td>${fetchAvailabilityDetails.endStart}</td>
+    <td>${appointment.slot_id}</td>
     <td>${status}</td>
     ${
       status === "pending"
@@ -295,7 +299,7 @@ function displayAppointmentWithActions(appointment, appointmentBody, status) {
             <button onclick="rescheduleAppointment('${appointment.appointment_id}')">Reschedule</button>
           </td>`
         : ""
-    }x
+    }
   `;
   appointmentBody.appendChild(createTr);
 }
@@ -304,15 +308,31 @@ function confirmAppointment(appointmentId) {
   const appointmentIndex = fetchAppointment.findIndex(
     (appointment) => appointment.appointment_id === appointmentId
   );
+
   if (appointmentIndex !== -1) {
-    fetchAppointment[appointmentIndex].status = "confirmed";
-    localStorage.setItem(
-      LOCALSTORAGE_APPOINTMENT,
-      JSON.stringify(fetchAppointment)
+    const appointment = fetchAppointment[appointmentIndex];
+    const availabilityIndex = fetchAvailability.findIndex(
+      (availability) => availability.id === appointment.availablity_id
     );
-    showToast("appointment confirm", "info");
-    showAppointments();
+
+    if (availabilityIndex !== -1) {
+      const availability = fetchAvailability[availabilityIndex];
+      const timeSlot = availability.timeSlots.find(
+        (slot) => slot.time === appointment.slot_id
+      );
+
+      if (timeSlot) {
+        timeSlot.isBooked = true;
+        localStorage.setItem(AVAILABILITY, JSON.stringify(fetchAvailability));
+        fetchAppointment[appointmentIndex].status = "confirmed";
+        localStorage.setItem(APPOINTMENT, JSON.stringify(fetchAppointment));
+        showToast("appointment confirm", "info");
+        showAppointments();
+        return;
+      }
+    }
   }
+  showToast("Failed to confirm appointment", "error");
 }
 
 function cancelAppointment(appointmentId) {
@@ -321,10 +341,7 @@ function cancelAppointment(appointmentId) {
   );
   if (appointmentIndex !== -1) {
     fetchAppointment[appointmentIndex].status = "canceled";
-    localStorage.setItem(
-      LOCALSTORAGE_APPOINTMENT,
-      JSON.stringify(fetchAppointment)
-    );
+    localStorage.setItem(APPOINTMENT, JSON.stringify(fetchAppointment));
     showToast("appointment cancelled", "info");
     showAppointments();
   }
@@ -336,23 +353,29 @@ function rescheduleAppointment(appointmentId) {
   );
   if (appointmentIndex !== -1) {
     fetchAppointment[appointmentIndex].status = "reschedulable";
-    localStorage.setItem(
-      LOCALSTORAGE_APPOINTMENT,
-      JSON.stringify(fetchAppointment)
-    );
+    localStorage.setItem(APPOINTMENT, JSON.stringify(fetchAppointment));
     showToast("Appointment is reschedulable", "info");
     showAppointments();
   }
 }
 
-function handleLogout() {
-  localStorage.removeItem(LOCALSTORAGE_LOGIN_ID);
-  window.location.href = "index.html";
+// Confirm Appointments
+function showConfirmAppointments() {
+  const appointmentBody = document.getElementById("appointment-confirm-tbody");
+  appointmentBody.innerHTML = "";
+
+  const confirmedAppointments = fetchAppointment.filter(
+    (record) => record.status === "confirmed" && record.doctor_id === loginId
+  );
+
+  confirmedAppointments.forEach((appointment) => {
+    displayAppointmentWithActions(appointment, appointmentBody, "confirmed");
+  });
 }
+showConfirmAppointments();
 
-document.getElementById("logout").addEventListener("click", handleLogout);
-
-document.addEventListener("DOMContentLoaded", function () {
+// Modal
+function handleModalContent() {
   var modal = document.getElementById("myModal");
   const closeModal = document.getElementById("closeModal");
   closeModal.onclick = function () {
@@ -363,10 +386,38 @@ document.addEventListener("DOMContentLoaded", function () {
       modal.style.display = "none";
     }
   };
+}
 
-  hideSectionByUserType();
-});
+// Logout
+document.getElementById("logout").addEventListener("click", handleLogout);
+function handleLogout() {
+  sessionStorage.removeItem(LOGIN_ID);
+  window.location.href = "index.html";
+}
 
+function hideSectionByUserType() {
+  const patientView = document.getElementById("patient-section");
+  const doctorView = document.getElementById("doctor-section");
+
+  const appointment = fetchElementValue("appointment");
+  const availability = fetchElementValue("availbility");
+
+  if (findRecordById.type === "doctor") {
+    patientView.style.display = "none";
+    appointment.style.display = "none";
+    showAppointments();
+  } else if (findRecordById.type === "patient") {
+    doctorView.style.display = "none";
+    availability.style.display = "none";
+    showDoctorList();
+  }
+}
 function fetchElementValue(key) {
   return document.getElementById(key);
 }
+
+// DOM Event Listerner
+document.addEventListener("DOMContentLoaded", function () {
+  handleModalContent();
+  hideSectionByUserType();
+});

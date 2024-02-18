@@ -10,9 +10,6 @@
   --dark-light: #427d9d;
   --dark-lighter: #9bbec8;
   --light: #ddf2fd;
-
-  --red: rgb(225, 92, 92);
-  --yellow: #d1d159;
 }
 
 body {
@@ -41,6 +38,12 @@ nav ul li a {
   padding: 30px;
 }
 
+#availability-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .availability-day {
   margin-bottom: 15px;
 }
@@ -57,12 +60,16 @@ nav ul li a {
   padding: 10px;
 }
 
-#availability-form input {
-  border: 1px solid black;
+.add-availbility-btn {
+  padding: 20px 0px 0px 30px;
+  cursor: pointer;
+}
+
+.add-availbility-btn button {
+  padding: 5px 10px;
 }
 
 /* Modal */
-
 .modal {
   display: none;
   position: fixed;
@@ -143,51 +150,22 @@ nav ul li a {
   flex-direction: column;
 }
 
-.modal-body div label {
+label {
   font-size: 14px;
-  padding-bottom: 3px;
 }
 
 .modal-body input,
 .modal-body select {
-  padding: 12px;
-  border: none;
-  border-radius: 5px;
+  padding: 8px;
 }
 
-.priority-div {
-  display: flex;
-  align-items: center;
-  text-align: center;
-}
-
-.priority-div input {
-  width: 18px;
-  height: 18px;
-  margin-right: 12px;
-  cursor: pointer;
-}
-
-.priority-title {
-  font-size: 14px;
-}
-
-.modal-body button {
+.modal-body input[type="submit"] {
+  margin-top: 20px;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  width: min-content;
   transition: 0.2s ease-in;
   background-color: var(--dark-light);
   color: white;
-}
-
-.add-availbility-btn {
-  padding: 20px 0px 0px 30px;
-  cursor: pointer;
-}
-
-.add-availbility-btn button {
-  padding: 5px 10px;
 }

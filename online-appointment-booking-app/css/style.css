@@ -10,16 +10,29 @@
   --dark-light: #427d9d;
   --dark-lighter: #9bbec8;
   --light: #ddf2fd;
-
-  --red: rgb(225, 92, 92);
-  --yellow: #d1d159;
 }
 
 body {
   background-color: var(--light);
 }
 
-/* Dashboard - patient section */
+/* nav */
+nav ul {
+  background-color: var(--dark);
+  padding: 15px;
+}
+
+nav ul li {
+  display: flex;
+  gap: 20px;
+  color: white;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
 .doctor-list-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -34,6 +47,103 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+#doctor-section table,
+th,
+td {
+  border: 1px solid black;
+}
+
+#doctor-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.availability-day {
+  margin-bottom: 15px;
+}
+
+.availability-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+#list-appointment {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+#list-appointment table,
+th,
+td {
+  border-collapse: collapse;
+  padding: 5px;
+}
+
+#list-confirm-appointment {
+  margin-top: 100px;
+}
+
+#list-confirm-appointment table,
+th,
+td {
+  border-collapse: collapse;
+  padding: 5px;
+}
+
+#list-confirm-appointment h3 {
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+#list-appointment button {
+  padding: 5px;
+}
+
+.time-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+  gap: 10px;
+}
+
+.time {
+  padding: 8px 6px;
+  border: 2px solid #d3d3d3;
+  border-radius: 4px;
+  width: 120px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.time:hover {
+  background-color: var(--dark-lighter);
+}
+.active {
+  background-color: var(--dark-light);
+  color: white;
+}
+
+.day {
+  padding-bottom: 4px;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.more-button {
+  margin-top: 10px;
+  padding: 5px 15px;
+}
+
+#appointment-list-message {
+  text-align: center;
+}
+
+/* Modal */
 .modal {
   display: none;
   position: fixed;
@@ -53,7 +163,7 @@ body {
   margin: auto;
   padding: 0;
   border-radius: 5px;
-  width: 500px;
+  width: 700px;
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
@@ -121,26 +231,7 @@ body {
 
 .modal-body input,
 .modal-body select {
-  padding: 12px;
-  border: none;
-  border-radius: 5px;
-}
-
-.priority-div {
-  display: flex;
-  align-items: center;
-  text-align: center;
-}
-
-.priority-div input {
-  width: 18px;
-  height: 18px;
-  margin-right: 12px;
-  cursor: pointer;
-}
-
-.priority-title {
-  font-size: 14px;
+  padding: 5px;
 }
 
 .modal-body button {
@@ -148,160 +239,10 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  width: min-content;
-  transition: 0.2s ease-in;
+  transition: 0.5s ease-in-out;
   background-color: var(--dark-light);
   color: white;
 }
-
-/* Dashboard */
-#date-time-slots {
-  color: white;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.date-time-slot {
-  width: 40%;
-  background-color: var(--dark-light);
-  border-radius: 10px;
-  padding: 20px;
-}
-
-.date-time-slot div {
-  margin-bottom: 10px;
-}
-
-.day-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.date-time-slot input,
-.date-time-slot select {
-  padding: 10px;
-}
-
-.date-time-slot button {
-  padding: 10px;
-}
-
-.flex-row {
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-}
-
-.table-container {
-  background-color: #427d9d;
-}
-
-#doctor-section table,
-th,
-td {
-  border: 1px solid black;
-}
-
-/* nav */
-nav ul {
+.modal-body button:hover {
   background-color: var(--dark);
-  padding: 15px;
-}
-
-nav ul li {
-  display: flex;
-  gap: 20px;
-  color: white;
-}
-
-nav ul li a {
-  color: white;
-  text-decoration: none;
-}
-
-/* Availability */
-#availability-section {
-  padding: 30px;
-}
-
-.availability-day {
-  margin-bottom: 15px;
-}
-
-.availability-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 10px;
-}
-
-.availability-record {
-  margin-top: 5px;
-  border: 2px solid #ccc;
-  padding: 10px;
-}
-
-#availability-form input {
-  border: 1px solid black;
-}
-
-/* Dashboard - Patient */
-.time-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 10px;
-}
-
-.time {
-  padding: 8px 6px;
-  border: 1px solid black;
-  width: fit-content;
-  font-size: 14px;
-  cursor: pointer;
-}
-.time:hover {
-  background-color: var(--light);
-}
-.active {
-  background-color: var(--light);
-}
-
-.day {
-  padding-bottom: 4px;
-}
-
-#list-appointment {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-}
-
-#list-appointment table,
-th,
-td {
-  border-collapse: collapse;
-  padding: 5px;
-}
-
-#list-appointment button {
-  padding: 5px;
-}
-
-h1 {
-  text-align: center;
-  margin-top: 20px;
-}
-
-input {
-  border: 1px solid black;
-}
-
-.more-button {
-  margin-top: 10px;
-  padding: 5px 15px;
-}
-
-#appointment-list-message {
-  text-align: center;
 }

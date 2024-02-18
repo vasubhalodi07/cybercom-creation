@@ -1,9 +1,8 @@
 <script>
-  const id = JSON.parse(localStorage.getItem("login_id")) || [];
+  const id = JSON.parse(sessionStorage.getItem("id")) || [];
   const users = JSON.parse(localStorage.getItem("users")) || [];
   const findUser = users.find((user) => user.id === id);
 
-  console.log(findUser);
   if (id.length === 0) {
     window.location.href = "./index.html";
   } else if (findUser && findUser.type === "patient") {
@@ -25,7 +24,6 @@
         <li>
           <a id="dashboard" href="./dashboard.html">Dashboard</a>
           <a id="appointment" href="./appointment.html">Appointment</a>
-          <a id="profile" href="./profile.html">Profile</a>
           <a id="availbility" href="./availbility.html">Add Availbility</a>
           <a href="" id="logout">Logout</a>
         </li>
@@ -46,22 +44,30 @@
         <div class="modal-body" id="modal-body">
           <form id="availability-form">
             <input type="hidden" id="availability-id" name="availabilityId" />
-            <label for="day">Day:</label>
-            <select id="day" name="day">
-              <option value="" disabled selected>Select Day</option>
-              <option value="Sunday">Sunday</option>
-              <option value="Monday">Monday</option>
-              <option value="Tuesday">Tuesday</option>
-              <option value="Wednesday">Wednesday</option>
-              <option value="Thursday">Thursday</option>
-              <option value="Friday">Friday</option>
-              <option value="Saturday">Saturday</option></select
-            ><br /><br />
-            <label for="timeStart">Start Time:</label>
-            <input type="time" id="timeStart" name="timeStart" /><br /><br />
-            <label for="endStart">End Time:</label>
-            <input type="time" id="endStart" name="endStart" /><br /><br />
-            <button type="submit" id="submitBtn">Add</button>
+            <div>
+              <label for="day">Day:</label>
+              <select id="day" name="day">
+                <option value="" disabled selected>Select Day</option>
+                <option value="Sunday">Sunday</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+              </select>
+            </div>
+            <div>
+              <label for="timeStart">Start Time:</label>
+              <input type="time" id="timeStart" name="timeStart" />
+            </div>
+            <div>
+              <label for="endStart">End Time:</label>
+              <input type="time" id="endStart" name="endStart" />
+            </div>
+            <div>
+              <input type="submit" id="submitBtn" value="Add" />
+            </div>
           </form>
         </div>
       </div>

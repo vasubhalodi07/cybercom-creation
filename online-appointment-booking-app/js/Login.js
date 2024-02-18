@@ -37,7 +37,6 @@ $(document).ready(function () {
 
     fetchUsers.map((user) => {
       if (user.email === email && user.password === password) {
-        localStorage.setItem("login_id", JSON.stringify(user.id));
         sessionStorage.setItem(SESSION_ID, JSON.stringify(user.id));
 
         isLogin = true;

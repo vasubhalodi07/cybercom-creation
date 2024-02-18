@@ -1,23 +1,31 @@
+var selectedTimeSlotId = null;
+
 const LOCALSTORAGE_KEYS = {
   USERS: "users",
   DOCTOR_DETAIL: "doctor_detail",
-  AVAILABILITY: "doctor_availability",
+  AVAILABILITY: "available",
   APPOINTMENT: "appointment",
-  LOGIN_ID: "login_id",
 };
 
-function getLocalStorageValue(key) {
+const SESSIONSTORAGE_KEY = {
+  LOGIN_ID: "id",
+};
+
+function fetchLocalStorage(key) {
   return JSON.parse(localStorage.getItem(key)) || [];
 }
+function fetchSessionStorage(key) {
+  return JSON.parse(sessionStorage.getItem(key)) || [];
+}
 
-const { USERS, DOCTOR_DETAIL, AVAILABILITY, APPOINTMENT, LOGIN_ID } =
-  LOCALSTORAGE_KEYS;
+const { USERS, DOCTOR_DETAIL, AVAILABILITY, APPOINTMENT } = LOCALSTORAGE_KEYS;
+const { LOGIN_ID } = SESSIONSTORAGE_KEY;
 
-const fetchAppointment = getLocalStorageValue(APPOINTMENT);
-const loginId = getLocalStorageValue(LOGIN_ID);
-const fetchUsers = getLocalStorageValue(USERS);
-const fetchDoctorDetails = getLocalStorageValue(DOCTOR_DETAIL);
-const fetchAvailability = getLocalStorageValue(AVAILABILITY);
+const fetchAppointment = fetchLocalStorage(APPOINTMENT);
+const loginId = fetchSessionStorage(LOGIN_ID);
+const fetchUsers = fetchLocalStorage(USERS);
+const fetchDoctorDetails = fetchLocalStorage(DOCTOR_DETAIL);
+const fetchAvailability = fetchLocalStorage(AVAILABILITY);
 
 const findRecordById = fetchUsers.find((user) => user.id === loginId);
 
@@ -38,7 +46,7 @@ function loadAppointmentData() {
   const addRowsForStatus = (appointments, backgroundColor) => {
     appointments.forEach((appointment) => {
       const fetchUser = fetchUsers.find(
-        (user) => user.id === appointment.doctor_id
+        (user) => user.id === appointment.patient_id
       );
 
       const fetchDoctorDetail = fetchDoctorDetails.find(
@@ -46,7 +54,7 @@ function loadAppointmentData() {
       );
 
       const fetchAvailabilityDetails = fetchAvailability.find(
-        (available) => available.id === appointment.slot_id
+        (available) => available.id === appointment.availablity_id
       );
 
       let phoneContent =
@@ -61,8 +69,7 @@ function loadAppointmentData() {
         <td>${phoneContent}</td>
         <td>${appointment.date}</td>
         <td>${fetchAvailabilityDetails.day}</td>
-        <td>${fetchAvailabilityDetails.timeStart}</td>
-        <td>${fetchAvailabilityDetails.endStart}</td>
+        <td>${appointment.slot_id}</td>
         <td style="background-color: ${backgroundColor};">${
         appointment.status
       }</td>
@@ -135,74 +142,75 @@ function isPastDate(dateString) {
   return selectedDate < currentDate;
 }
 
-let selectedTimeSlotId = null;
 function populateTimeSlots(selectedDate, appointmentId) {
   const availableTimeSlotsContainer = document.getElementById(
     "available-time-slots"
   );
   availableTimeSlotsContainer.innerHTML = "";
+  const selectedDay = new Date(selectedDate).toLocaleDateString("en-US", {
+    weekday: "long",
+  });
 
   const doctorId = fetchAppointment.find(
     (appointment) => appointment.appointment_id === appointmentId
   ).doctor_id;
 
   const fetchRecord = fetchAvailability.filter(
-    (record) => record.login_id === doctorId
+    (record) => record.userId === doctorId && record.day === selectedDay
   );
 
-  const selectedDay = new Date(selectedDate).toLocaleDateString("en-US", {
-    weekday: "long",
-  });
+  if (fetchRecord.length === 0) {
+    availableTimeSlotsContainer.innerHTML =
+      "<div>No available time slots.</div>";
+    const appointmentButton = document.getElementById("appointment-send-btn");
+    appointmentButton.disabled = true;
+    return;
+  }
 
-  const availabilityByDay = {};
-  fetchRecord.forEach((availability) => {
-    if (!availabilityByDay[availability.day]) {
-      availabilityByDay[availability.day] = [];
-    }
-    availabilityByDay[availability.day].push(availability);
-  });
-
-  if (availabilityByDay[selectedDay]) {
-    const dayAvailability = availabilityByDay[selectedDay]
+  if (fetchRecord.length > 0) {
+    const dayAvailability = fetchRecord[0].timeSlots
       .map(
-        (record) => `
-            <div class="time ${
-              selectedTimeSlotId === record.id ? "selected" : ""
-            }" data-time-id="${record.id}">
-              ${record.timeStart} - ${record.endStart}
+        (slot) => `
+            <div class="time" data-time-id="${slot.time}" data-available-id="${
+          fetchRecord[0].id
+        }">
+              ${slot.time} - ${slot.isBooked ? "(Booked)" : "(Available)"}
             </div>
           `
       )
       .join("");
 
-    availableTimeSlotsContainer.innerHTML = `
-      <h4>Available Time Slots:</h4>
-      <div>${dayAvailability}</div>
+    const dayContent = `
+      <div class="availability-day">
+        <h4 class='day'>${selectedDay}</h4>
+        <div class="availability-grid">${dayAvailability}</div>
+      </div>
     `;
+    availableTimeSlotsContainer.insertAdjacentHTML("beforeend", dayContent);
 
     document.querySelectorAll(".time").forEach((timeSlot) => {
       timeSlot.addEventListener("click", () => {
+        console.log("Time slot clicked");
         document
           .querySelectorAll(".time")
-          .forEach((slot) => slot.classList.remove("selected"));
-        timeSlot.classList.add("selected");
+          .forEach((slot) => slot.classList.remove("active"));
+        timeSlot.classList.add("active");
+
         selectedTimeSlotId = timeSlot.dataset.timeId;
+        console.log(timeSlot.dataset.timeId);
       });
     });
   } else {
     availableTimeSlotsContainer.innerHTML =
       "<div>No available time slots for selected date.</div>";
+    const appointmentButton = document.getElementById("appointment-send-btn");
+    appointmentButton.disabled = true;
   }
 }
 
 function saveRescheduledAppointment(appointmentId) {
   const appointmentRow = document.getElementById("form-appointment");
-
   const selectedDate = document.getElementById("edit-date").value;
-  const selectedTimeSlot = document.querySelector(".time.selected");
-  const selectedTimeSlotId = selectedTimeSlot
-    ? selectedTimeSlot.dataset.timeId
-    : null;
 
   if (!selectedDate || !selectedTimeSlotId) {
     showToast("Please select a date and time slot", "error");
@@ -251,13 +259,11 @@ function deleteAppointment(appointmentId) {
 
 function hideSectionByUserType() {
   const appointment = document.getElementById("appointment");
-  const profile = document.getElementById("profile");
   const availability = document.getElementById("availbility");
 
   if (findRecordById.type === "doctor") {
     appointment.style.display = "none";
   } else if (findRecordById.type === "patient") {
-    profile.style.display = "none";
     availability.style.display = "none";
   }
 }

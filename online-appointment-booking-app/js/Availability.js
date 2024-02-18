@@ -1,44 +1,43 @@
-const LOCALSTORAGE_USERS = "users";
-const LOCALSTORAGE_DOCTOR_DETAIL = "doctor_detail";
-const LOCALSTORAGE_AVAILABILITY = "doctor_availability";
-const LOCALSTORAGE_APPOINTMENT = "appointment";
-const LOCALSTORAGE_LOGIN_ID = "login_id";
 const MODAL_STATE = {
   ADD: "add",
   UPDATE: "update",
 };
-
 let modalState = MODAL_STATE.ADD;
 
-function getLocalStorageValue(key) {
+const LOCALSTORAGE_KEYS = {
+  USERS: "users",
+  DOCTOR_DETAIL: "doctor_detail",
+  AVAILABILITY: "available",
+  APPOINTMENT: "appointment",
+};
+
+const SESSIONSTORAGE_KEY = {
+  LOGIN_ID: "id",
+};
+
+function fetchLocalStorage(key) {
   return JSON.parse(localStorage.getItem(key)) || [];
 }
+function fetchSessionStorage(key) {
+  return JSON.parse(sessionStorage.getItem(key)) || [];
+}
 
-const fetchAppointment = getLocalStorageValue(LOCALSTORAGE_APPOINTMENT);
-const loginId = getLocalStorageValue(LOCALSTORAGE_LOGIN_ID);
-const fetchUsers = getLocalStorageValue(LOCALSTORAGE_USERS);
-const fetchDoctorDetails = getLocalStorageValue(LOCALSTORAGE_DOCTOR_DETAIL);
-const fetchAvailability = getLocalStorageValue(LOCALSTORAGE_AVAILABILITY);
+const { USERS, DOCTOR_DETAIL, AVAILABILITY, APPOINTMENT } = LOCALSTORAGE_KEYS;
+const { LOGIN_ID } = SESSIONSTORAGE_KEY;
+
+const loginId = fetchSessionStorage(LOGIN_ID);
+const fetchUsers = fetchLocalStorage(USERS);
+const fetchAvailability = fetchLocalStorage(AVAILABILITY);
 
 const findRecordById = fetchUsers.find((user) => user.id === loginId);
 
 function loadAvailabilityList() {
-  const availabilityData =
-    JSON.parse(localStorage.getItem(LOCALSTORAGE_AVAILABILITY)) || [];
-
-  const filterdAvailability = availabilityData.filter((record) => {
-    return record.login_id === loginId;
-  });
-
+  const fetchAvailability = fetchLocalStorage(AVAILABILITY);
   const availabilitySection = document.getElementById("availability-section");
   availabilitySection.innerHTML = "";
 
-  const availabilityByDay = {};
-  filterdAvailability.forEach((availability) => {
-    if (!availabilityByDay[availability.day]) {
-      availabilityByDay[availability.day] = [];
-    }
-    availabilityByDay[availability.day].push(availability);
+  const filteredAvailability = fetchAvailability.filter((record) => {
+    return record.userId === loginId;
   });
 
   const dayOrder = [
@@ -52,18 +51,19 @@ function loadAvailabilityList() {
   ];
 
   dayOrder.forEach((day) => {
-    if (availabilityByDay[day]) {
-      const dayAvailability = availabilityByDay[day]
+    const availabilityForDay = filteredAvailability.find(
+      (record) => record.day === day
+    );
+    if (availabilityForDay) {
+      const dayAvailability = availabilityForDay.timeSlots
         .map(
-          (record) => `
-        <div class="availability-record">
-          <p>Time: ${record.timeStart} - ${record.endStart}</p>
-          <div>
-            <button onclick="deleteAvailabilityRecord('${record.id}')">Delete</button>
-            <button onclick="updateAvailabilityRecord('${record.id}')">Update</button>
+          (slot) => `
+          <div class="availability-record">
+            <p>Time: ${slot.time} ${
+            slot.isBooked ? "(Booked)" : "(Available)"
+          }</p>
           </div>
-        </div>
-      `
+        `
         )
         .join("");
 
@@ -78,32 +78,6 @@ function loadAvailabilityList() {
   });
 }
 
-function deleteAvailabilityRecord(recordId) {
-  let availabilityData =
-    JSON.parse(localStorage.getItem(LOCALSTORAGE_AVAILABILITY)) || [];
-  availabilityData = availabilityData.filter(
-    (record) => record.id !== recordId
-  );
-  localStorage.setItem(
-    LOCALSTORAGE_AVAILABILITY,
-    JSON.stringify(availabilityData)
-  );
-  loadAvailabilityList();
-}
-
-function updateAvailabilityRecord(recordId) {
-  modalState = MODAL_STATE.UPDATE;
-  document.getElementById("modal-title").textContent = "Update Availability";
-  const record = getAvailabilityRecordById(recordId);
-  if (record) {
-    document.getElementById("availability-id").value = record.id;
-    document.getElementById("day").value = record.day;
-    document.getElementById("timeStart").value = record.timeStart;
-    document.getElementById("endStart").value = record.endStart;
-    document.getElementById("myModal").style.display = "block";
-  }
-}
-
 function openModalForAdd() {
   modalState = MODAL_STATE.ADD;
   document.getElementById("modal-title").textContent = "Add Availability";
@@ -111,69 +85,29 @@ function openModalForAdd() {
   document.getElementById("myModal").style.display = "block";
 }
 
-function openModalForUpdate(recordId) {
-  modalState = MODAL_STATE.UPDATE;
-  document.getElementById("modal-title").textContent = "Update Availability";
-  const record = getAvailabilityRecordById(recordId);
-  if (record) {
-    document.getElementById("availability-id").value = record.id;
-    document.getElementById("day").value = record.day;
-    document.getElementById("timeStart").value = record.timeStart;
-    document.getElementById("endStart").value = record.endStart;
-    document.getElementById("myModal").style.display = "block";
-  }
-}
-
 function getAvailabilityRecordById(recordId) {
-  const availabilityData =
-    JSON.parse(localStorage.getItem(LOCALSTORAGE_AVAILABILITY)) || [];
-  return availabilityData.find((record) => record.id === recordId);
+  return fetchAvailability.find((record) => record.id === recordId);
 }
 
 function handleAddOrUpdateAvailability(event) {
   event.preventDefault();
   const formData = new FormData(event.target);
   const availabilityId = formData.get("availabilityId");
-  const loginId = JSON.parse(localStorage.getItem(LOCALSTORAGE_LOGIN_ID));
-
   const day = formData.get("day");
-  const timeStart = formData.get("timeStart");
-  const endStart = formData.get("endStart");
+  const startTime = formData.get("timeStart");
+  const endTime = formData.get("endStart");
+  const appointmentId = generateUniqueId();
 
-  const startTimeComponents = timeStart.split(":");
-  let startHour = parseInt(startTimeComponents[0]);
-  const startMinute = parseInt(startTimeComponents[1]);
-  let startPeriod = "AM";
-  if (startHour >= 12) {
-    startPeriod = "PM";
-    if (startHour > 12) {
-      startHour -= 12;
-    }
-  }
-  const formattedTimeStart = `${startHour}:${startMinute} ${startPeriod}`;
-  const endTimeComponents = endStart.split(":");
-  let endHour = parseInt(endTimeComponents[0]);
-  const endMinute = parseInt(endTimeComponents[1]);
-  let endPeriod = "AM";
-  if (endHour >= 12) {
-    endPeriod = "PM";
-    if (endHour > 12) {
-      endHour -= 12;
-    }
-  }
-  const formattedEndStart = `${endHour}:${endMinute} ${endPeriod}`;
+  const timeSlots = createTimeSlots(startTime, endTime);
 
   const availabilityData = {
     id: availabilityId || new Date().toISOString(),
-    login_id: loginId,
+    userId: loginId,
     day: day,
-    timeStart: formattedTimeStart,
-    endStart: formattedEndStart,
+    timeSlots: timeSlots,
   };
 
-  let availabilityList =
-    JSON.parse(localStorage.getItem(LOCALSTORAGE_AVAILABILITY)) || [];
-
+  let availabilityList = JSON.parse(localStorage.getItem(AVAILABILITY)) || [];
   if (modalState === MODAL_STATE.UPDATE) {
     availabilityList = availabilityList.map((record) =>
       record.id === availabilityId ? availabilityData : record
@@ -181,18 +115,60 @@ function handleAddOrUpdateAvailability(event) {
   } else {
     availabilityList.push(availabilityData);
   }
-
-  localStorage.setItem(
-    LOCALSTORAGE_AVAILABILITY,
-    JSON.stringify(availabilityList)
-  );
+  localStorage.setItem(AVAILABILITY, JSON.stringify(availabilityList));
 
   loadAvailabilityList();
   closeModal();
+
+  const selectedTimeSlot = timeSlots.find((slot) => slot.time === startTime);
+  if (selectedTimeSlot) {
+    selectedTimeSlot.isBooked = true;
+    selectedTimeSlot.appointmentId = appointmentId;
+  }
+}
+
+function generateUniqueId() {
+  return new Date().getTime().toString();
+}
+
+function createTimeSlots(startTime, endTime) {
+  const timeSlots = [];
+  let currentTime = startTime;
+  while (currentTime < endTime) {
+    timeSlots.push({ time: currentTime, isBooked: false });
+    const [hour, minute] = currentTime.split(":").map(Number);
+    const nextMinute = minute + 30;
+    const nextHour = nextMinute >= 60 ? (hour === 23 ? 0 : hour + 1) : hour;
+    const adjustedMinute = nextMinute >= 60 ? nextMinute - 60 : nextMinute;
+    currentTime = `${nextHour.toString().padStart(2, "0")}:${adjustedMinute
+      .toString()
+      .padStart(2, "0")}`;
+  }
+  return timeSlots;
 }
 
 function closeModal() {
   document.getElementById("myModal").style.display = "none";
+}
+
+document.getElementById("logout").addEventListener("click", handleLogout);
+function handleLogout() {
+  sessionStorage.removeItem(LOGIN_ID);
+  window.location.href = "index.html";
+}
+
+function hideSectionByUserType() {
+  const appointment = fetchElementValue("appointment");
+  const availability = fetchElementValue("availbility");
+
+  if (findRecordById.type === "doctor") {
+    appointment.style.display = "none";
+  } else if (findRecordById.type === "patient") {
+    availability.style.display = "none";
+  }
+}
+function fetchElementValue(key) {
+  return document.getElementById(key);
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -206,26 +182,3 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("submit", handleAddOrUpdateAvailability);
   document.getElementById("closeModal").addEventListener("click", closeModal);
 });
-
-function handleLogout() {
-  localStorage.removeItem(LOCALSTORAGE_LOGIN_ID);
-  window.location.href = "index.html";
-}
-
-document.getElementById("logout").addEventListener("click", handleLogout);
-
-function hideSectionByUserType() {
-  const appointment = fetchElementValue("appointment");
-  const profile = fetchElementValue("profile");
-  const availability = fetchElementValue("availbility");
-
-  if (findRecordById.type === "doctor") {
-    appointment.style.display = "none";
-  } else if (findRecordById.type === "patient") {
-    profile.style.display = "none";
-    availability.style.display = "none";
-  }
-}
-function fetchElementValue(key) {
-  return document.getElementById(key);
-}
