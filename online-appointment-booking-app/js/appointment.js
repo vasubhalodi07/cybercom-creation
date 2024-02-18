@@ -46,30 +46,24 @@ function loadAppointmentData() {
   const addRowsForStatus = (appointments, backgroundColor) => {
     appointments.forEach((appointment) => {
       const fetchUser = fetchUsers.find(
-        (user) => user.id === appointment.patient_id
-      );
-
-      const fetchDoctorDetail = fetchDoctorDetails.find(
-        (detail) => detail.doctor_id === appointment.doctor_id
+        (user) => user.id === appointment.doctor_id
       );
 
       const fetchAvailabilityDetails = fetchAvailability.find(
         (available) => available.id === appointment.availablity_id
       );
 
-      let phoneContent =
-        fetchDoctorDetail && fetchDoctorDetail.telPhone
-          ? fetchDoctorDetail.telPhone
-          : "not available";
+      const fetchTime = fetchAvailabilityDetails.timeSlots.find((item) => {
+        return item.timslot_id == appointment.timeslot_id;
+      });
 
       const createTr = document.createElement("tr");
       createTr.setAttribute("data-appointment-id", appointment.appointment_id);
       createTr.innerHTML = `
         <td>${fetchUser.name}</td>
-        <td>${phoneContent}</td>
         <td>${appointment.date}</td>
         <td>${fetchAvailabilityDetails.day}</td>
-        <td>${appointment.slot_id}</td>
+        <td>${fetchTime.time}</td>
         <td style="background-color: ${backgroundColor};">${
         appointment.status
       }</td>

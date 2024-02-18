@@ -3,6 +3,7 @@ const LOCALSTORAGE_KEYS = {
   AVAILABILITY: "available",
   DOCTOR_DETAIL: "doctor_detail",
   APPOINTMENT: "appointment",
+  TIMESLOT_BOOKED: "timeslot_booked",
 };
 
 const SESSIONSTORAGE_KEY = {
@@ -16,7 +17,8 @@ function fetchSessionStorage(key) {
   return JSON.parse(sessionStorage.getItem(key)) || [];
 }
 
-const { USERS, DOCTOR_DETAIL, AVAILABILITY, APPOINTMENT } = LOCALSTORAGE_KEYS;
+const { USERS, DOCTOR_DETAIL, AVAILABILITY, APPOINTMENT, TIMESLOT_BOOKED } =
+  LOCALSTORAGE_KEYS;
 const { LOGIN_ID } = SESSIONSTORAGE_KEY;
 
 const fetchAppointment = fetchLocalStorage(APPOINTMENT);
@@ -116,12 +118,27 @@ function handleMoreInfo(id) {
       if (selectedTimeSlot && selectedDate) {
         const selectedTimeSlotId = selectedTimeSlot.dataset.timeId;
         const selectedAvailableId = selectedTimeSlot.dataset.availableId;
+
+        const fetchTimeslotBooked = fetchLocalStorage("timeslot_booked");
+        const isTimeSlotBooked = fetchTimeslotBooked.some((bookedSlot) => {
+          return (
+            bookedSlot.availability_id === selectedAvailableId &&
+            bookedSlot.timeslot_id === selectedTimeSlotId &&
+            bookedSlot.date === selectedDate
+          );
+        });
+
+        if (isTimeSlotBooked) {
+          showToast("The selected time slot is already booked", "error");
+          return;
+        }
+
         const newAppointment = {
           appointment_id: new Date().toISOString(),
           doctor_id: id,
           patient_id: loginId,
           availablity_id: selectedAvailableId,
-          slot_id: selectedTimeSlotId,
+          timeslot_id: selectedTimeSlotId,
           date: selectedDate,
           status: "pending",
         };
@@ -144,55 +161,58 @@ function loadAvailabilityList(id) {
     weekday: "long",
   });
 
-  const fetchRecord = fetchAvailability.filter(
+  const fetchAvailability = fetchLocalStorage(AVAILABILITY);
+  const fetchTimeslotBooked = fetchLocalStorage("timeslot_booked");
+
+  const availabilityRecord = fetchAvailability.find(
     (record) => record.userId === id && record.day === selectedDay
   );
 
   const timeContainer = document.getElementById("time-container");
   timeContainer.innerHTML = "";
 
-  if (fetchRecord.length === 0) {
+  if (!availabilityRecord) {
     timeContainer.innerHTML = "<div>No available time slots.</div>";
     const appointmentButton = document.getElementById("appointment-send-btn");
     appointmentButton.disabled = true;
     return;
   }
 
-  if (fetchRecord.length > 0) {
-    const dayAvailability = fetchRecord[0].timeSlots
-      .map(
-        (slot) => `
-            <div class="time" data-time-id="${slot.time}" data-available-id="${
-          fetchRecord[0].id
-        }">
-              ${slot.time} - ${slot.isBooked ? "(Booked)" : "(Available)"}
-            </div>
-          `
-      )
-      .join("");
+  const dayAvailability = availabilityRecord.timeSlots.map((slot) => {
+    const timeslotBooked = fetchTimeslotBooked.find((bookedSlot) => {
+      return (
+        bookedSlot.availability_id === availabilityRecord.id &&
+        bookedSlot.timeslot_id == slot.timslot_id &&
+        bookedSlot.date === selectedDate
+      );
+    });
 
-    const dayContent = `
-      <div class="availability-day">
-        <h4 class='day'>${selectedDay}</h4>
-        <div class="availability-grid">${dayAvailability}</div>
+    return `
+      <div class="time" data-time-id="${slot.timslot_id}" data-available-id="${
+      availabilityRecord.id
+    }">
+        ${slot.time} - ${timeslotBooked ? "(Booked)" : "(Available)"}
       </div>
     `;
-    timeContainer.insertAdjacentHTML("beforeend", dayContent);
+  });
 
-    document.querySelectorAll(".time").forEach((timeSlot) => {
-      timeSlot.addEventListener("click", () => {
-        document
-          .querySelectorAll(".time")
-          .forEach((slot) => slot.classList.remove("active"));
-        timeSlot.classList.add("active");
-      });
+  const dayContent = `
+    <div class="availability-day">
+      <h4 class="day">${selectedDay}</h4>
+      <div class="availability-grid">${dayAvailability.join("")}</div>
+    </div>
+  `;
+
+  timeContainer.insertAdjacentHTML("beforeend", dayContent);
+
+  document.querySelectorAll(".time").forEach((timeSlot) => {
+    timeSlot.addEventListener("click", () => {
+      document
+        .querySelectorAll(".time")
+        .forEach((slot) => slot.classList.remove("active"));
+      timeSlot.classList.add("active");
     });
-  } else {
-    timeContainer.innerHTML =
-      "<div>No available time slots for selected date.</div>";
-    const appointmentButton = document.getElementById("appointment-send-btn");
-    appointmentButton.disabled = true;
-  }
+  });
 }
 
 // Doctor Appointment Section
@@ -256,8 +276,6 @@ function displayAppointment(appointment, appointmentBody, status) {
     (available) => available.id === appointment.slot_id
   );
 
-  console.log(fetchAvailabilityDetails);
-
   if (fetchAvailabilityDetails === undefined) {
     console.log("No availability details");
     return;
@@ -283,12 +301,20 @@ function displayAppointmentWithActions(appointment, appointmentBody, status) {
     (availability) => availability.userId === appointment.doctor_id
   );
 
+  console.log(fetchAvailabilityDetails.timeSlots);
+  console.log(appointment);
+  const fetchTime = fetchAvailabilityDetails.timeSlots.find((item) => {
+    return item.timslot_id == appointment.timeslot_id;
+  });
+
+  console.log(fetchTime.time);
+
   const createTr = document.createElement("tr");
   createTr.innerHTML = `
     <td>${fetchUser.name}</td>
     <td>${appointment.date}</td>
     <td>${fetchAvailabilityDetails.day}</td>
-    <td>${appointment.slot_id}</td>
+    <td>${fetchTime.time}</td>
     <td>${status}</td>
     ${
       status === "pending"
@@ -311,28 +337,32 @@ function confirmAppointment(appointmentId) {
 
   if (appointmentIndex !== -1) {
     const appointment = fetchAppointment[appointmentIndex];
-    const availabilityIndex = fetchAvailability.findIndex(
-      (availability) => availability.id === appointment.availablity_id
-    );
+    const availabilityId = appointment.availablity_id;
+    const date = appointment.date;
+    const timeslotId = appointment.timeslot_id;
 
-    if (availabilityIndex !== -1) {
-      const availability = fetchAvailability[availabilityIndex];
-      const timeSlot = availability.timeSlots.find(
-        (slot) => slot.time === appointment.slot_id
-      );
+    const timeslotBookedData = {
+      id: new Date(),
+      availability_id: availabilityId,
+      date: date,
+      timeslot_id: timeslotId,
+      isBooked: true,
+    };
 
-      if (timeSlot) {
-        timeSlot.isBooked = true;
-        localStorage.setItem(AVAILABILITY, JSON.stringify(fetchAvailability));
-        fetchAppointment[appointmentIndex].status = "confirmed";
-        localStorage.setItem(APPOINTMENT, JSON.stringify(fetchAppointment));
-        showToast("appointment confirm", "info");
-        showAppointments();
-        return;
-      }
-    }
+    let timeslotBookedList =
+      JSON.parse(localStorage.getItem(TIMESLOT_BOOKED)) || [];
+    timeslotBookedList.push(timeslotBookedData);
+    localStorage.setItem(TIMESLOT_BOOKED, JSON.stringify(timeslotBookedList));
+
+    fetchAppointment[appointmentIndex].status = "confirmed";
+    localStorage.setItem(APPOINTMENT, JSON.stringify(fetchAppointment));
+
+    showToast("Appointment confirmed successfully", "success");
+    displayAppointment();
+    displayAppointmentWithActions();
+  } else {
+    showToast("Appointment not confirmed", "error");
   }
-  showToast("Failed to confirm appointment", "error");
 }
 
 function cancelAppointment(appointmentId) {

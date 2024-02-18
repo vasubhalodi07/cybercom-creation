@@ -59,9 +59,7 @@ function loadAvailabilityList() {
         .map(
           (slot) => `
           <div class="availability-record">
-            <p>Time: ${slot.time} ${
-            slot.isBooked ? "(Booked)" : "(Available)"
-          }</p>
+            <p>Time: ${slot.time}</p>
           </div>
         `
         )
@@ -134,8 +132,9 @@ function generateUniqueId() {
 function createTimeSlots(startTime, endTime) {
   const timeSlots = [];
   let currentTime = startTime;
+  let id = 1;
   while (currentTime < endTime) {
-    timeSlots.push({ time: currentTime, isBooked: false });
+    timeSlots.push({ timslot_id: id++, time: currentTime });
     const [hour, minute] = currentTime.split(":").map(Number);
     const nextMinute = minute + 30;
     const nextHour = nextMinute >= 60 ? (hour === 23 ? 0 : hour + 1) : hour;
