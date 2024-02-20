@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product List</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <h2>
+      Product List <span><a href="./cart.html">(Cart Section)</a></span>
+    </h2>
+
+    <div id="loading" style="display: none">Loading...</div>
+    <div id="product-container" class="grid-container"></div>
+
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+
+        <div class="modal-body" id="modal-body"></div>
+      </div>
+    </div>
+
+    <script src="./main.js"></script>
+  </body>
+</html>

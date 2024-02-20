@@ -1,0 +1,243 @@
+* {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+body {
+  padding: 0px 40px 0px 40px;
+}
+
+h2 a {
+  text-decoration: none;
+}
+
+h2 span {
+  font-size: 14px;
+  font-family: 500;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 20px;
+}
+
+.title {
+  text-align: center;
+}
+
+.card {
+  padding: 10px;
+  border-radius: 8px;
+  -webkit-box-shadow: 3px 3px 10px 3px #dddddd;
+  -moz-box-shadow: 3px 3px 10px 3px #dddddd;
+  box-shadow: 3px 3px 10px 3px #dddddd;
+}
+
+.image-container {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.image-container img {
+  width: 90%;
+  height: auto;
+  display: block;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.cart-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-gap: 20px;
+}
+
+.cart-card-container {
+  padding: 10px;
+  border-radius: 8px;
+  -webkit-box-shadow: 3px 3px 10px 3px #dddddd;
+  -moz-box-shadow: 3px 3px 10px 3px #dddddd;
+  box-shadow: 3px 3px 10px 3px #dddddd;
+  display: flex;
+}
+
+.cart-image-container {
+  background-color: #ddd;
+  width: 100px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  flex: 1;
+}
+
+.cart-title {
+  flex: 1.2;
+  padding: 10px;
+}
+
+.cart-title div:nth-child(1) {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.cart-image-container img {
+  width: 90%;
+  height: auto;
+  display: block;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 60%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
+@-webkit-keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+.close {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 10px;
+  display: flex;
+  gap: 20px;
+}
+
+.modal-image-container {
+  background-color: #ddd;
+  width: 500px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.modal-image-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.modal-content-container div {
+  padding: 1px;
+}
+
+.modal-content-container div:first-child {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.modal-quantity {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.modal-quantity div:first-child,
+.modal-quantity div:last-child {
+  padding: 5px 10px;
+  font-size: 20px;
+  background-color: white;
+  border-radius: 5px;
+  -webkit-box-shadow: -0.5px 6.5px 11.5px 1.5px #dddddd;
+  -moz-box-shadow: -0.5px 6.5px 11.5px 1.5px #dddddd;
+  box-shadow: -0.5px 6.5px 11.5px 1.5px #dddddd;
+  cursor: pointer;
+}
+
+.modal-quantity input {
+  text-align: center;
+  width: 40%;
+  border: none;
+  border-radius: 5px;
+  -webkit-box-shadow: -0.5px 6.5px 11.5px 1.5px #dddddd;
+  -moz-box-shadow: -0.5px 6.5px 11.5px 1.5px #dddddd;
+  box-shadow: -0.5px 6.5px 11.5px 1.5px #dddddd;
+}
+
+.add-to-cart {
+  padding: 10px 20px;
+  border: none;
+  background-color: rgb(92, 202, 239);
+  border-radius: 5px;
+  color: white;
+  transition: 0.2s ease-in-out;
+}
+.add-to-cart:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.delete-icon {
+  margin-top: 10px;
+  color: rgb(199, 71, 71);
+}
