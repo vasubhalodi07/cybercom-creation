@@ -192,3 +192,35 @@ body {
     transform: rotate(360deg);
   }
 }
+
+/* Pagniations */
+#pagination-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination-button {
+  padding: 8px 12px;
+  margin-right: 5px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pagination-button:hover {
+  background-color: #ddd;
+}
+
+.pagination-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pagination-button.active {
+  background-color: #007bff;
+  color: #fff;
+}
