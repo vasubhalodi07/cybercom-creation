@@ -133,3 +133,72 @@ function addToCart(id, stock) {
   localStorage.setItem("cart", JSON.stringify(mergeCart));
   alert("product added to cart!");
 }
+
+/*
+  $.ajax({
+    url: 'https://example.com/api/resource',
+    type: 'POST',
+    dataType: 'json',
+    data: { key1: 'value1', key2: 'value2' },
+    success: function(response) {
+        console.log('Resource created:', response);
+    },
+    error: function(xhr, status, error) {
+        console.error('Error creating resource:', error);
+    }
+});
+
+
+$.ajax({
+    url: 'https://example.com/api/resource',
+    type: 'GET',
+    dataType: 'json',
+    success: function(response) {
+        console.log('Retrieved resource:', response);
+    },
+    error: function(xhr, status, error) {
+        console.error('Error retrieving resource:', error);
+    }
+});
+
+$.ajax({
+    url: 'https://example.com/api/resource/123',
+    type: 'PATCH',
+    dataType: 'json',
+    data: { key1: 'newvalue1' },
+    success: function(response) {
+        console.log('Resource updated:', response);
+    },
+    error: function(xhr, status, error) {
+        console.error('Error updating resource:', error);
+    }
+});
+
+
+$.ajax({
+    url: 'https://example.com/api/resource/123',
+    type: 'DELETE',
+    dataType: 'json',
+    success: function(response) {
+        console.log('Resource deleted:', response);
+    },
+    error: function(xhr, status, error) {
+        console.error('Error deleting resource:', error);
+    }
+});
+
+
+$.ajax({
+    url: 'https://example.com/api/resource/123',
+    type: 'PUT',
+    dataType: 'json',
+    data: { key1: 'value1', key2: 'value2' },
+    success: function(response) {
+        console.log('Resource replaced:', response);
+    },
+    error: function(xhr, status, error) {
+        console.error('Error replacing resource:', error);
+    }
+});
+
+*/
