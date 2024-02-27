@@ -47,6 +47,12 @@ $(document).ready(function () {
       description: "Please enter a description.",
       images: "Please enter at least one image URL.",
     },
+
+    errorPlacement: function (error, element) {
+      error.css({ color: "red", marginTop: "5px", fontSize: "12px" });
+      error.insertAfter(element);
+    },
+
     submitHandler: function (form) {
       var submitButton = $(form).find('input[type="submit"]');
       submitButton.prop("disabled", true).val("Loading...");

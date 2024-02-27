@@ -87,7 +87,9 @@ $(document).ready(function () {
         })
         .then((data) => {
           console.log(data);
-          window.location.href = "../index.html";
+          form.reset();
+          alert("record added successfully!");
+          // window.location.href = "../index.html";
         })
         .catch((error) => {
           console.error(error);

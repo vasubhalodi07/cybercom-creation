@@ -6,7 +6,6 @@
 }
 
 section {
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,8 +25,13 @@ form {
   gap: 10px;
 }
 
+form div {
+  display: flex;
+  flex-direction: column;
+}
+
 label {
-  padding-bottom: 10px;
+  padding-bottom: 3px;
 }
 
 input,
@@ -51,4 +55,30 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
   background-color: #0056b3;
+}
+
+nav {
+  background-color: #215690;
+  padding: 20px;
+  font-size: 17px;
+}
+
+nav ul {
+  display: flex;
+  gap: 20px;
+  padding-left: 30px;
+}
+
+nav ul li {
+  list-style-type: none;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+.active {
+  font-weight: bold;
+  text-decoration: underline;
 }
