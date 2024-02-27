@@ -93,12 +93,10 @@ function displayProductsForPage(page, productList) {
     createDiv.addEventListener("click", () => {
       handleModal(res);
     });
-    const imageSrc =
-      "https://imgs.search.brave.com/Rl9vjXH4729H-gE4Cz-KidigqEe0iE05CnRhUt2a2l0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93LmZv/cmZ1bi5jb20vZmV0/Y2gvOWIvOWJlNTQ3/MDY4MTNlZWEyNTg3/YzA1ZmU4YWJlMGJl/NzAuanBlZw";
-
+    const image = JSON.parse(res.images[0])[0];
     createDiv.innerHTML = `
       <div class="image-container">
-        <img src="${imageSrc}" alt="image" width="50" />
+        <img src="${image}" alt="image" width="50" />
       </div>
       <div class="title">${res.title}</div>`;
     container.appendChild(createDiv);
@@ -108,9 +106,10 @@ function displayProductsForPage(page, productList) {
 //
 function handleModal(res) {
   modal.style.display = "block";
+  const image = JSON.parse(res.images[0])[0];
   modalBody.innerHTML = `
         <div class='modal-image-container'>
-            <img src="https://imgs.search.brave.com/Rl9vjXH4729H-gE4Cz-KidigqEe0iE05CnRhUt2a2l0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93LmZv/cmZ1bi5jb20vZmV0/Y2gvOWIvOWJlNTQ3/MDY4MTNlZWEyNTg3/YzA1ZmU4YWJlMGJl/NzAuanBlZw"; alt="image" width="50" />
+            <img src="${image}" alt="image" width="50" />
         </div>
         <div class='modal-content-container'>
             <div>${res.title}</div>
@@ -306,7 +305,7 @@ function updateCategoriesDropdown() {
     filterCategoryDropdown.appendChild(option);
   });
 
-  if (filteredProducts.length === 0) {
+  if (uniqueCategories.length === 0) {
     noRecords.style.display = "block";
   } else {
     noRecords.style.display = "none";
