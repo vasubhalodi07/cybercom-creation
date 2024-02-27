@@ -43,7 +43,7 @@ select {
 }
 
 input[type="submit"] {
-  margin-top: 20px;
+  width: fit-content;
   border-radius: 5px;
   padding: 10px 20px;
   background-color: #007bff;

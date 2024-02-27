@@ -35,17 +35,22 @@ sortPriceDropdown.addEventListener("change", function (e) {
 });
 
 document.getElementById("reset").addEventListener("click", handleReset);
+
 function handleReset() {
   document.getElementById("search").value = "";
   filterCategoryDropdown.value = "";
   sortDropdown.value = "";
   sortPriceDropdown.value = "";
-  fetchProducts();
+  fetchProductsAndCategories();
 }
 
-fetchProducts();
+// Fetch products and categories
+function fetchProductsAndCategories() {
+  fetchProducts();
+  fetchCategories();
+}
 
-//
+// Fetch products from the API
 function fetchProducts() {
   loadingContainer.style.display = "block";
   const container = document.getElementById("product-container");
@@ -78,7 +83,25 @@ function fetchProducts() {
     });
 }
 
-//
+// Fetch categories from the API
+function fetchCategories() {
+  fetch("https://api.escuelajs.co/api/v1/categories")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to fetch categories.");
+      }
+      return response.json();
+    })
+    .then((res) => {
+      categories = res;
+      updateCategoriesDropdown();
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}
+
+// Display products for the current page
 function displayProductsForPage(page, productList) {
   const container = document.getElementById("product-container");
   container.innerHTML = "";
@@ -86,6 +109,12 @@ function displayProductsForPage(page, productList) {
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const pageProducts = productList.slice(startIndex, endIndex);
+
+  if (productList.length === 0) {
+    noRecords.style.display = "block";
+  } else {
+    noRecords.style.display = "none";
+  }
 
   pageProducts.forEach((res, index) => {
     const createDiv = document.createElement("div");
@@ -103,7 +132,7 @@ function displayProductsForPage(page, productList) {
   });
 }
 
-//
+// Handle modal display
 function handleModal(res) {
   modal.style.display = "block";
   const image = JSON.parse(res.images[0])[0];
@@ -121,12 +150,12 @@ function handleModal(res) {
         </div>`;
 }
 
-//
+// Update product
 function updateProduct(id) {
   window.location.href = `./update/index.html?id=${id}`;
 }
 
-//
+// Delete product
 function deleteProduct(id) {
   const response = confirm("Are you sure you want to delete this product?");
   if (response) {
@@ -145,7 +174,7 @@ function deleteProduct(id) {
   }
 }
 
-//
+// Render pagination
 function renderPagination(productList) {
   const pageCount = Math.ceil(productList.length / itemsPerPage);
   paginationContainer.innerHTML = "";
@@ -190,7 +219,7 @@ function renderPagination(productList) {
   }
 }
 
-//
+// Update pagination buttons
 function updatePaginationButtons() {
   const pageCount = Math.ceil(products.length / itemsPerPage);
   const paginationButtons = document.querySelectorAll(".pagination-button");
@@ -205,7 +234,7 @@ function updatePaginationButtons() {
   paginationButtons[currentPage].classList.add("active");
 }
 
-//
+// Create pagination button
 function createPaginationButton(text) {
   const button = document.createElement("button");
   button.textContent = text;
@@ -213,7 +242,7 @@ function createPaginationButton(text) {
   return button;
 }
 
-//
+// Handle category filtering
 function handleFilterByCategory() {
   const selectedCategory = filterCategoryDropdown.value;
   let filteredProducts = products;
@@ -227,7 +256,7 @@ function handleFilterByCategory() {
   displayProductsForPage(currentPage, filteredProducts);
 }
 
-//
+// Handle sorting by title
 function handleSort() {
   const sortOption = sortDropdown.value;
   let sortedProducts = [...products];
@@ -250,7 +279,7 @@ function handleSort() {
   displayProductsForPage(currentPage, sortedProducts);
 }
 
-//
+// Handle sorting by price
 function handleSortPrice() {
   const sortPriceOption = sortPriceDropdown.value;
   let sortedProducts = [...products];
@@ -273,7 +302,7 @@ function handleSortPrice() {
   displayProductsForPage(currentPage, sortedProducts);
 }
 
-//
+// Handle search
 function handleSearch() {
   const searchInput = document.getElementById("search").value.toLowerCase();
   const filteredProducts = products.filter((product) =>
@@ -290,13 +319,14 @@ function handleSearch() {
   }
 }
 
-//
+// Update categories dropdown
 function updateCategoriesDropdown() {
-  categories = products.map((product) => product.category.name);
-  const uniqueCategories = Array.from(new Set(categories));
+  const uniqueCategories = Array.from(
+    categories.map((category) => category.name)
+  );
 
   filterCategoryDropdown.innerHTML =
-    "<option value='' selected>Select Category</option>";
+    '<option value="" selected>Select Category</option>';
 
   uniqueCategories.forEach((category) => {
     const option = document.createElement("option");
@@ -304,10 +334,6 @@ function updateCategoriesDropdown() {
     option.textContent = category;
     filterCategoryDropdown.appendChild(option);
   });
-
-  if (uniqueCategories.length === 0) {
-    noRecords.style.display = "block";
-  } else {
-    noRecords.style.display = "none";
-  }
 }
+
+fetchProductsAndCategories();
