@@ -122,7 +122,7 @@ function displayProductsForPage(page, productList) {
     createDiv.addEventListener("click", () => {
       handleModal(res);
     });
-    const image = JSON.parse(res.images[0])[0];
+    const image = res.images[0];
     createDiv.innerHTML = `
       <div class="image-container">
         <img src="${image}" alt="image" width="50" />
@@ -135,7 +135,7 @@ function displayProductsForPage(page, productList) {
 // Handle modal display
 function handleModal(res) {
   modal.style.display = "block";
-  const image = JSON.parse(res.images[0])[0];
+  const image = res.images[0][0];
   modalBody.innerHTML = `
         <div class='modal-image-container'>
             <img src="${image}" alt="image" width="50" />
