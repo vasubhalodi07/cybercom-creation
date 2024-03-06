@@ -6,7 +6,7 @@ USE practice1;
 CREATE TABLE category (
 	category_id INT AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
-    image VARCHAR(255) NOT NULL,
+    image VARCHAR(255) NOT NULL,	
     is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
     PRIMARY KEY (category_id)
 );
@@ -14,7 +14,7 @@ CREATE TABLE category (
 CREATE TABLE product (
 	product_id INT AUTO_INCREMENT,
     category_id INT NOT NULL,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,s
     description VARCHAR(255) NOT NULL,
     price BIGINT NOT NULL,
     image VARCHAR(255) NOT NULL,

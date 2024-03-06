@@ -44,16 +44,15 @@ INSERT INTO salary (name, sex, salary) VALUES ('A', 'm', 2500), ('B', 'f', 1500)
 UPDATE salary SET sex = CASE
 	WHEN sex = 'm' THEN 'f'
 	WHEN sex = 'f' THEN 'm'
-END;
-SELECT * FROM salary;
+END IN (SELECT * FROM salary);
 
--- TASK: 4
+-- TASK: 4	
 CREATE TABLE person (
 	id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL
 );
 INSERT INTO person (email) VALUES ('John@example.com'), ('bob@gmail.com'), ('John@example.com'), ('bob@gmail.com');
-DELETE e1 FROM person e1 JOIN person e2 ON e1.email = e2.email AND e1.id > e2.id;
+DELETE p1 FROM Person p1, Person p2 WHERE p1.email = p2.email AND p1.id > p2.id;
 SELECT * FROM person;
 
 -- TASK: 5
@@ -79,19 +78,45 @@ CREATE INDEX email_index ON demo (email);
 SELECT * FROM INFORMATION_SCHEMA.STATISTICS WHERE TABLE_SCHEMA='practice2' AND TABLE_NAME='demo';
 
 -- TASK: 7
-CREATE TABLE person_task7 (
+CREATE TABLE student_task7 (
+	student_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_name VARCHAR(255) NOT NULL,
+    student_email VARCHAR(255) NOT NULL,
+    student_phone_number VARCHAR(255) NOT NULL
+);
+CREATE TABLE subject_task7 (
+	subject_id INT AUTO_INCREMENT PRIMARY KEY,
+    subject_name VARCHAR(255) NOT NULL
+);
+CREATE TABLE semester_task7 (
+	semester_id INT AUTO_INCREMENT PRIMARY KEY,
+    semester_name VARCHAR(255) NOT NULL
+);
+CREATE TABLE grade_task7 (
+	 grade_id INT PRIMARY KEY,
+    student_id INT NOT NULL,
+    subject_id INT NOT NULL,
+    semester_id INT NOT NULL,
+    grade FLOAT NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES student_task7(student_id),
+    FOREIGN KEY (subject_id) REFERENCES subject_task7(subject_id),
+    FOREIGN KEY (semester_id) REFERENCES semester_task7(semester_id)
+);
+
+-- TASK: 8
+CREATE TABLE person_task8 (
 	personId INT AUTO_INCREMENT PRIMARY KEY,
     lastName VARCHAR(255) NOT NULL,
     firstName VARCHAR(255) NOT NULL
 );
-CREATE TABLE address_task7 (
+CREATE TABLE address_task8 (
 	addressId INT AUTO_INCREMENT PRIMARY KEY,
     personId INT NOT NULL,
     city VARCHAR(255) NOT NULL,
     state VARCHAR(255) NOT NULL,
     FOREIGN KEY (personId) REFERENCES person_task7(personId)
 );
-INSERT INTO person_task7 (lastName, firstName) VALUES ('Wang', 'Allen'), ('Alice', 'Bob');
-INSERT INTO address_task7 (personId, city, state) VALUES (2, 'New York City', 'New York'), (3, 'Leetcode', 'California');
-SELECT p.firstName, p.lastName, a.city, a.state FROM person_task7 AS p LEFT JOIN address_task7 AS a ON p.personId = a.personId;
+INSERT INTO person_task8 (lastName, firstName) VALUES ('Wang', 'Allen'), ('Alice', 'Bob');
+INSERT INTO address_task8 (personId, city, state) VALUES (2, 'New York City', 'New York'), (3, 'Leetcode', 'California');
+SELECT p.firstName, p.lastName, a.city, a.state FROM person_task8 AS p LEFT JOIN address_task8 AS a ON p.personId = a.personId;
 
