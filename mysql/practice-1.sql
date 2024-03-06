@@ -14,7 +14,7 @@ CREATE TABLE category (
 CREATE TABLE product (
 	product_id INT AUTO_INCREMENT,
     category_id INT NOT NULL,
-    name VARCHAR(255) NOT NULL,s
+    name VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL,
     price BIGINT NOT NULL,
     image VARCHAR(255) NOT NULL,

@@ -44,14 +44,15 @@ INSERT INTO salary (name, sex, salary) VALUES ('A', 'm', 2500), ('B', 'f', 1500)
 UPDATE salary SET sex = CASE
 	WHEN sex = 'm' THEN 'f'
 	WHEN sex = 'f' THEN 'm'
-END IN (SELECT * FROM salary);
+END;
 
--- TASK: 4	
+-- TASK: 4
+DROP TABLE person; 	
 CREATE TABLE person (
 	id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL
 );
-INSERT INTO person (email) VALUES ('John@example.com'), ('bob@gmail.com'), ('John@example.com'), ('bob@gmail.com');
+INSERT INTO person (email) VALUES ('bob@gmail.com'), ('John@example.com'), ('bob@gmail.com'), ('John@example.com'), ('bob@gmail.com');
 DELETE p1 FROM Person p1, Person p2 WHERE p1.email = p2.email AND p1.id > p2.id;
 SELECT * FROM person;
 
@@ -116,7 +117,9 @@ CREATE TABLE address_task8 (
     state VARCHAR(255) NOT NULL,
     FOREIGN KEY (personId) REFERENCES person_task7(personId)
 );
+
 INSERT INTO person_task8 (lastName, firstName) VALUES ('Wang', 'Allen'), ('Alice', 'Bob');
 INSERT INTO address_task8 (personId, city, state) VALUES (2, 'New York City', 'New York'), (3, 'Leetcode', 'California');
 SELECT p.firstName, p.lastName, a.city, a.state FROM person_task8 AS p LEFT JOIN address_task8 AS a ON p.personId = a.personId;
+
 
