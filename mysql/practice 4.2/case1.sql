@@ -47,7 +47,25 @@ INSERT INTO salaries (employee_id, salary, date) VALUES
 (3, 58000.00, '2024-03-01'),
 (3, 81000.00, '2022-03-01'),
 (4, 58000.00, '2024-03-01'),
+(4, 81000.00, '2022-03-01'),
+(1, 52000.00, '2024-03-01'),
+(1, 48000.00, '2024-03-01'),
+(2, 55000.00, '2024-03-01'),
+(3, 58000.00, '2024-03-01'),
+(3, 81000.00, '2022-03-01'),
+(4, 58000.00, '2024-03-01'),
+(4, 81000.00, '2022-03-01'),
+(1, 52000.00, '2024-03-01'),
+(1, 48000.00, '2024-03-01'),
+(2, 55000.00, '2024-03-01'),
+(3, 58000.00, '2024-03-01'),
+(3, 81000.00, '2022-03-01'),
+(4, 58000.00, '2024-03-01'),
 (4, 81000.00, '2022-03-01'); 
+
+SELECT * FROM department;
+SELECT * FROM employees;
+SELECT * FROM salaries;
 
 -- TASK: 1
 SELECT e.name FROM employees e 
@@ -71,14 +89,19 @@ GROUP BY d.department_name
 ORDER BY d.department_name ASC;
 
 -- TASK: 4
-SELECT e.employee_id, e.name, e.salary, SUM(s.salary) AS total_salary_per_employee FROM employees e
-INNER JOIN salaries s
-ON s.employee_id = e.employee_id
-GROUP BY e.name;
+SELECT employee_id, salary
+FROM (
+    SELECT employee_id, salary, NTILE(10) OVER (ORDER BY salary DESC) AS salary_percentile FROM salaries
+) AS salary_percentiles
+WHERE salary_percentile = 1;
 
 -- TASK: 5
-SELECT e.name, s.salary, s.date
-FROM employees e
-LEFT JOIN salaries s 
-ON e.employee_id = s.employee_id
-WHERE s.date = (SELECT MAX(date) FROM Salaries WHERE employee_id = e.employee_id);
+SELECT e.name, s.salary
+FROM (
+    SELECT employee_id, MAX(date) AS latest_date
+    FROM salaries
+    GROUP BY employee_id
+) AS latest_salary
+JOIN salaries s ON latest_salary.employee_id = s.employee_id AND latest_salary.latest_date = s.date
+JOIN employees e ON e.employee_id = s.employee_id;
+
