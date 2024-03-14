@@ -1,7 +1,7 @@
 USE practice5_2;
 
 -- TASK: 5
-SELECT c.customer_name
+SELECT c.customer_id, c.customer_name
 FROM customers_task1 c
 INNER JOIN orders_task1 o ON o.customer_id = c.customer_id
 INNER JOIN orders_details_task1 od ON od.order_id = o.order_id

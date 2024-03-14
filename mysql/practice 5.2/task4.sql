@@ -82,7 +82,7 @@ INSERT INTO sales_table4 (sale_id, employee_id, customer_id, product_id, sale_da
 (8, 1, 1, 8, '2023-03-20'),
 (9, 1, 1, 9, '2023-03-20');
 
-SELECT e.employee_id, e.employee_name, e.employee_city
+SELECT e.employee_id, e.employee_name
 FROM employees_table4 e
 INNER JOIN sales_table4 s ON s.employee_id = e.employee_id
 INNER JOIN customers_table4 c ON c.customer_id = s.customer_id
