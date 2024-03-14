@@ -22,10 +22,4 @@ INNER JOIN products_task8 p
 ON p.product_id = od.product_id
 GROUP BY c.customer_id;
 
-SELECT o.order_id, SUM(od.quantity * p.product_price) AS total_price
-FROM orders_task8 o
-LEFT JOIN orders_details_task8 od
-ON od.order_id = o.order_id
-LEFT JOIN products_task8 p
-ON p.product_id = od.product_id
-GROUP BY o.order_id;
+

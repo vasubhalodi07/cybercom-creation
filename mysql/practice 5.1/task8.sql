@@ -33,6 +33,8 @@ INSERT INTO customers_task8 (customer_name) VALUES
 ('Jane Smith'),
 ('Alice Johnson'),
 ('Bob Williams');
+INSERT INTO customers_task8 (customer_name) VALUES
+('Meet');
 
 INSERT INTO products_task8 (product_name, product_description, product_price) VALUES
 ('Product A', 'Description for Product A', 50.00),
@@ -51,7 +53,11 @@ INSERT INTO orders_task8 (customer_id, order_date) VALUES
 (2, '2024-03-02'),
 (3, '2024-03-03'),
 (4, '2024-03-04');
+INSERT INTO orders_task8 (customer_id, order_date) VALUES
+(5, '2025-03-01');
 
+INSERT INTO orders_details_task8 (order_id, product_id, quantity) VALUES
+(6, 1, 1);
 INSERT INTO orders_details_task8 (order_id, product_id, quantity) VALUES
 (1, 1, 2),
 (1, 3, 1),
@@ -74,14 +80,20 @@ INSERT INTO orders_details_task8 (order_id, product_id, quantity) VALUES
 (3, 9, 1),
 (1, 5, 2);
 
+SELECT * FROM customers_task8;
+SELECT * FROM orders_task8;
+
 SELECT c.customer_id, c.customer_name, p.product_name, p.product_price
 FROM customers_task8 c
-INNER JOIN orders_task8 o
-ON c.customer_id = o.customer_id
-INNER JOIN orders_details_task8 od
-ON od.order_id = o.order_id
-INNER JOIN products_task8 p
-ON p.product_id = od.product_id
-WHERE p.product_price <= 100;
-
+JOIN orders_task8 o ON c.customer_id = o.customer_id
+JOIN orders_details_task8 od ON od.order_id = o.order_id
+JOIN products_task8 p ON p.product_id = od.product_id
+WHERE c.customer_id NOT IN (
+	SELECT DISTINCT c.customer_id 
+	FROM customers_task8 c
+	JOIN orders_task8 o ON c.customer_id = o.customer_id
+	JOIN orders_details_task8 od ON od.order_id = o.order_id
+	JOIN products_task8 p ON p.product_id = od.product_id
+	WHERE p.product_price>100
+);
 

@@ -78,14 +78,10 @@ SELECT
     p.product_name,
     GROUP_CONCAT(ct.country_name SEPARATOR ', ') AS country_names
 FROM customers_task10 c 
-INNER JOIN orders_task10 o
-ON o.customer_id = c.customer_id
-INNER JOIN orders_details_task10 od
-ON od.orders_id = o.orders_id
-INNER JOIN products_task10 p
-ON p.product_id = od.product_id
-INNER JOIN country_task10 ct
-ON ct.country_id = c.country_id
+INNER JOIN orders_task10 o ON o.customer_id = c.customer_id
+INNER JOIN orders_details_task10 od ON od.orders_id = o.orders_id
+INNER JOIN products_task10 p ON p.product_id = od.product_id
+INNER JOIN country_task10 ct ON ct.country_id = c.country_id
 GROUP BY p.product_id
 HAVING COUNT(ct.country_name) > 1;
 
