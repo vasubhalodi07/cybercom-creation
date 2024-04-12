@@ -1,0 +1,27 @@
+<div class="container mt-4">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <fieldset>
+      <legend>Login</legend>
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="text" class="form-control" formControlName="email" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          formControlName="password"
+        />
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="loginForm.invalid"
+      >
+        Login
+      </button>
+      <div routerLink="/user/register">Don't have account? Register</div>
+    </fieldset>
+  </form>
+</div>

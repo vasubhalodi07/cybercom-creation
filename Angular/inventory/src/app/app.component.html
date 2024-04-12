@@ -1,0 +1,73 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-md-3 col-lg-2 bg-light vh-100 position-fixed">
+      <h3 class="py-4">Inventory</h3>
+      <ul class="nav flex-column" style="gap: 10px">
+        <li
+          class="nav-item fs-5"
+          routerLink="/"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          style="cursor: pointer"
+        >
+          <i class="bi bi-house"></i>&nbsp;&nbsp;Home
+        </li>
+        <li
+          class="nav-item fs-5"
+          routerLink="/product"
+          routerLinkActive="active"
+          style="cursor: pointer"
+        >
+          <i class="bi bi-bag"></i>&nbsp;&nbsp;Product
+        </li>
+        <li
+          class="nav-item fs-5"
+          routerLink="/categories"
+          routerLinkActive="active"
+          style="cursor: pointer"
+        >
+          <i class="bi bi-box-seam"></i>&nbsp;&nbsp;Categories
+        </li>
+        <li
+          class="nav-item fs-5"
+          routerLink="/user"
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="active"
+          style="cursor: pointer"
+        >
+          <i class="bi bi-person"></i>&nbsp;&nbsp;User
+        </li>
+        <li
+          *ngIf="id"
+          class="nav-item fs-5"
+          routerLink="/user/profile"
+          routerLinkActive="active"
+          style="cursor: pointer"
+        >
+          <i class="bi bi-person"></i>&nbsp;&nbsp;Profile
+        </li>
+        <li
+          *ngIf="!id"
+          class="nav-item fs-5"
+          routerLink="/user/login"
+          routerLinkActive="active"
+          style="cursor: pointer"
+        >
+          <i class="bi bi-box-arrow-right"></i>&nbsp;&nbsp;Login
+        </li>
+        <li
+          *ngIf="id"
+          class="nav-item fs-5"
+          style="cursor: pointer"
+          (click)="logout()"
+        >
+          <i class="bi bi-box-arrow-left"></i>&nbsp;&nbsp;Logout
+        </li>
+      </ul>
+    </div>
+
+    <div class="col offset-md-3 offset-lg-2">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
