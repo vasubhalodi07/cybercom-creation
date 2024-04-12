@@ -66,3 +66,9 @@ DELIMITER ;
 CALL fetchRecordsSO(1, @emp_count);
 SELECT @emp_count;
 
+/*
+	-- DECLARE id INT DEFAULT NULL; 
+	-- DECLARE name VARCHAR(50) DEFAULT NULL;
+	-- DECLARE salary DECIMAL(10, 2) DEFAULT NULL;
+*/
+	

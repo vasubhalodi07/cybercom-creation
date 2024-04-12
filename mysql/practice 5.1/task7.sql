@@ -30,6 +30,16 @@ INSERT INTO employees_task7 (employee_id, name, salary, department_id) VALUES
 (108, 'Karen White', 50000.00, 1),
 (109, 'Christopher Lee', 72000.00, 2);
 
+INSERT INTO employees_task7 (employee_id, name, salary, department_id) VALUES
+(110, 'John Doe', 60000.00, 1),
+(111, 'Jane Smith', 60000.00, 1),
+(112, 'Michael Johnson', 60000.00, 2);
+
+INSERT INTO employees_task7 (employee_id, name, salary, department_id) VALUES
+(113, 'John Doe', 75000.00, 1),
+(114, 'Jane Smith', 75000.00, 1),
+(115, 'Michael Johnson', 75000.00, 2);
+
 SELECT * FROM departments_task7;
 SELECT * FROM employees_task7;
 
@@ -40,3 +50,18 @@ SELECT name, salary, department_name FROM (
     INNER JOIN departments_task7 d ON e.department_id = d.department_id
 ) AS ranked_rows
 WHERE salary_row_number <= 5;
+
+SELECT * FROM (
+	SELECT employee_id, name, salary,
+		ROW_NUMBER() OVER (ORDER BY salary DESC) AS salary_row_number
+	FROM employees_task7) AS table1
+HAVING salary_row_number  = 3;
+
+SELECT salary, GROUP_CONCAT(name) AS name_of_employee
+FROM employees_task7 
+WHERE salary = (SELECT salary FROM employees_task7 ORDER BY salary DESC LIMIT 2, 1)
+GROUP BY salary;
+
+SELECT * FROM employees_task7 ORDER BY salary DESC LIMIT 2,1;
+SELECT * FROM employees_task7 ORDER BY salary DESC LIMIT 1 OFFSET 2;
+
