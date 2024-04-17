@@ -1,0 +1,13 @@
+<p>
+  <mat-toolbar>
+    <!-- Show the User link only if role is admin and token is present -->
+    <ng-container *ngIf="isAdmin()">
+      <span routerLink="/users">User</span>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </ng-container>
+
+    <span routerLink="/task">Task</span>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <span (click)="logout()">Logout</span>
+  </mat-toolbar>
+</p>
