@@ -15,6 +15,10 @@ export class ToolbarComponent {
     return token && role === 'admin';
   }
 
+  fetchLoginedUser() {
+    return JSON.parse(localStorage.getItem('name')!);
+  }
+
   logout() {
     localStorage.removeItem('id');
     localStorage.removeItem('role');

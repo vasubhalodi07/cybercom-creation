@@ -17,9 +17,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { TaskDialogComponent } from './components/task-dialog/task-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TaskBulkSaveComponent } from './components/task-bulk-save/task-bulk-save.component';
 
 @NgModule({
-  declarations: [FetchTaskComponent, TaskDialogComponent],
+  declarations: [FetchTaskComponent, TaskDialogComponent, TaskBulkSaveComponent],
   imports: [
     CommonModule,
     TaskRoutingModule,

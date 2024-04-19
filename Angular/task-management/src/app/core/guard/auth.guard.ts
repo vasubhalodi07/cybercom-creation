@@ -4,7 +4,6 @@ import {
   CanActivate,
   Router,
   RouterStateSnapshot,
-  UrlTree,
 } from '@angular/router';
 
 @Injectable({
@@ -13,15 +12,9 @@ import {
 export class authGuard implements CanActivate {
   constructor(private router: Router) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): any | UrlTree {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const token = JSON.parse(localStorage.getItem('id') || 'null');
     const role = JSON.parse(localStorage.getItem('role') || 'null');
-
-    console.log(token);
-    console.log(role);
 
     if (token && role) {
       const path = route.routeConfig?.path || '';
@@ -29,12 +22,12 @@ export class authGuard implements CanActivate {
       if (path === 'users' && role === 'admin') {
         return true;
       } else if (path === 'users' && role === 'customer') {
-        return this.router.createUrlTree(['/task']);
+        return this.router.navigate(['/task']);
       } else {
-        return token ? true : this.router.createUrlTree(['/']);
+        return token ? true : this.router.navigate(['/']);
       }
     } else {
-      return this.router.createUrlTree(['/']);
+      return this.router.navigate(['/']);
     }
   }
 }

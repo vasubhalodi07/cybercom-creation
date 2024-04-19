@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ErrorComponent } from './components/error/error.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,10 @@ const routes: Routes = [
     path: 'task',
     loadChildren: () =>
       import('./modules/task/task.module').then((m) => m.TaskModule),
+  },
+  {
+    path: '**',
+    component: ErrorComponent,
   },
 ];
 

@@ -13,9 +13,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ErrorComponent } from './components/error/error.component';
 
 @NgModule({
-  declarations: [AppComponent, ToolbarComponent],
+  declarations: [AppComponent, ToolbarComponent, ErrorComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
