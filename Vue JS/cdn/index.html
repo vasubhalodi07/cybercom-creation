@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue JS</title>
+  </head>
+  <body>
+    <div id="my-app">
+      <!-- mastap -->
+      <h1>{{ message }}</h1>
+      <p v-text="content"></p>
+
+      <div v-once>
+        <div>{{data1}}</div>
+        <div v-text="data2"></div>
+        <div v-once>{{data3}}</div>
+        <div v-text="data4" v-once></div>
+      </div>
+
+      <div>{{ html }}</div>
+      <div v-text="html"></div>
+      <div v-html="html"></div>
+
+      <div v-bind:id="myId">Data Loaded</div>
+      <button v-bind:disabled="isDisabled">Submit</button>
+
+      <br />
+      <div v-bind:style="{color: highlightColor, fontSize: headerSize + 'px'}">
+        Style Attribute Binding
+      </div>
+
+      <div v-bind:style="headerStyleObject">Style Object Binding</div>
+
+      <div v-bind:style="[headerStyleObject, headerStyleObject1]">
+        Style Array Binding
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <script>
+      // view model / create vue instance
+      let vm = new Vue({
+        el: "#my-app",
+        data: {
+          // bind data with template
+          message: "Hello Vue JS",
+          content: "welcome to vue js simple application",
+          data1: "data1",
+          data2: "data2",
+          data3: "data3",
+          data4: "data4",
+          html: "<h2>vue js instance html tag</h2>",
+
+          myId: "dataId",
+          isDisabled: false,
+
+          highlightColor: "Orange",
+          headerSize: 15,
+
+          headerStyleObject: {
+            color: "brown",
+            fontSize: "20px",
+            fontWeight: "bold",
+          },
+          headerStyleObject1: {
+            backgroundColor: "yellow",
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
+
+<!-- data property : javascript object -->
+<!-- not beign with $ or _ -->
+<!-- cannot add a new property or delete existing property during runtime -->
+
+<!-- two way to bind the data in vue instance to html template
+    mastag syntax : {{ data }}
+    directive syntax: html attributes in vue js
+        v-text: drawback is v-text replace the entire contentof that particular element
+-->
+
+<!-- One Time Binding -->
+<!-- only one time render and avoid or prvent the changes after render -->
+<!-- 1. vue js is stop listing the change data properties so it working fast compare to before -->
+<!--  prevent data changes -->
+<!-- 2. UI don't show incorrect information  -->
+<!--  -->
+
+<!-- Binding HTML -->
+<!-- use v-html tag allow you to render the html content inside the attributes -->
+<!-- v-html also replace the entire content of that element -->
+
+<!-- Binding to Attributes -->
+<!-- v-bind directive -->
+<!-- class, id, disabled -->
+<!-- handle html attributes using v-bind directive -->
+
+<!-- Binding Inline Styles -->
+<!-- 1. Object Syntax: we create a style object and direct pass to the v-bind directive so do not need to write the css properties on inline -->
+<!-- 2. Array Syntax -->
+<!-- override the properties -->
+
+<!-- Directives -->
+<!-- v-text, v-html, v-bind, mastag {{}} -->
+
+<!-- One Time Binding -->
+

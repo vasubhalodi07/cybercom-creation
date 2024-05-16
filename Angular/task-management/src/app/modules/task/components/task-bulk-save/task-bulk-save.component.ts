@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   MatSnackBar,
@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { UserService } from '../../../../core/services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
+import * as XLSX from 'xlsx';
 
 interface Task {
   id?: string;
@@ -22,7 +23,10 @@ interface Task {
   templateUrl: './task-bulk-save.component.html',
   styleUrl: './task-bulk-save.component.css',
 })
-export class TaskBulkSaveComponent {
+export class TaskBulkSaveComponent implements OnInit {
+  importForm: FormGroup;
+  selectedFile: File | null = null;
+
   fetchTasks: MatTableDataSource<Task>;
   displayedColumns: string[] = [
     'title',
@@ -49,6 +53,10 @@ export class TaskBulkSaveComponent {
   ) {
     this.fetchTasks = new MatTableDataSource<Task>([]);
     this.loadTasksFromLocalStorage();
+
+    this.importForm = this.fb.group({
+      fileInput: ['', Validators.required],
+    });
   }
 
   ngOnInit(): void {
@@ -64,6 +72,76 @@ export class TaskBulkSaveComponent {
         console.log(err);
       },
     });
+  }
+
+  exportTasks() {
+    const tasksData: any[][] = this.fetchTasks.data.map((task) => [
+      task.taskForm.value.title,
+      task.taskForm.value.description,
+      task.taskForm.value.dueDate,
+      task.taskForm.value.priority,
+      task.taskForm.value.assignedTo,
+    ]);
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet([
+      ['Title', 'Description', 'Due Date', 'Priority', 'Assigned To'],
+      ...tasksData,
+    ]);
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Tasks');
+    XLSX.writeFile(workbook, 'tasks.xlsx');
+  }
+
+  onFileInputChange(event: any) {
+    const fileInput = event.target.files[0];
+    if (!fileInput) {
+      console.log('Invalid file or file not selected.');
+      return;
+    }
+    this.selectedFile = fileInput;
+  }
+
+  importTasks() {
+    if (!this.selectedFile) {
+      console.log('Invalid file or file not selected.');
+      return;
+    }
+
+    const reader: FileReader = new FileReader();
+
+    reader.onload = (e: any) => {
+      const binaryString: string = e.target.result;
+      const workbook: XLSX.WorkBook = XLSX.read(binaryString, {
+        type: 'binary',
+      });
+      const worksheet: XLSX.WorkSheet = workbook.Sheets[workbook.SheetNames[0]];
+      const tasks: any[] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+      const tasksDataWithoutHeader = tasks.slice(1);
+      console.log(tasksDataWithoutHeader);
+
+      this.fetchTasks.data = tasksDataWithoutHeader.map((task) => ({
+        isNew: false,
+        isEdited: false,
+        taskForm: this.fb.group({
+          title: [task[0], Validators.required],
+          description: [task[1], Validators.required],
+          dueDate: [task[2], Validators.required],
+          priority: [task[3], Validators.required],
+          assignedTo: [task[4], Validators.required],
+        }),
+      }));
+
+      const fetchTask = JSON.parse(localStorage.getItem('tasks')!) || [];
+
+      this.fetchTasks.data = this.fetchTasks.data.map((task: any) => ({
+        ...task,
+        id: fetchTask.length + 1,
+      }));
+
+      localStorage.setItem('task', JSON.stringify(this.fetchTasks.data));
+    };
+    reader.readAsBinaryString(this.selectedFile);
   }
 
   loadTasksFromLocalStorage() {

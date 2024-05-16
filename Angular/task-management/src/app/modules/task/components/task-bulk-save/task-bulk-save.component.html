@@ -7,6 +7,28 @@
   <button mat-raised-button color="accent" (click)="bulkSave()">
     Bulk Save
   </button>
+  &nbsp;
+  <button mat-raised-button color="accent" (click)="exportTasks()">
+    Export Xlsx
+  </button>
+  &nbsp;
+  <form [formGroup]="importForm">
+    <input
+      type="file"
+      (change)="onFileInputChange($event)"
+      accept=".xlsx, .xls"
+      id="fileInput"
+      formControlName="fileInput"
+    />
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="importForm.invalid"
+      (click)="importTasks()"
+    >
+      Import Tasks
+    </button>
+  </form>
 
   <table mat-table [dataSource]="fetchTasks">
     <ng-container matColumnDef="title">
