@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>Article</div>
-    <div>{{ title }}</div>
+    <div v-bind="$attrs">{{ title }}</div>
     <div>{{ numOfLikes }}</div>
     <div>{{ isPublished ? "Yes" : "No" }}</div>
   </div>
@@ -24,6 +24,9 @@ export default {
       default: false,
     },
   },
+
+  // avoid the non-prop attribute
+  inheritAttrs: false,
 };
 </script>
 

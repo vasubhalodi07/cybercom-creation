@@ -7,6 +7,8 @@
 
     <br />
     <ArticleComponent
+      id="my-article"
+      class="my-article"
       title="First Article"
       :numOfLikes="10"
       :isPublished="true"
