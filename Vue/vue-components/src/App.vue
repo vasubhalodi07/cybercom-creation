@@ -19,7 +19,8 @@
 
     <!-- Popup: Child to parent communication with component events -->
     <button v-on:click="showPopup = true">Show Popup</button>
-    <Popup v-show="showPopup" v-on:close="showPopup = false" />
+    <!-- <Popup v-show="showPopup" v-on:close="showPopup = false" /> -->
+    <Popup v-show="showPopup" v-on:close="closePopup" />
   </div>
 </template>
 
@@ -52,6 +53,12 @@ export default {
     // GreetComponent,
     // ArticleComponent,
     Popup,
+  },
+  methods: {
+    closePopup(name) {
+      this.showPopup = false;
+      console.log(name);
+    },
   },
 };
 </script>
