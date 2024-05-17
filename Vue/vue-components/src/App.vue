@@ -14,15 +14,20 @@
       :isPublished="true"
     /> -->
 
-    <h4>App Component Username: {{ username }}</h4>
-    <ComponentC />
+    <!-- <h4>App Component Username: {{ username }}</h4>
+    <ComponentC /> -->
+
+    <!-- Popup: Child to parent communication with component events -->
+    <button v-on:click="showPopup = true">Show Popup</button>
+    <Popup v-show="showPopup" v-on:close="showPopup = false" />
   </div>
 </template>
 
 <script>
 // import GreetComponent from "./components/Greet.vue";
 // import ArticleComponent from "./components/Article.vue";
-import ComponentC from "./components/ComponentC.vue";
+// import ComponentC from "./components/ComponentC.vue";
+import Popup from "./components/Popup.vue";
 
 export default {
   name: "App",
@@ -30,6 +35,7 @@ export default {
     return {
       name: "Vasu Bhalodi",
       username: "Vasu",
+      showPopup: false,
     };
   },
 
@@ -42,9 +48,10 @@ export default {
     };
   },
   components: {
-    ComponentC,
+    // ComponentC,
     // GreetComponent,
     // ArticleComponent,
+    Popup,
   },
 };
 </script>
