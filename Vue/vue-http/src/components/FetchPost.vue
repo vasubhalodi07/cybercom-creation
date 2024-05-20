@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="fetchPosts">Load Posts</button>
+    <!-- <button @click="fetchPosts">Load Posts</button> -->
 
     <div class="load-posts" v-for="post in posts" :key="post.id">
       {{ post.id }} {{ post.title }}
@@ -13,6 +13,9 @@ import axios from "axios";
 
 export default {
   name: "FetchPost",
+  created() {
+    this.fetchPosts();
+  },
   data() {
     return {
       posts: [],
