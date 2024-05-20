@@ -48,7 +48,7 @@
     </CardComponent> -->
 
     <!-- Slot with props -->
-    <NameListComponent>
+    <!-- <NameListComponent>
       <template v-slot:default="slotProps">
         {{ slotProps.firstName }} {{ slotProps.lastName }}
       </template>
@@ -58,7 +58,11 @@
       <template v-slot:default="slotProps">
         {{ slotProps.lastName }}
       </template>
-    </NameListComponent>
+    </NameListComponent> -->
+
+    <!-- Component Global and Scope Styling -->
+    <h4>App Component Style</h4>
+    <ChildStyleComponent />
   </div>
 </template>
 
@@ -68,7 +72,8 @@
 // import ComponentC from "./components/ComponentC.vue";
 // import Popup from "./components/Popup.vue";
 // import CardComponent from "./components/Card.vue";
-import NameListComponent from "./components/NameList.vue";
+// import NameListComponent from "./components/NameList.vue";
+import ChildStyleComponent from "./components/ChildStyle.vue";
 
 export default {
   name: "App",
@@ -94,7 +99,8 @@ export default {
     // ArticleComponent,
     // Popup,
     // CardComponent,
-    NameListComponent,
+    // NameListComponent,
+    ChildStyleComponent,
   },
   // methods: {
   //   closePopup(name) {
@@ -104,3 +110,9 @@ export default {
   // },
 };
 </script>
+
+<style>
+h4 {
+  color: blue;
+}
+</style>
