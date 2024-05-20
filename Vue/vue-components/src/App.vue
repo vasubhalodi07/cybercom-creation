@@ -61,8 +61,19 @@
     </NameListComponent> -->
 
     <!-- Component Global and Scope Styling -->
-    <h4>App Component Style</h4>
-    <ChildStyleComponent />
+    <!-- <h4>App Component Style</h4>
+    <ChildStyleComponent /> -->
+
+    <!-- Tabwise Showing Dynamic Component -->
+    <button v-on:click="activeTab = 'TabA'">TabA</button>
+    <button v-on:click="activeTab = 'TabB'">TabB</button>
+    <button v-on:click="activeTab = 'TabC'">TabC</button>
+
+    <component :is="activeTab" />
+
+    <!-- <TabAComponent v-if="activeTab == 'TabA'" />
+    <TabBComponent v-if="activeTab == 'TabB'" />
+    <TabCComponent v-if="activeTab == 'TabC'" /> -->
   </div>
 </template>
 
@@ -73,7 +84,10 @@
 // import Popup from "./components/Popup.vue";
 // import CardComponent from "./components/Card.vue";
 // import NameListComponent from "./components/NameList.vue";
-import ChildStyleComponent from "./components/ChildStyle.vue";
+// import ChildStyleComponent from "./components/ChildStyle.vue";
+import TabA from "./components/TabA.vue";
+import TabB from "./components/TabB.vue";
+import TabC from "./components/TabC.vue";
 
 export default {
   name: "App",
@@ -82,6 +96,8 @@ export default {
       name: "Vasu Bhalodi",
       username: "Vasu",
       showPopup: false,
+
+      activeTab: "TabA",
     };
   },
 
@@ -100,7 +116,10 @@ export default {
     // Popup,
     // CardComponent,
     // NameListComponent,
-    ChildStyleComponent,
+    // ChildStyleComponent,
+    TabA,
+    TabB,
+    TabC,
   },
   // methods: {
   //   closePopup(name) {
