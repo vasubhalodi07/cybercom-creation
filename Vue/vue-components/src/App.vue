@@ -32,6 +32,20 @@
         alt=""
       />
     </CardComponent>
+
+    <!-- Slot with names -->
+    <CardComponent>
+      <template v-slot:header>
+        <h3>Header</h3>
+      </template>
+      <template v-slot:default>
+        <div>Default</div>
+        <div>V Slot</div>
+      </template>
+      <template v-slot:footer>
+        <button>Show More...</button>
+      </template>
+    </CardComponent>
   </div>
 </template>
 
