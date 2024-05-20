@@ -18,9 +18,20 @@
     <ComponentC /> -->
 
     <!-- Popup: Child to parent communication with component events -->
-    <button v-on:click="showPopup = true">Show Popup</button>
+    <!-- <button v-on:click="showPopup = true">Show Popup</button> -->
     <!-- <Popup v-show="showPopup" v-on:close="showPopup = false" /> -->
-    <Popup v-show="showPopup" v-on:close="closePopup" />
+    <!-- <Popup v-show="showPopup" v-on:close="closePopup" /> -->
+    <CardComponent></CardComponent>
+    <CardComponent>
+      <h5>Card Title</h5>
+      <p>Card Body</p>
+    </CardComponent>
+    <CardComponent>
+      <img
+        src="https://c4.wallpaperflare.com/wallpaper/586/603/742/minimalism-4k-for-mac-desktop-wallpaper-preview.jpg"
+        alt=""
+      />
+    </CardComponent>
   </div>
 </template>
 
@@ -28,7 +39,8 @@
 // import GreetComponent from "./components/Greet.vue";
 // import ArticleComponent from "./components/Article.vue";
 // import ComponentC from "./components/ComponentC.vue";
-import Popup from "./components/Popup.vue";
+// import Popup from "./components/Popup.vue";
+import CardComponent from "./components/Card.vue";
 
 export default {
   name: "App",
@@ -52,13 +64,14 @@ export default {
     // ComponentC,
     // GreetComponent,
     // ArticleComponent,
-    Popup,
+    // Popup,
+    CardComponent,
   },
-  methods: {
-    closePopup(name) {
-      this.showPopup = false;
-      console.log(name);
-    },
-  },
+  // methods: {
+  //   closePopup(name) {
+  //     this.showPopup = false;
+  //     console.log(name);
+  //   },
+  // },
 };
 </script>
