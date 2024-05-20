@@ -21,7 +21,7 @@
     <!-- <button v-on:click="showPopup = true">Show Popup</button> -->
     <!-- <Popup v-show="showPopup" v-on:close="showPopup = false" /> -->
     <!-- <Popup v-show="showPopup" v-on:close="closePopup" /> -->
-    <CardComponent></CardComponent>
+    <!-- <CardComponent></CardComponent>
     <CardComponent>
       <h5>Card Title</h5>
       <p>Card Body</p>
@@ -31,10 +31,10 @@
         src="https://c4.wallpaperflare.com/wallpaper/586/603/742/minimalism-4k-for-mac-desktop-wallpaper-preview.jpg"
         alt=""
       />
-    </CardComponent>
+    </CardComponent> -->
 
     <!-- Slot with names -->
-    <CardComponent>
+    <!-- <CardComponent>
       <template v-slot:header>
         <h3>Header</h3>
       </template>
@@ -45,7 +45,20 @@
       <template v-slot:footer>
         <button>Show More...</button>
       </template>
-    </CardComponent>
+    </CardComponent> -->
+
+    <!-- Slot with props -->
+    <NameListComponent>
+      <template v-slot:default="slotProps">
+        {{ slotProps.firstName }} {{ slotProps.lastName }}
+      </template>
+    </NameListComponent>
+
+    <NameListComponent>
+      <template v-slot:default="slotProps">
+        {{ slotProps.lastName }}
+      </template>
+    </NameListComponent>
   </div>
 </template>
 
@@ -54,7 +67,8 @@
 // import ArticleComponent from "./components/Article.vue";
 // import ComponentC from "./components/ComponentC.vue";
 // import Popup from "./components/Popup.vue";
-import CardComponent from "./components/Card.vue";
+// import CardComponent from "./components/Card.vue";
+import NameListComponent from "./components/NameList.vue";
 
 export default {
   name: "App",
@@ -79,7 +93,8 @@ export default {
     // GreetComponent,
     // ArticleComponent,
     // Popup,
-    CardComponent,
+    // CardComponent,
+    NameListComponent,
   },
   // methods: {
   //   closePopup(name) {
