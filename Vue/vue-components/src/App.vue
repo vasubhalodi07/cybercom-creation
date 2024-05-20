@@ -69,7 +69,9 @@
     <button v-on:click="activeTab = 'TabB'">TabB</button>
     <button v-on:click="activeTab = 'TabC'">TabC</button>
 
-    <component :is="activeTab" />
+    <keep-alive>
+      <component :is="activeTab" />
+    </keep-alive>
 
     <!-- <TabAComponent v-if="activeTab == 'TabA'" />
     <TabBComponent v-if="activeTab == 'TabB'" />
