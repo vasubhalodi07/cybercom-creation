@@ -26,7 +26,7 @@
                             <NuxtLink to="/product"
                                 class="text-gray-300 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
                                 Product</NuxtLink>
-                            <NuxtLink to="/contact"
+                            <NuxtLink to="/contact" v-if="$auth.loggedIn && $auth.user && $auth.user.role == 'customer'"
                                 class="text-gray-300 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
                                 Contact</NuxtLink>
                             <NuxtLink to="/contact" v-if="$auth.loggedIn && $auth.user && $auth.user.role == 'admin'"
@@ -72,8 +72,8 @@
                             role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                             <NuxtLink to="/profile" class="block px-4 py-2 text-sm text-gray-700" role="menuitem">Your
                                 Profile</NuxtLink>
-                            <a @click="logout" class="block px-4 py-2 text-sm text-gray-700" role="menuitem"
-                                tabindex="-1" id="user-menu-item-2">Sign out</a>
+                            <a @click="logout" style="cursor: pointer;" class="block px-4 py-2 text-sm text-gray-700"
+                                role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
                         </div>
                     </div>
                 </div>
