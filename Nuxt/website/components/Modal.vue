@@ -5,14 +5,25 @@
             <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                 <div
                     class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                    <div v-if="$slots.header" class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                    <div v-if="$slots.header" class="bg-white px-4 pb-2 pt-5 sm:p-4 sm:pb-2">
                         <slot name="header"></slot>
                     </div>
-                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                        <slot name="body"></slot>
+                    <div class="bg-white px-4 pb-4 pt-5 sm:p-4 sm:pb-2">
+                        <slot name="body">
+                            <div class="flex flex-col gap-4">
+                                <div>
+                                    <input type="text" placeholder="Title" v-model="localTitle"
+                                        class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                </div>
+                                <div>
+                                    <input type="number" placeholder="Price" v-model="localPrice"
+                                        class="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                </div>
+                            </div>
+                        </slot>
                     </div>
                     <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                        <button type="button" @click="$emit('submit')" :disabled="loading" :class="buttonClass"
+                        <button type="button" @click='handleSubmit' :disabled="loading" :class="buttonClass"
                             class="inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto"
                             :style="{ cursor: loading ? 'not-allowed' : 'pointer' }">
                             {{ loading ? "Loading..." : buttonText }}
@@ -47,7 +58,21 @@ export default {
         buttonName: {
             type: String,
             default: "Submit"
+        },
+        title: {
+            type: String,
+            default: ""
+        },
+        price: {
+            type: Number,
+            default: 0
         }
+    },
+    data() {
+        return {
+            localTitle: this.title,
+            localPrice: this.price
+        };
     },
     computed: {
         buttonText() {
@@ -56,8 +81,19 @@ export default {
         buttonClass() {
             return this.state ? "bg-red-600 hover:bg-red-500" : "bg-blue-600 hover:bg-blue-500";
         }
+    },
+    watch: {
+        title(newValue) {
+            this.localTitle = newValue;
+        },
+        price(newValue) {
+            this.localPrice = newValue;
+        }
+    },
+    methods: {
+        handleSubmit() {
+            this.$emit('submit', { title: this.localTitle, price: this.localPrice });
+        }
     }
 }
 </script>
-
-<style scoped></style>
