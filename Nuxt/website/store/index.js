@@ -100,6 +100,7 @@ const actions = {
       commit("setProductByIdLoading", false);
     } catch (err) {
       console.log(err);
+      commit("setProductByIdLoading", false);
     }
   },
 
@@ -134,6 +135,25 @@ const actions = {
       );
       if (!response.ok) {
         throw new Error("Failed to update product");
+      }
+      commit("setLoading", false);
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  async createProduct({ commit }, data) {
+    try {
+      commit("setLoading", true);
+      const response = await fetch(
+        `https://api.escuelajs.co/api/v1/products`,
+        {
+          method: "POST",
+          body: JSON.stringify(data),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to create product");
       }
       commit("setLoading", false);
     } catch (err) {
@@ -224,6 +244,73 @@ const actions = {
       commit("setCategoriesLoading", false);
     } catch (err) {
       console.log(err);
+    }
+  },
+
+  async createCategories({ commit }, data) {
+    try {
+      console.log(data);
+      const data1 = {
+        name: data.name,
+        image: data.image,
+      }
+
+      commit("setLoading", true);
+      const response = await fetch(
+        "https://api.escuelajs.co/api/v1/categories",
+        {
+          method: "POST",
+          body: JSON.stringify(data1),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to create category");
+      }
+      commit("setLoading", false);
+    } catch (err) {
+      console.log(err);
+      commit("setLoading", false);
+    }
+  },
+
+  async deleteCategories({ commit }, id) {
+    try {
+      commit("setLoading", true);
+      const response = await fetch(
+        `https://api.escuelajs.co/api/v1/categories/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to delete category");
+      }
+      commit("setLoading", false);
+    } catch (err) {
+      console.log(err);
+      commit("setLoading", false);
+    }
+  },
+
+  async editCategories({ commit }, { id, name }) {
+    try {
+      commit("setLoading", true);
+      const response = await fetch(
+        `https://api.escuelajs.co/api/v1/categories/${id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            name: name,
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to edit category");
+      }
+      commit("setLoading", false);
+    } catch (err) {
+      console.log(err);
+      commit("setLoading", false);
     }
   },
 };

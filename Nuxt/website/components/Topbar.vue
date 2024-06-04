@@ -21,15 +21,19 @@
                     <div class="hidden sm:ml-6 sm:block">
                         <div class="flex space-x-1">
                             <NuxtLink to="/"
-                                class="text-gray-300 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                                Home</NuxtLink>
+                                class="text-gray-300 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Home
+                            </NuxtLink>
                             <NuxtLink to="/product"
+                                class="text-gray-300 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Product
+                            </NuxtLink>
+                            <NuxtLink to="/product/create"
+                                v-if="$auth.loggedIn && $auth.user && $auth.user.role == 'admin'"
                                 class="text-gray-300 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                                Product</NuxtLink>
+                                Add Product</NuxtLink>
                             <NuxtLink to="/contact" v-if="$auth.loggedIn && $auth.user && $auth.user.role == 'customer'"
-                                class="text-gray-300 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                                Contact</NuxtLink>
-                            <NuxtLink to="/contact" v-if="$auth.loggedIn && $auth.user && $auth.user.role == 'admin'"
+                                class="text-gray-300 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Contact
+                            </NuxtLink>
+                            <NuxtLink to="/categories" v-if="$auth.loggedIn && $auth.user && $auth.user.role == 'admin'"
                                 class="text-gray-300 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
                                 Categories</NuxtLink>
                         </div>
@@ -42,7 +46,7 @@
                             <div>Login</div>&nbsp;<svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                    d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                             </svg>
                         </NuxtLink>
                     </div>
@@ -53,7 +57,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                                    d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                             </svg>
                         </NuxtLink>
                     </button>
@@ -83,14 +87,14 @@
         <div v-if="drawer" class="sm:hidden" id="mobile-menu">
             <div class="space-y-1 px-2 pb-3 pt-2">
                 <NuxtLink to="/"
-                    class="text-gray-300 hover:text-white block rounded-md px-3 py-2 text-base font-medium">
-                    Home</NuxtLink>
+                    class="text-gray-300 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Home
+                </NuxtLink>
                 <NuxtLink to="/product"
-                    class="text-gray-300 hover:text-white block rounded-md px-3 py-2 text-base font-medium">
-                    Product</NuxtLink>
+                    class="text-gray-300 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Product
+                </NuxtLink>
                 <NuxtLink to="/contact"
-                    class="text-gray-300 hover:text-white block rounded-md px-3 py-2 text-base font-medium">
-                    Contact</NuxtLink>
+                    class="text-gray-300 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Contact
+                </NuxtLink>
             </div>
         </div>
     </nav>
@@ -101,7 +105,7 @@ export default {
     data() {
         return {
             open: false,
-            drawer: false
+            drawer: false,
         };
     },
     methods: {
@@ -113,7 +117,18 @@ export default {
         },
         async logout() {
             await this.$auth.logout();
-        }
+        },
+        handleClickOutside(event) {
+            if (this.open && !this.$el.contains(event.target)) {
+                this.open = false;
+            }
+        },
+    },
+    mounted() {
+        document.addEventListener('click', this.handleClickOutside);
+    },
+    beforeDestroy() {
+        document.removeEventListener('click', this.handleClickOutside);
     },
 };
 </script>

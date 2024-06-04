@@ -55,33 +55,15 @@
       </div>
     </div>
 
-    <Modal :visible="visible" :loading="modelLoading" :state="isEditMode ? false : true"
-      :buttonName="isEditMode ? 'Update' : 'Delete'" :title="product.title" :price="product.price" @cancel="closeDialog"
-      @submit="submitDialog">
-      <template v-if="isEditMode" #header>
-        <div class="text-xl font-bold text-gray-900">Edit Product</div>
+    <Modal v-if="visible">
+      <template v-if="deleteMode">
+        <DeleteConfirmation :loading="modelLoading" header="product" @submit="handleDelete" @cancel="handleCancel" />
       </template>
-
-      <template #body>
-        <template v-if="!isEditMode">
-          <div class="sm:flex sm:items-start">
-            <div
-              class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-              <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-              </svg>
-            </div>
-            <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-              <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Delete Product</h3>
-              <p class="text-sm text-gray-500">Are you sure you want to delete this product?</p>
-            </div>
-          </div>
-        </template>
+      <template v-else>
+        <DynamicForm title="Update Product" :loading="modelLoading" :fields="currentFields" :initialData="currentData"
+          @submit="handleFormSubmit" @cancel="handleCancel" />
       </template>
     </Modal>
-
   </div>
 </template>
 
@@ -91,7 +73,10 @@ export default {
     return {
       currentImage: null,
       visible: false,
-      isEditMode: false,
+      deleteMode: true,
+      currentFields: [],
+      currentData: {},
+      id: this.$route.params.id
     };
   },
   created() {
@@ -110,40 +95,56 @@ export default {
   },
   methods: {
     async fetchProducts() {
-      let id = this.$route.params.id;
-      await this.$store.dispatch("fetchProductById", id);
+      await this.$store.dispatch("fetchProductById", this.id);
     },
 
     toggleModel() {
-      this.isEditMode = false;
       this.visible = !this.visible;
     },
 
     editMode() {
+      this.deleteMode = false;
+      this.currentFields = this.getProductFields();
+      this.currentData = this.product;
       this.visible = true;
-      this.isEditMode = true;
     },
 
-    closeDialog() {
+    getProductFields() {
+      return [
+        { name: 'title', label: 'Title', type: 'text', placeholder: 'Enter product title' },
+        { name: 'price', label: 'Price', type: 'text', placeholder: 'Enter product price' },
+        { name: 'description', label: 'Description', type: 'textarea', placeholder: 'Enter product description' },
+      ];
+    },
+
+    handleDelete() {
+      this.$store.dispatch("deleteProduct", this.id).then(() => {
+        this.handleCancel();
+        this.$router.push("/product");
+      }).catch((err) => {
+        console.log(err);
+      });
+    },
+
+    handleCancel() {
+      this.deleteMode = true;
       this.visible = false;
     },
-    submitDialog(data) {
-      let id = this.$route.params.id;
-      if (this.isEditMode) {
-        this.$store.dispatch("updateProduct", { id: id, data: data }).then(() => {
-          this.closeDialog();
-          this.fetchProducts();
-        }).catch((err) => {
-          console.log(err);
-        })
-      } else {
-        this.$store.dispatch("deleteProduct", id).then(() => {
-          this.closeDialog();
-          this.$router.push("/product");
-        }).catch((err) => {
-          console.log(err);
-        });
+
+    handleFormSubmit(data) {
+      let body = {
+        title: data.title,
+        price: data.price,
+        description: data.description,
       }
+
+      this.$store.dispatch("updateProduct", { id: this.id, data: body }).then(() => {
+        this.handleCancel();
+        this.fetchProducts();
+        console.log("updated");
+      }).catch((err) => {
+        console.log(err);
+      })
     },
 
     onImageError() {

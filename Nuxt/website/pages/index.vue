@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- Hero Section -->
     <div class="bg-blue-100 text-center py-20">
       <h1 class="text-4xl text-black font-bold mb-4">Welcome to Our Store</h1>
       <p class="text-lg mb-6">Discover the best products at unbeatable prices</p>
@@ -9,7 +8,6 @@
       </button>
     </div>
 
-    <!-- Highest-Rated Products -->
     <div class="bg-gray-100 py-10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-3xl font-bold text-gray-800 mb-6">Highest-Rated Products</h2>
