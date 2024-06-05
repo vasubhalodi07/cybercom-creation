@@ -34,9 +34,7 @@ export default {
     "@nuxtjs/apollo",
   ],
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
-
+  // Apollo module configuration: https://github.com/nuxt-community/apollo-module
   apollo: {
     clientConfigs: {
       default: {
@@ -44,4 +42,36 @@ export default {
       },
     },
   },
+
+  // Build Configuration: https://go.nuxtjs.dev/config-build
+  build: {
+    extend(config, { isServer }) {
+      if (!isServer) {
+        config.node = {
+          fs: "empty",
+        };
+      }
+    },
+  },
 };
+
+// apollo: {
+//     products: {
+//         query: GET_PRODUCTS,
+//         loadingKey: 'productLoading',
+//         variables() {
+//             const variables = { title: this.searchQuery };
+//             if (this.categoryId !== '' && !isNaN(parseFloat(this.categoryId))) {
+//                 variables.categoryId = parseFloat(this.categoryId);
+//             }
+//             return variables;
+//         },
+//         error(error) {
+//             this.error = error;
+//         },
+//     },
+// },
+
+// Apollo
+// Apollo Context: $apollo
+// Apollo Client: apolloClient
