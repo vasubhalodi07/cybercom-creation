@@ -7,7 +7,11 @@
                 Category</button>
         </div>
 
-        <div class="overflow-x-auto">
+        <div v-if="loading">
+            <Loader />
+        </div>
+
+        <div v-else class="overflow-x-auto">
             <table class="min-w-full bg-white">
                 <thead>
                     <tr>
@@ -49,15 +53,15 @@
 
         <Modal v-if="visible">
             <template v-if="modalState == 'add'">
-                <DynamicForm :title="'Add Category'" :loading="loading" :fields="currentFields"
+                <DynamicForm :title="'Add Category'" :loading="modalLoading" :fields="currentFields"
                     @submit="handleAddCategory" @cancel="handleCancel" />
             </template>
             <template v-if="modalState == 'edit'">
-                <DynamicForm :title="'Edit Category'" :loading="loading" :fields="currentFields"
+                <DynamicForm :title="'Edit Category'" :loading="modalLoading" :fields="currentFields"
                     :initialData="currentData" @submit="handleEditCategory" @cancel="handleCancel" />
             </template>
             <template v-if="modalState == 'delete'">
-                <DeleteConfirmation :loading="loading" header="category" @submit="handleDelete"
+                <DeleteConfirmation :loading="modalLoading" header="category" @submit="handleDelete"
                     @cancel="handleCancel" />
             </template>
         </Modal>
@@ -81,6 +85,8 @@ export default {
         ...mapState('category', {
             categories: state => state.categories,
             loading: state => state.loading,
+            error: state => state.error,
+            modalLoading: state => state.modalLoading
         })
     },
     created() {
@@ -89,17 +95,55 @@ export default {
     methods: {
         ...mapActions('category', ['fetchCategories', 'createCategory', 'updateCategory', 'deleteCategory']),
 
+        async handleAddCategory(formData) {
+            if (formData.name == undefined || formData.image == undefined) {
+                return alert("all fields required!");
+            }
+            try {
+                const response = await this.createCategory(
+                    { name: formData.name, image: formData.image }
+                );
+                this.handleCancel();
+                this.$toast({ message: 'Category created!', type: 'success', duration: 3000 });
+                console.log("category created!", response);
+            } catch (err) {
+                console.log("Error creating category!", err);
+                this.$toast({ message: 'Error creating category!', type: 'error', duration: 3000 });
+            }
+        },
+
+        async handleEditCategory(formData) {
+            if (formData.name == undefined || formData.image == undefined) {
+                return alert("all fields required");
+            }
+            try {
+                const response = await this.updateCategory({ id: this.currentCategoryId, name: formData.name, image: formData.image });
+                this.handleCancel();
+                this.$toast({ message: 'Category updated!', type: 'success', duration: 3000 });
+                console.log("category updated!", response);
+            } catch (err) {
+                console.log("Error updating category!", err);
+                this.$toast({ message: 'Error updating category!', type: 'error', duration: 3000 });
+            }
+        },
+        
+        async handleDelete() {
+            try {
+                const response = await this.deleteCategory(this.currentCategoryId);
+                this.$toast({ message: 'Category deleted successfully!', type: 'success', duration: 3000 });
+                console.log("category deleted!", response);
+            } catch (err) {
+                this.$toast({ message: 'Error deleting category!', type: 'error', duration: 3000 });
+                console.log("Error deleting category!", err);
+            } finally {
+                this.handleCancel();
+            }
+        },
+
         openAddModel() {
             this.currentFields = this.categoryFields();
             this.modalState = "add";
             this.visible = true;
-        },
-
-        categoryFields() {
-            return [
-                { name: 'name', label: 'Name', type: 'text', placeholder: 'Enter category name' },
-                { name: 'image', label: 'Image URL', type: 'text', placeholder: 'Enter category image URL' },
-            ];
         },
 
         openEditModal(category) {
@@ -119,27 +163,17 @@ export default {
             this.modalState = "delete";
         },
 
-        handleAddCategory(formData) {
-            this.createCategory({ name: formData.name, image: formData.image });
-            this.handleCancel();
-            this.fetchCategories();
-        },
-
-        handleEditCategory(formData) {
-            this.updateCategory({ id: this.currentCategoryId, name: formData.name, image: formData.image });
-            this.fetchCategories();
-        },
-
-        handleDelete() {
-            this.deleteCategory(this.currentCategoryId);
-            this.handleCancel();
-            this.fetchCategories();
-        },
-
         handleCancel() {
             this.visible = false;
             this.modalState = "";
             this.currentCategoryId = null;
+        },
+
+        categoryFields() {
+            return [
+                { name: 'name', label: 'Name', type: 'text', placeholder: 'Enter category name' },
+                { name: 'image', label: 'Image URL', type: 'text', placeholder: 'Enter category image URL' },
+            ];
         },
     },
 };

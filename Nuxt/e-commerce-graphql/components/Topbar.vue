@@ -34,9 +34,6 @@
                                 class="text-gray-300 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
                                 Categories
                             </NuxtLink>
-                            <NuxtLink to="/contact"
-                                class="text-gray-300 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Contact
-                            </NuxtLink>
                         </div>
                     </div>
                 </div>
@@ -97,9 +94,6 @@
                 </NuxtLink>
                 <NuxtLink to="/product"
                     class="text-gray-300 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Product
-                </NuxtLink>
-                <NuxtLink to="/contact"
-                    class="text-gray-300 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Contact
                 </NuxtLink>
             </div>
         </div>

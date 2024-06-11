@@ -9,17 +9,35 @@ export const state = () => ({
   categories: [],
   loading: false,
   error: null,
+  modalLoading: false,
 });
 
 export const mutations = {
-  SET_CATEGORIES(state, category) {
-    state.categories = category;
+  SET_CATEGORIES(state, categories) {
+    state.categories = categories;
   },
   SET_LOADING(state, loading) {
     state.loading = loading;
   },
   SET_ERROR(state, error) {
     state.error = error;
+  },
+  SET_MODAL_LOADING(state, loading) {
+    state.modalLoading = loading;
+  },
+  ADD_CATEGORY(state, category) {
+    state.categories.push(category);
+  },
+  UPDATE_CATEGORY(state, updatedCategory) {
+    const index = state.categories.findIndex(
+      (cat) => cat.id === updatedCategory.id
+    );
+    if (index !== -1) {
+      state.categories.splice(index, 1, updatedCategory);
+    }
+  },
+  DELETE_CATEGORY(state, categoryId) {
+    state.categories = state.categories.filter((cat) => cat.id !== categoryId);
   },
 };
 
@@ -33,16 +51,17 @@ export const actions = {
         query: GET_CATEGORIES,
       });
       commit("SET_CATEGORIES", data.categories);
+      return data;
     } catch (err) {
-      console.log(err);
       commit("SET_ERROR", err);
+      throw err;
     } finally {
       commit("SET_LOADING", false);
     }
   },
 
   async createCategory({ commit }, { name, image }) {
-    commit("SET_LOADING", true);
+    commit("SET_MODAL_LOADING", true);
     commit("SET_ERROR", null);
     try {
       const client = this.app.apolloProvider.defaultClient;
@@ -53,17 +72,18 @@ export const actions = {
           image: image,
         },
       });
-      console.log(data);
+      commit("ADD_CATEGORY", data.addCategory);
+      return data;
     } catch (err) {
-      console.log(err);
       commit("SET_ERROR", err);
+      throw err;
     } finally {
-      commit("SET_LOADING", false);
+      commit("SET_MODAL_LOADING", false);
     }
   },
 
   async updateCategory({ commit }, { id, name, image }) {
-    commit("SET_LOADING", true);
+    commit("SET_MODAL_LOADING", true);
     commit("SET_ERROR", null);
     try {
       const client = this.app.apolloProvider.defaultClient;
@@ -75,17 +95,18 @@ export const actions = {
           image: image,
         },
       });
-      console.log(data);
+      commit("UPDATE_CATEGORY", data.updateCategory);
+      return data;
     } catch (err) {
-      console.log(err);
       commit("SET_ERROR", err);
+      throw err;
     } finally {
-      commit("SET_LOADING", false);
+      commit("SET_MODAL_LOADING", false);
     }
   },
 
   async deleteCategory({ commit }, id) {
-    commit("SET_LOADING", true);
+    commit("SET_MODAL_LOADING", true);
     commit("SET_ERROR", null);
     try {
       const client = this.app.apolloProvider.defaultClient;
@@ -95,12 +116,13 @@ export const actions = {
           id: id,
         },
       });
-      console.log(data);
+      commit("DELETE_CATEGORY", id);
+      return data;
     } catch (err) {
-      console.log(err);
       commit("SET_ERROR", err);
+      throw err;
     } finally {
-      commit("SET_LOADING", false);
+      commit("SET_MODAL_LOADING", false);
     }
   },
 };
