@@ -26,32 +26,37 @@
                             <NuxtLink to="/product"
                                 class="text-gray-300 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Product
                             </NuxtLink>
-                            <NuxtLink to="/product/create"
-                                v-if="$auth.loggedIn && $auth.user && $auth.user.role == 'admin'"
+                            <NuxtLink v-if="isLoggedIn && user.data && user.data.role == 'admin'" to="/product/create"
                                 class="text-gray-300 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                                Add Product</NuxtLink>
-                            <NuxtLink to="/contact" v-if="$auth.loggedIn && $auth.user && $auth.user.role == 'customer'"
+                                Add Product
+                            </NuxtLink>
+                            <NuxtLink v-if="isLoggedIn && user.data && user.data.role == 'admin'" to="/categories"
+                                class="text-gray-300 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                                Categories
+                            </NuxtLink>
+                            <NuxtLink to="/contact"
                                 class="text-gray-300 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Contact
                             </NuxtLink>
-                            <NuxtLink to="/categories" v-if="$auth.loggedIn && $auth.user && $auth.user.role == 'admin'"
-                                class="text-gray-300 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                                Categories</NuxtLink>
                         </div>
                     </div>
                 </div>
+
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                    <div class="py-6" v-if="!$auth.loggedIn">
-                        <NuxtLink to="/login"
+                    <div class="py-6">
+                        <NuxtLink v-if="!isLoggedIn" to="/login"
                             class="text-gray-300 hover:text-white rounded-md px-3 py-2 text-sm font-medium flex items-center">
-                            <div>Login</div>&nbsp;<svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                            <div>
+                                Login
+                            </div>&nbsp;
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-4">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                             </svg>
                         </NuxtLink>
                     </div>
 
-                    <button v-if="$auth.loggedIn && $auth.user && $auth.user.role !== 'admin'" type="button"
+                    <button v-if="isLoggedIn && user.data && user.data.role != 'admin'"
                         class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white pr-2">
                         <NuxtLink to="/cart">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -62,12 +67,13 @@
                         </NuxtLink>
                     </button>
 
-                    <div class="relative ml-3" v-if="$auth.loggedIn">
+                    <div class="relative ml-3" v-if="isLoggedIn">
                         <div>
                             <button type="button"
                                 class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                                 @click="toggle">
-                                <img class="h-8 w-8 rounded-full" :src="$auth.user.avatar" alt="" />
+                                <img class="h-8 w-8 rounded-full" :src="user.data && user.data.avatar"
+                                    :alt="user.data && user.data.name" />
                             </button>
                         </div>
 
@@ -84,7 +90,7 @@
             </div>
         </div>
 
-        <div v-if="drawer" class="sm:hidden" id="mobile-menu">
+        <div class="sm:hidden" id="mobile-menu">
             <div class="space-y-1 px-2 pb-3 pt-2">
                 <NuxtLink to="/"
                     class="text-gray-300 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Home
@@ -101,6 +107,8 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
     data() {
         return {
@@ -108,15 +116,24 @@ export default {
             drawer: false,
         };
     },
+    computed: {
+        ...mapState({
+            user: state => state.user,
+            isLoggedIn: state => state.isLoggedIn
+        })
+    },
     methods: {
+        ...mapActions(['userLogout']),
+        logout() {
+            this.userLogout(this.$root.$options);
+            this.$router.push('/login');
+        },
+
         toggle() {
             this.open = !this.open;
         },
         toggleDrawer() {
             this.drawer = !this.drawer;
-        },
-        async logout() {
-            await this.$auth.logout();
         },
         handleClickOutside(event) {
             if (this.open && !this.$el.contains(event.target)) {

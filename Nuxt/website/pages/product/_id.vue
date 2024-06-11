@@ -141,7 +141,6 @@ export default {
       this.$store.dispatch("updateProduct", { id: this.id, data: body }).then(() => {
         this.handleCancel();
         this.fetchProducts();
-        console.log("updated");
       }).catch((err) => {
         console.log(err);
       })

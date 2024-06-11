@@ -5,8 +5,8 @@ export const CREATE_PRODUCT = gql`
     $title: String!
     $price: Float!
     $description: String!
-    $categoryId: Int!
-    $images: [String!]
+    $categoryId: Float!
+    $images: [String!]!
   ) {
     addProduct(
       data: {
@@ -31,8 +31,8 @@ export const CREATE_PRODUCT = gql`
 `;
 
 export const UPDATE_PRODUCT = gql`
-  mutation UpdateProduct($title: String!, $price: Float!) {
-    updateProduct(title: $title, price: $price) {
+  mutation UpdateProduct($id: ID!, $title: String!, $price: Float!) {
+    updateProduct(id: $id, changes: { title: $title, price: $price }) {
       id
       title
       price
@@ -41,9 +41,7 @@ export const UPDATE_PRODUCT = gql`
 `;
 
 export const DELETE_PRODUCT = gql`
-  mutation DeleteProduct(
-    id: ID!
-  ) {
+  mutation DeleteProduct($id: ID!) {
     deleteProduct(id: $id)
   }
 `;

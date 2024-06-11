@@ -18,7 +18,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: ["~/plugins/toast.js"],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -26,13 +26,12 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [],
 
+  router: {
+    middleware: "auth",
+  },
+
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
-    "@nuxtjs/axios",
-    "@nuxtjs/auth-next",
-    "@nuxtjs/tailwindcss",
-    "@nuxtjs/apollo",
-  ],
+  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/apollo", "cookie-universal-nuxt"],
 
   // Apollo module configuration: https://github.com/nuxt-community/apollo-module
   apollo: {
@@ -54,24 +53,3 @@ export default {
     },
   },
 };
-
-// apollo: {
-//     products: {
-//         query: GET_PRODUCTS,
-//         loadingKey: 'productLoading',
-//         variables() {
-//             const variables = { title: this.searchQuery };
-//             if (this.categoryId !== '' && !isNaN(parseFloat(this.categoryId))) {
-//                 variables.categoryId = parseFloat(this.categoryId);
-//             }
-//             return variables;
-//         },
-//         error(error) {
-//             this.error = error;
-//         },
-//     },
-// },
-
-// Apollo
-// Apollo Context: $apollo
-// Apollo Client: apolloClient

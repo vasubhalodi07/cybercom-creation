@@ -336,7 +336,6 @@ const getters = {
   },
 
   calculateTotalPrice: (state) => {
-    console.log(state.cart.data);
     return state.cart.data.reduce(
       (acc, item) => acc + item.product.price * item.quantity,
       0
