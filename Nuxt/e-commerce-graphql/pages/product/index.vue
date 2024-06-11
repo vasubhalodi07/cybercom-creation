@@ -28,7 +28,25 @@
             </div>
             <div v-else
                 class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-                <ProductCard v-for="product in products" :key="product.id" :product="product" />
+                <ProductCard v-for="product in paginatedProducts" :key="product.id" :product="product" />
+            </div>
+
+            <div class="flex justify-center mt-5">
+                <button @click="previousPage" :disabled="currentPage === 1"
+                    class="px-4 py-2 mr-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                    Previous
+                </button>
+                <div class="flex">
+                    <button v-for="pageNumber in pagination" :key="pageNumber" @click="goToPage(pageNumber)"
+                        :class="{ 'bg-gray-200': pageNumber === currentPage, 'hover:bg-gray-300': pageNumber !== currentPage }"
+                        class="px-4 py-2 mr-2 text-gray-700 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                        {{ pageNumber }}
+                    </button>
+                </div>
+                <button @click="nextPage" :disabled="currentPage === totalPages"
+                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                    Next
+                </button>
             </div>
         </div>
     </div>
@@ -42,7 +60,9 @@ export default {
         return {
             error: null,
             searchQuery: '',
-            categoryId: ''
+            categoryId: '',
+            currentPage: 1,
+            productsPerPage: 12
         };
     },
     computed: {
@@ -56,10 +76,65 @@ export default {
             categoryLoading: state => state.loading,
             categoryError: state => state.error
         }),
+        totalPages() {
+            return Math.ceil(this.products.length / this.productsPerPage);
+        },
+        paginatedProducts() {
+            const startIndex = (this.currentPage - 1) * this.productsPerPage;
+            const endIndex = startIndex + this.productsPerPage;
+            return this.products.slice(startIndex, endIndex);
+        },
+        pagination() {
+            const pagesToShow = 5;
+            const paginationArray = [];
+            let startPage = 1;
+            let endPage = this.totalPages;
+            if (this.totalPages > pagesToShow) {
+                if (this.currentPage <= Math.ceil(pagesToShow / 2)) {
+                    endPage = pagesToShow;
+                } else if (this.currentPage >= this.totalPages - Math.floor(pagesToShow / 2)) {
+                    startPage = this.totalPages - pagesToShow + 1;
+                } else {
+                    startPage = this.currentPage - Math.floor(pagesToShow / 2);
+                    endPage = this.currentPage + Math.floor(pagesToShow / 2);
+                }
+            }
+            for (let i = startPage; i <= endPage; i++) {
+                paginationArray.push(i);
+            }
+            if (this.totalPages > pagesToShow) {
+                if (startPage > 1) {
+                    paginationArray.unshift('...');
+                }
+                if (endPage < this.totalPages) {
+                    paginationArray.push('...');
+                }
+            }
+            return paginationArray;
+        }
     },
     methods: {
         ...mapActions('product', ['fetchProducts']),
-        ...mapActions('category', ['fetchCategories'])
+        ...mapActions('category', ['fetchCategories']),
+        previousPage() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+            }
+        },
+        nextPage() {
+            if (this.currentPage < this.totalPages) {
+                this.currentPage++;
+            }
+        },
+        goToPage(pageNumber) {
+            if (pageNumber !== '...') {
+                this.currentPage = pageNumber;
+            }
+        },
+        fetchProductsAndCategories() {
+            this.fetchProducts({ title: this.searchQuery, categoryId: this.categoryId });
+            this.fetchCategories();
+        }
     },
     watch: {
         searchQuery() {
@@ -67,11 +142,13 @@ export default {
         },
         categoryId() {
             this.fetchProducts({ title: this.searchQuery, categoryId: this.categoryId });
+        },
+        currentPage() {
+            window.scrollTo(0, 0);
         }
     },
     created() {
-        this.fetchProducts({ title: this.searchQuery, categoryId: this.categoryId });
-        this.fetchCategories();
+        this.fetchProductsAndCategories();
     }
 };
 </script>
