@@ -1,21 +1,25 @@
-export default async function ({ store, redirect, app }) {
-  const access_token = app.$cookies.get("access_token");
-  const refresh_token = app.$cookies.get("refresh_token");
-  const user = app.$cookies.get("user");
+export default async function ({ store, redirect, route }) {
+  const isAuthenticated = store.state.isLoggedIn;
+  const restrictedRoutes = ["cart", "profile", "categories", "product/create"];
 
-  // console.log(access_token);
-  // console.log(refresh_token);
-  // console.log(user);
+  console.log(isAuthenticated);
 
-  // if (user && access_token) {
-  //   store.commit("SET_ACCESS_TOKEN", access_token);
-  //   store.commit("SET_REFRESH_TOKEN", refresh_token);
-  //   store.commit("SET_USER", user);
-  // } else if (access_token && !user) {
-  //   try {
-  //     await store.dispatch("userProfile", { token: access_token, app });
-  //   } catch (error) {
-  //     console.error("Error fetching user profile:", error);
+  if (!isAuthenticated && restrictedRoutes.includes(route.name)) {
+    return redirect("/login");
+  }
+
+  // if (isAuthenticated) {
+  //   const adminRoutes = ["categories", "product/create"];
+  //   const requiresAdminAccess = adminRoutes.includes(route.name);
+
+  //   const customerRoutes = ["cart", "profile"];
+  //   const requiresCustomerAccess = customerRoutes.includes(route.name);
+
+  //   if (requiresAdminAccess && store.state.user.role !== "admin") {
+  //     return redirect("/");
+  //   }
+
+  //   if (requiresCustomerAccess && store.state.user.role !== "customer") {
   //     return redirect("/");
   //   }
   // }
