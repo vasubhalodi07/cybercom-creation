@@ -74,6 +74,7 @@ export default {
       this.updateRouteQuery();
     },
     perPage() {
+      this.page = 1;
       this.updateRouteQuery();
     },
     page() {
