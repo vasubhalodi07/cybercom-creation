@@ -94,32 +94,22 @@ export default {
             return filterIndex !== -1 && this.selectedFilters[filterIndex].value.includes(value);
         },
         updateQueryParams() {
-            const query = { ...this.$route.query };
-            this.selectedFilters.forEach((filter) => {
-                if (filter.value.length > 0) {
-                    query[filter.attributeCode] = filter.value.join(",");
-                } else {
-                    delete query[filter.attributeCode]; // Remove the filter if no values left
+            const preservedParams = ['sortBy', 'perPage', 'page'];
+            const query = {};
+
+            preservedParams.forEach(param => {
+                if (this.$route.query[param]) {
+                    query[param] = this.$route.query[param];
                 }
             });
-            
-            this.$router.push({ query: query});
 
-            // const query = {};
-            // this.selectedFilters.forEach((filter) => {
-            //     if (filter.value.length > 0) {
-            //         query[filter.attributeCode] = filter.value.join(",");
-            //     }
-            // });
+            this.selectedFilters.forEach(filter => {
+                if (filter.value.length > 0) {
+                    query[filter.attributeCode] = filter.value.join(',');
+                }
+            });
 
-            // const previousQuery = { ...this.$route.query };
-            // console.log(previousQuery);
-            // console.log(query);
-
-
-
-            // // const newQuery = { ...this.$route.query, ...query };
-            // this.$router.push({ query: query });
+            this.$router.push({ query });
         }
     },
 }
