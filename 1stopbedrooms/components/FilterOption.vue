@@ -35,7 +35,7 @@ export default {
     watch: {
         selectedFilters: {
             handler() {
-                this.updateQueryParams();
+                this.updateQueryParams(true);
             },
             deep: true
         }
@@ -54,6 +54,7 @@ export default {
                 this.loading = false;
             }
         },
+
         initializeFiltersFromQuery() {
             const query = this.$route.query;
             const filters = [];
@@ -65,6 +66,7 @@ export default {
             });
             this.selectedFilters = filters;
         },
+
         toggleFilter(value, attributeCode, event) {
             const filterIndex = this.selectedFilters.findIndex(filter => filter.attributeCode === attributeCode);
 
@@ -85,29 +87,41 @@ export default {
                     }
                 }
             }
-            this.updateQueryParams();
         },
+
         isFilterSelected(attributeCode, value) {
             const filterIndex = this.selectedFilters.findIndex(
                 (filter) => filter.attributeCode === attributeCode
             );
             return filterIndex !== -1 && this.selectedFilters[filterIndex].value.includes(value);
         },
-        updateQueryParams() {
-            const preservedParams = ['sortBy', 'perPage', 'page'];
-            const query = {};
 
+        updateQueryParams(resetPage = false) {
+
+            console.log("called");
+            console.log(resetPage);
+
+            const preservedParams = ['sortBy', 'perPage'];
+            const query = {};
             preservedParams.forEach(param => {
                 if (this.$route.query[param]) {
                     query[param] = this.$route.query[param];
                 }
             });
-
+            // if (resetPage) {
+            //     query.page = 1;
+            // } else if (this.$route.query.page) {
+            //     query.page = this.$route.query.page;
+            // }
             this.selectedFilters.forEach(filter => {
                 if (filter.value.length > 0) {
                     query[filter.attributeCode] = filter.value.join(',');
                 }
             });
+
+            query.page = 1;
+
+            console.log(query);
 
             this.$router.push({ query });
         }

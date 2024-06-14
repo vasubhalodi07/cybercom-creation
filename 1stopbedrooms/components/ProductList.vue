@@ -72,18 +72,16 @@ export default {
   watch: {
     sortBy() {
       this.updateRouteQuery();
-      this.fetchProducts(this.sortBy, this.perPage, this.page);
     },
     perPage() {
       this.updateRouteQuery();
-      this.fetchProducts(this.sortBy, this.perPage, this.page);
     },
     page() {
       this.updateRouteQuery();
-      this.fetchProducts(this.sortBy, this.perPage, this.page);
     },
     '$route.query': {
       handler() {
+        this.page = parseInt(this.$route.query.page);
         this.fetchProducts(this.sortBy, this.perPage, this.page);
       },
       immediate: true,
