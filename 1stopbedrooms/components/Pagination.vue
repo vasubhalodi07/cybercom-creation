@@ -1,20 +1,26 @@
 <template>
     <div class="pagination">
-        <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1">Previous</button>
+        <button v-if="currentPage !== 1" @click="changePage(currentPage - 1)">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
 
-        <button @click="changePage(1)" :class="{ active: currentPage === 1 }">1</button>
+        <button v-if="totalPages > 1" class="page" @click="changePage(1)"
+            :class="{ active: currentPage === 1 }">1</button>
         <span v-if="showStartEllipsis">...</span>
 
-        <button v-for="page in pagesToShow" :key="page" @click="changePage(page)"
+        <button class="page" v-for="page in pagesToShow" :key="page" @click="changePage(page)"
             :class="{ active: page === currentPage }">
             {{ page }}
         </button>
 
         <span v-if="showEndEllipsis">...</span>
-        <button @click="changePage(totalPages)" :class="{ active: currentPage === totalPages }">{{ totalPages
-            }}</button>
+        <button class="page" @click="changePage(totalPages)" :class="{ active: currentPage === totalPages }">
+            {{ totalPages }}
+        </button>
 
-        <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages">Next</button>
+        <button v-if="currentPage !== totalPages" @click="changePage(currentPage + 1)">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
     </div>
 </template>
 
@@ -61,25 +67,29 @@ export default {
 .pagination {
     display: flex;
     justify-content: center;
-    gap: 5px;
+    gap: 15px;
     margin: 20px 0;
 }
 
-.pagination button {
+.page {
     padding: 5px 10px;
     border: 1px solid #ccc;
     background: #fff;
     cursor: pointer;
 }
 
-.pagination button.active {
-    background: #007bff;
+.page.active {
+    background-color: #0f249a;
     color: #fff;
 }
 
-.pagination button:disabled {
-    background: #f5f5f5;
-    cursor: not-allowed;
+.pagination button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 17px;
+    color: #0f249a;
+    border-radius: 50%;
 }
 
 .pagination span {
