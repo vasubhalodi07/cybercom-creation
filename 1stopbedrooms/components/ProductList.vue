@@ -33,9 +33,9 @@
             :src="hoveredItemId === item.id && item.images.hoverImage ? item.images.hoverImage.src : item.images.mainImage.src"
             :alt="hoveredItemId === item.id && item.images.hoverImage ? item.images.hoverImage.alt : item.images.mainImage.alt" />
           <div class="details">
-            <div class="product-name">{{ item.name }}</div>
-            <div class="product-brand-name">By {{ item.brand.name }}</div>
-            <!-- <div>web ID: <b>{{ item.webId }}</b></div> -->
+            <div class="product-name" :class="{ active: hoveredItemId === item.id }">{{ item.name }}</div>
+            <div v-if="hoveredItemId === item.id" class="web-id">web ID: {{ item.webId }}</div>
+            <div v-else class="product-brand-name">By {{ item.brand.name }}</div>
             <div class="product-price">
               ${{ item.price.finalPrice }}
               <span>${{ item.price.msrp }}</span>
@@ -279,6 +279,15 @@ export default {
   font-weight: 500;
   color: #464545;
   text-decoration: line-through;
+}
+
+.web-id {
+  padding: 5px 0px;
+  font-size: 14px;
+}
+
+.active {
+  text-decoration: underline;
 }
 
 .per-page-filter {
