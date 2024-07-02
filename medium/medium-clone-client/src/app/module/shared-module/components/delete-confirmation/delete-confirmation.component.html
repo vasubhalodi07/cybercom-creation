@@ -1,0 +1,15 @@
+<div class="confirmation-overlay" *ngIf="showConfirmation">
+  <div class="confirmation-box">
+    <div class="confirmation-message">{{ confirmationMessage }}</div>
+    <div class="confirmation-buttons">
+      <button class="cancel-btn" (click)="cancelDelete()">Cancel</button>
+      <button
+        class="delete-btn"
+        (click)="confirmDelete()"
+        [disabled]="blogDeleteLoading"
+      >
+        {{ blogDeleteLoading ? "Loading..." : "Confirm" }}
+      </button>
+    </div>
+  </div>
+</div>

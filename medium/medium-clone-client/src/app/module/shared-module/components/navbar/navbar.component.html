@@ -1,0 +1,37 @@
+<app-login [loginShowModel]="loginShowModel" (close)="closeModel()"></app-login>
+
+<section>
+  <div class="left">
+    <div class="image-container">
+      <img src="assets/medium-icon.svg" alt="" />
+    </div>
+    <div class="search-input">
+      <input
+        type="text"
+        placeholder="Search..."
+        [(ngModel)]="searchQuery"
+        (keyup.enter)="search()"
+      />
+    </div>
+  </div>
+  <div class="right" *ngIf="token">
+    <div class="create-blog-icons" (click)="navigateAddBlog()">
+      <i class="fa-regular fa-pen-to-square"></i>
+      <div class="icon-write">Write</div>
+    </div>
+
+    <div class="profile-image-container" (click)="toggleMenu()">
+      <img
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuQo5Lw-BHj6ts6qC_vAlO1yblef_cVX8F1_sRgoAa6w&s"
+        alt=""
+      />
+      <div class="menu" [ngClass]="{ 'show-menu': isMenuOpen }">
+        <div (click)="navigateProfile()">Profile</div>
+        <div (click)="logout()">Logout</div>
+      </div>
+    </div>
+  </div>
+  <div class="right" *ngIf="!token">
+    <div (click)="openLoginModel()">Login</div>
+  </div>
+</section>
