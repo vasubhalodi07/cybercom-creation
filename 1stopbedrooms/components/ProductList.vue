@@ -3,14 +3,14 @@
     <div v-if="loading">
       Loading...
     </div>
-    <template v-else>
+    <div v-else>
       <div class="header">
         <div>
           <div class="header-title">Beds</div>
           <div class="header-items">{{ products && products.itemsCount }} items</div>
         </div>
         <div>
-          <select v-model="sortBy">
+          <select v-model="localSortBy" @change="changeSortByMethod">
             <option value="RELEVANCE">Recommended</option>
             <option value="PRICE_FROM_LOW">Price: Low - High</option>
             <option value="PRICE_FROM_HIGH">Price: High - Low</option>
@@ -18,12 +18,12 @@
         </div>
       </div>
 
-      <div v-if="selectedFilters.length" class="selected-filters">
-        <div v-for="(filter, index) in selectedFilters" :key="index" class="filter-item">
+      <div v-if="selectedFilterDisplay.length" class="selected-filters">
+        <div v-for="(filter, index) in selectedFilterDisplay" :key="index" class="filter-item">
           {{ filter.label }}
           <button @click="removeFilter(filter)">×</button>
         </div>
-        <button class="clear-filter-button" @click="clearFilter()">Clear Filters</button>
+        <button class="clear-filter-button" @click="clearFilters">Clear Filters</button>
       </div>
 
       <div class="card-grid">
@@ -45,89 +45,60 @@
       </div>
 
       <div class="per-page-filter">
-        <select v-model="perPage">
+        <select v-model="localPerPage" @change="changePerPageMethod">
           <option value="PER_PAGE_36">36</option>
           <option value="PER_PAGE_48">48</option>
           <option value="PER_PAGE_72">72</option>
         </select>
       </div>
 
-      <Pagination :currentPage="page" :totalPages="products.pages" @page-changed="handlePageChange" />
-    </template>
+      <Pagination :currentPage="page" :totalPages="products && products.pages" @page-changed="handlePageChange" />
+    </div>
   </div>
 </template>
 
 <script>
-import { GET_PRODUCT_LIST } from '~/graphql/queries/product';
+import { mapState, mapActions, mapMutations } from 'vuex';
 
 export default {
   data() {
     return {
-      products: [],
-      loading: false,
-      error: null,
       hoveredItemId: null,
-      sortBy: 'RELEVANCE',
-      perPage: 'PER_PAGE_36',
-      page: 1,
+      localSortBy: this.sortBy,
+      localPerPage: this.perPage
     };
   },
-  props: {
-    selectedFilters: {
-      type: Array,
-      default: () => []
-    }
-  },
   async created() {
-    this.sortBy = this.$route.query.sortBy || 'RELEVANCE';
-    this.perPage = this.$route.query.perPage || 'PER_PAGE_36';
-    this.page = parseInt(this.$route.query.page) || 1;
-    await this.fetchProducts(this.sortBy, this.perPage, this.page);
+    this.fetchProducts(this.buildFilterQueryParams());
   },
   watch: {
-    sortBy() {
-      this.updateRouteQuery();
-    },
-    perPage() {
-      this.page = 1;
-      this.updateRouteQuery();
-    },
-    page() {
-      this.updateRouteQuery();
-    },
     '$route.query': {
       handler() {
-        this.page = parseInt(this.$route.query.page);
-        this.fetchProducts(this.sortBy, this.perPage, this.page);
+        this.fetchProducts(this.buildFilterQueryParams());
       },
       immediate: true,
       deep: true,
     }
   },
+  computed: {
+    ...mapState('product', {
+      products: state => state.products,
+      loading: state => state.loading,
+      error: state => state.error,
+      sortBy: state => state.sortBy,
+      perPage: state => state.perPage,
+      page: state => state.page,
+    }),
+    ...mapState('filter', {
+      selectedFilterDisplay: state => state.selectedFilterDisplay,
+      selectedFilters: state => state.selectedFilters,
+    })
+  },
   methods: {
-    updateRouteQuery() {
-      this.$router.push({ query: { ...this.$route.query, sortBy: this.sortBy, perPage: this.perPage, page: this.page } });
-    },
+    ...mapActions('product', ['fetchProducts', 'changeSortBy', 'changePerPage', 'changePage']),
+    ...mapMutations('product', ['SET_HOVERED_ITEM_ID', 'REMOVE_FILTER', 'CLEAR_FILTERS']),
 
-    async fetchProducts(sortBy, perPage, page) {
-      this.loading = true;
-      try {
-        const { data } = await this.$apollo.query({
-          query: GET_PRODUCT_LIST,
-          variables: {
-            sortBy,
-            perPage,
-            page: parseInt(page),
-            facet: this.buildFilterQueryParams()
-          },
-        });
-        this.products = data.listing.listingCategory;
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        this.loading = false;
-      }
-    },
+    ...mapActions('filter', ['removeFilterAction', 'resetFilterAction']),
 
     buildFilterQueryParams() {
       const filters = [];
@@ -143,17 +114,31 @@ export default {
       return filters;
     },
 
+    updateRouteQuery() {
+      this.$router.push({ query: { ...this.$route.query, sortBy: this.sortBy, perPage: this.perPage, page: this.page } });
+    },
+
+    changeSortByMethod() {
+      this.changeSortBy(this.localSortBy);
+      this.updateRouteQuery();
+    },
+
+    changePerPageMethod() {
+      this.changePerPage(this.localPerPage);
+      this.updateRouteQuery();
+    },
+
+    handlePageChange(page) {
+      this.changePage(page);
+      this.scrollToTop();
+    },
+
     hoverImage(id) {
       this.hoveredItemId = id;
     },
 
     unhoverImage() {
       this.hoveredItemId = null;
-    },
-
-    handlePageChange(page) {
-      this.page = page;
-      this.scrollToTop();
     },
 
     scrollToTop() {
@@ -164,13 +149,13 @@ export default {
     },
 
     removeFilter(filter) {
-      this.$emit('remove-filter', filter);
+      this.removeFilterAction(filter);
     },
 
-    clearFilter() {
-      this.$emit('clear-filter');
+    clearFilters() {
+      this.resetFilterAction();
     },
-  },
+  }
 };
 </script>
 
@@ -230,10 +215,10 @@ export default {
   font-size: 16px;
   cursor: pointer;
   color: #0f249a;
-  }
-  
+}
+
 .clear-filter-button:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .card-grid {

@@ -1,26 +1,23 @@
 <template>
     <div class="product-container">
-        <FilterOption ref="filterOption" @update-selected-filters="updateSelectedFilters" />
-        <ProductList :selectedFilters="selectedFilters" @remove-filter="handleRemoveFilter" @clear-filter="handleClearFilter" />
+        <FilterOption />
+        <ProductList />
     </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
-    data() {
-        return {
-            selectedFilters: []
-        }
-    },
     methods: {
-        updateSelectedFilters(filters) {
-            this.selectedFilters = filters;
-        },
+        ...mapActions('filter', ['removeFilter', 'resetFilter']),
+
         handleRemoveFilter(filter) {
-            this.$refs.filterOption.removeFilter(filter);
+            this.removeFilter(filter);
         },
+
         handleClearFilter() {
-            this.$refs.filterOption.clearFilter();
+            this.resetFilter();
         }
     }
 }

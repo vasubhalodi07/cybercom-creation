@@ -18,17 +18,9 @@
 </template>
 
 <script>
-import { GET_FILTER_PRODUCT_LIST } from '~/graphql/queries/product';
+import { mapState, mapActions } from 'vuex';
 
 export default {
-    data() {
-        return {
-            filterOption: [],
-            loading: false,
-            selectedFilters: [],
-            selectedFilterDisplay: [],
-        }
-    },
     async created() {
         await this.fetchFilterOption();
         this.initializeFiltersFromQuery();
@@ -43,20 +35,17 @@ export default {
             deep: true
         }
     },
+    computed: {
+        ...mapState('filter', {
+            filterOption: state => state.filterOption,
+            loading: state => state.loading,
+            error: state => state.error,
+            selectedFilters: state => state.selectedFilters,
+            selectedFilterDisplay: state => state.selectedFilterDisplay
+        })
+    },
     methods: {
-        async fetchFilterOption() {
-            this.loading = true;
-            try {
-                const { data } = await this.$apollo.query({
-                    query: GET_FILTER_PRODUCT_LIST,
-                });
-                this.filterOption = data.listing.listingCategory.filtersBlock;
-            } catch (error) {
-                console.log("Error fetching data:", error);
-            } finally {
-                this.loading = false;
-            }
-        },
+        ...mapActions('filter', ['fetchFilterOption', 'editSelectedFilters', 'editSelectedFilterDisplay']),
 
         initializeFiltersFromQuery() {
             const query = this.$route.query;
@@ -69,33 +58,39 @@ export default {
                     });
                 }
             });
-            this.selectedFilters = filters;
+            this.editSelectedFilters(filters);
         },
 
         toggleFilter(value, attributeCode, event) {
-            const filterIndex = this.selectedFilters.findIndex(filter => filter.attributeCode === attributeCode);
+            let filters = JSON.parse(JSON.stringify(this.selectedFilters));
+            const filterIndex = filters.findIndex(filter => filter.attributeCode === attributeCode);
+
             if (event.target.checked) {
                 if (filterIndex === -1) {
-                    this.selectedFilters.push({ attributeCode: attributeCode, value: [value] });
+                    filters.push({ attributeCode: attributeCode, value: [value] });
                 } else {
-                    this.selectedFilters[filterIndex].value.push(value);
+                    if (!filters[filterIndex].value.includes(value)) {
+                        filters[filterIndex].value.push(value);
+                    }
                 }
             } else {
                 if (filterIndex !== -1) {
-                    const valueIndex = this.selectedFilters[filterIndex].value.indexOf(value);
+                    const valueIndex = filters[filterIndex].value.indexOf(value);
                     if (valueIndex !== -1) {
-                        this.selectedFilters[filterIndex].value.splice(valueIndex, 1);
+                        filters[filterIndex].value.splice(valueIndex, 1);
                     }
-                    if (this.selectedFilters[filterIndex].value.length === 0) {
-                        this.selectedFilters.splice(filterIndex, 1);
+                    if (filters[filterIndex].value.length === 0) {
+                        filters.splice(filterIndex, 1);
                     }
                 }
             }
+
+            this.editSelectedFilters(filters);
         },
 
         isFilterSelected(attributeCode, value) {
             const filterIndex = this.selectedFilters.findIndex(
-                (filter) => filter.attributeCode === attributeCode
+                filter => filter.attributeCode === attributeCode
             );
             return filterIndex !== -1 && this.selectedFilters[filterIndex].value.includes(value);
         },
@@ -138,34 +133,10 @@ export default {
                     });
                 }
             });
-            this.selectedFilterDisplay = selectedFilterDisplay;
-            this.$emit('update-selected-filters', selectedFilterDisplay);
+            this.editSelectedFilterDisplay(selectedFilterDisplay);
         },
-
-        removeFilter(filter) {
-            const index = this.selectedFilters.findIndex(
-                f => f.attributeCode === filter.attributeCode && f.value.includes(filter.value)
-            );
-            if (index !== -1) {
-                const valueIndex = this.selectedFilters[index].value.indexOf(filter.value);
-                if (valueIndex !== -1) {
-                    this.selectedFilters[index].value.splice(valueIndex, 1);
-                    if (this.selectedFilters[index].value.length === 0) {
-                        this.selectedFilters.splice(index, 1);
-                    }
-                    this.updateQueryParams(true);
-                    this.updateSelectedFilterDisplay();
-                }
-            }
-        },
-
-        clearFilter() {
-            this.selectedFilters = [];
-            this.updateQueryParams(true);
-            this.updateSelectedFilterDisplay();
-        }
-    },
-}
+    }
+};
 </script>
 
 <style scoped>
@@ -204,37 +175,37 @@ export default {
 }
 
 .filter-options::-webkit-scrollbar {
-  width: 10px; 
-  background-color: transparent;
+    width: 10px;
+    background-color: transparent;
 }
 
 .filter-options::-webkit-scrollbar-track {
-  background-color: transparent;
+    background-color: transparent;
 }
 
 .filter-options::-webkit-scrollbar-thumb {
-  background-color: #87888d;
-  border-radius: 5px;
+    background-color: #87888d;
+    border-radius: 5px;
 }
 
 .filter-options::-webkit-scrollbar-button {
-  background-color: transparent;
+    background-color: transparent;
 }
 
 .filter-options::-webkit-scrollbar-button:start:decrement {
-  background-color: transparent;
-  background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg fill="black" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cpolygon points="10,0 20,20 0,20" /%3E%3C/svg%3E');
-  background-repeat: no-repeat;
-  background-size: 10px;
-  background-position: center;
+    background-color: transparent;
+    background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg fill="black" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cpolygon points="10,0 20,20 0,20" /%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-size: 10px;
+    background-position: center;
 }
 
 .filter-options::-webkit-scrollbar-button:end:increment {
-  background-color: transparent;
-  background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg fill="black" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cpolygon points="0,0 20,0 10,20" /%3E%3C/svg%3E');
-  background-repeat: no-repeat;
-  background-size: 10px;
-  background-position: center;
+    background-color: transparent;
+    background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg fill="black" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cpolygon points="0,0 20,0 10,20" /%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-size: 10px;
+    background-position: center;
 }
 
 .filter-item input[type="checkbox"] {
