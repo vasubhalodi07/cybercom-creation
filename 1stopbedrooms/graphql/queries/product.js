@@ -68,9 +68,11 @@ export const GET_PRODUCT_LIST = gql`
 `;
 
 export const GET_FILTER_PRODUCT_LIST = gql`
-  query getFilterList {
+  query getFilterList(
+    $facet: [catalogSearchFacetInput]
+  ) {
     listing {
-      listingCategory(slug: "bedroom/beds", request: { facet: {} }) {
+      listingCategory(slug: "bedroom/beds", request: { facet: $facet }) {
         itemsCount
         perPage
         pages

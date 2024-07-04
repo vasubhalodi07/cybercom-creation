@@ -22,22 +22,21 @@
 <script>
 import { mapState, mapActions } from "vuex";
 
-import FilterSection from "~/components/filter/FilterSection.vue";
-import FilterOptionSkeleton from "~/components/filter/FilterOptionSkeleton.vue";
+import FilterOptionSkeleton from "~/components/shared/skeleton/FilterOptionSkeleton.vue";
+import FilterSection from "~/components/listing/filter/FilterSection.vue";
 
 export default {
+  name: "FilterOption",
   components: {
-    FilterSection,
     FilterOptionSkeleton,
+    FilterSection,
   },
   data() {
     return {
       openSections: [],
     };
   },
-  async created() {
-    await this.fetchFilterOption();
-    this.initializeFiltersFromQuery();
+  created() {
     this.updateSelectedFilterDisplay();
     this.filterOption.forEach((option, index) => {
       this.openSections.push(index);
@@ -67,25 +66,10 @@ export default {
   },
   methods: {
     ...mapActions("filter", [
-      "fetchFilterOption",
       "editSelectedFilters",
       "editSelectedFilterDisplay",
     ]),
     ...mapActions("product", ["changePage"]),
-
-    initializeFiltersFromQuery() {
-      const query = this.$route.query;
-      const filters = [];
-      Object.keys(query).forEach((key) => {
-        if (key !== "page") {
-          filters.push({
-            attributeCode: key,
-            value: query[key].split(","),
-          });
-        }
-      });
-      this.editSelectedFilters(filters);
-    },
 
     toggleFilter({ value, attributeCode, checked }) {
       let filters = JSON.parse(JSON.stringify(this.selectedFilters));
@@ -112,7 +96,6 @@ export default {
         }
       }
       this.editSelectedFilters(filters);
-      this.changePage(1);
       this.updateRouteQuery();
     },
 

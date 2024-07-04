@@ -27,12 +27,17 @@ export const mutations = {
 }
 
 export const actions = {
-    async fetchFilterOption({ commit }) {
+    async fetchFilterOption({ commit, state }) {
         commit('SET_LOADING', true);
         commit("SET_ERROR", null);
+
+        console.log(state.selectedFilters);
         try {
             const { data } = await this.app.apolloProvider.defaultClient.query({
-                query: GET_FILTER_PRODUCT_LIST
+                query: GET_FILTER_PRODUCT_LIST,
+                variables: {
+                    facet: state.selectedFilters
+                }
             });
             commit('SET_FILTER_OPTION', data.listing.listingCategory.filtersBlock);
         } catch (error) {

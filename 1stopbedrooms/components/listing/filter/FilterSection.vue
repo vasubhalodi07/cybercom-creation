@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import FilterItem from "~/components/filter/FilterItem.vue";
+import FilterItem from "~/components/listing/filter/FilterItem.vue";
 
 export default {
   name: "FilterSection",

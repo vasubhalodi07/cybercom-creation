@@ -7,16 +7,42 @@
 
 <script>
 import { mapActions } from "vuex";
-import FilterOption from "~/components/FilterOption.vue";
-import ProductList from "~/components/ProductList.vue";
+
+import FilterOption from "~/components/listing/FilterOption.vue";
+import ProductList from "~/components/listing/ProductList.vue";
 
 export default {
   components: {
     FilterOption,
     ProductList,
   },
+  async created() {
+    await this.initializeFiltersFromQuery();
+    this.fetchProducts();
+    this.fetchFilterOption();
+  },
   methods: {
-    ...mapActions("filter", ["removeFilter", "resetFilter"]),
+    ...mapActions("product", ["fetchProducts"]),
+    ...mapActions("filter", [
+      "fetchFilterOption",
+      "editSelectedFilters",
+      "removeFilter",
+      "resetFilter",
+    ]),
+
+    initializeFiltersFromQuery() {
+      const query = this.$route.query;
+      const filters = [];
+      Object.keys(query).forEach((key) => {
+        if (key !== "page") {
+          filters.push({
+            attributeCode: key,
+            value: query[key].split(","),
+          });
+        }
+      });
+      this.editSelectedFilters(filters);
+    },
 
     handleRemoveFilter(filter) {
       this.removeFilter(filter);

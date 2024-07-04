@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import SelectField from "~/components/listing/SelectField.vue";
+import SelectField from "~/components/shared/input/SelectField.vue";
 
 export default {
   name: "Header",

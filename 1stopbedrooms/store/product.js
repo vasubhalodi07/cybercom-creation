@@ -31,7 +31,7 @@ export const mutations = {
 };
 
 export const actions = {
-    async fetchProducts({ commit, state }, facet) {
+    async fetchProducts({ commit, state, rootState }) {
         commit('SET_LOADING', true);
         try {
             const { data } = await this.app.apolloProvider.defaultClient.query({
@@ -40,7 +40,7 @@ export const actions = {
                     sortBy: state.sortBy,
                     perPage: state.perPage,
                     page: state.page,
-                    facet: facet,
+                    facet: rootState.filter.selectedFilters,
                 }
             });
             commit('SET_PRODUCTS', data.listing.listingCategory);
@@ -62,7 +62,7 @@ export const actions = {
 
     changePage({ commit }, page) {
         commit('SET_PAGE', page);
-        
+
     },
 };
 
