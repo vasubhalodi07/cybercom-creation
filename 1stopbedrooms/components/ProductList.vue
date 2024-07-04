@@ -156,9 +156,9 @@ export default {
     },
 
     hoverImage(id) {
-      this.hoveredItemId = id;
+      this.hoveredItemId = parseInt(id);
     },
-
+    
     unhoverImage() {
       this.hoveredItemId = null;
     },
