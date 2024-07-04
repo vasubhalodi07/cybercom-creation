@@ -4,52 +4,34 @@
       Loading...
     </div>
     <div v-else>
-      <div class="header">
-        <div>
-          <div class="header-title">Beds</div>
-          <div class="header-items">{{ products && products.itemsCount }} items</div>
-        </div>
-        <div>
-          <select v-model="localSortBy" @change="changeSortByMethod">
-            <option value="RELEVANCE">Recommended</option>
-            <option value="PRICE_FROM_LOW">Price: Low - High</option>
-            <option value="PRICE_FROM_HIGH">Price: High - Low</option>
-          </select>
-        </div>
-      </div>
+      <Header
+        :itemsCount="products?.itemsCount"
+        :itemsTitle="products?.title"
+        :initialSortBy="localSortBy"
+        @change-sortby-method="changeSortByMethod"
+      />
 
-      <div v-if="selectedFilterDisplay.length" class="selected-filters">
-        <div v-for="(filter, index) in selectedFilterDisplay" :key="index" class="filter-item">
-          {{ filter.label }}
-          <button @click="removeFilter(filter)">×</button>
-        </div>
-        <button class="clear-filter-button" @click="clearFilters">Clear Filters</button>
-      </div>
-
-      <div class="card-grid">
-        <div class="card" v-for="item in products && products.items" :key="item.id" @mouseenter="hoverImage(item.id)"
-          @mouseleave="unhoverImage">
-          <img
-            :src="hoveredItemId === item.id && item.images.hoverImage ? item.images.hoverImage.src : item.images.mainImage.src"
-            :alt="hoveredItemId === item.id && item.images.hoverImage ? item.images.hoverImage.alt : item.images.mainImage.alt" />
-          <div class="details">
-            <div class="product-name" :class="{ active: hoveredItemId === item.id }">{{ item.name }}</div>
-            <div v-if="hoveredItemId === item.id" class="web-id">web ID: {{ item.webId }}</div>
-            <div v-else class="product-brand-name">By {{ item.brand.name }}</div>
-            <div class="product-price">
-              ${{ item.price.finalPrice }}
-              <span>${{ item.price.msrp }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <SelectedFilters
+        :selectedFilterDisplay="selectedFilterDisplay"
+        @removeFilter="removeFilter"
+        @clearFilters="clearFilters"
+      />
+      
+      <CardGrid
+        :products="products?.items"
+        :hoveredItemId="hoveredItemId"
+        @hoverImage="hoverImage"
+        @unhoverImage="unhoverImage"
+      />
 
       <div class="per-page-filter">
-        <select v-model="localPerPage" @change="changePerPageMethod">
-          <option value="PER_PAGE_36">36</option>
-          <option value="PER_PAGE_48">48</option>
-          <option value="PER_PAGE_72">72</option>
-        </select>
+        <SelectField
+          :value="localPerPage"
+          :options="perPageOptions"
+          @change="changePerPageMethod"
+          label="Items per page"
+          fieldId="per-page-select"
+        />
       </div>
 
       <Pagination :currentPage="page" :totalPages="products && products.pages" @page-changed="handlePageChange" />
@@ -60,20 +42,41 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 
+import Header from "~/components/listing/Header.vue";
+import SelectedFilters from "~/components/listing/SelectedFilters.vue";
+import Pagination from "~/components/listing/Pagination.vue";
+import CardGrid from "~/components/listing/CardGrid.vue";
+import SelectField from "~/components/listing/SelectField.vue";
+
 export default {
+  components: {
+    Header,
+    SelectedFilters,
+    Pagination,
+    CardGrid,
+    SelectField
+  },
   data() {
     return {
       hoveredItemId: null,
-      localSortBy: this.sortBy,
-      localPerPage: this.perPage
+      localSortBy: this.$route.query.sortBy || 'RELEVANCE',
+      localPerPage: this.$route.query.perPage || 'PER_PAGE_36',
+      perPageOptions: [
+        { value: "PER_PAGE_36", text: "36" },
+        { value: "PER_PAGE_48", text: "48" },
+        { value: "PER_PAGE_72", text: "72" }
+      ]
     };
   },
   async created() {
+    this.initializeStoreFromQuery();
     this.fetchProducts(this.buildFilterQueryParams());
   },
   watch: {
     '$route.query': {
       handler() {
+        this.localSortBy = this.$route.query.sortBy || 'RELEVANCE';
+        this.localPerPage = this.$route.query.perPage || 'PER_PAGE_36';
         this.fetchProducts(this.buildFilterQueryParams());
       },
       immediate: true,
@@ -100,6 +103,21 @@ export default {
 
     ...mapActions('filter', ['removeFilterAction', 'resetFilterAction']),
 
+    initializeStoreFromQuery() {
+      const { sortBy, perPage, page } = this.$route.query;
+      if (sortBy) {
+        this.localSortBy = sortBy;
+        this.changeSortBy(sortBy);
+      }
+      if (perPage) {
+        this.localPerPage = perPage;
+        this.changePerPage(perPage);
+      }
+      if (page) {
+        this.changePage(parseInt(page));
+      }
+    },
+
     buildFilterQueryParams() {
       const filters = [];
       const query = this.$route.query;
@@ -118,18 +136,22 @@ export default {
       this.$router.push({ query: { ...this.$route.query, sortBy: this.sortBy, perPage: this.perPage, page: this.page } });
     },
 
-    changeSortByMethod() {
-      this.changeSortBy(this.localSortBy);
+    changeSortByMethod(value) {
+      this.localSortBy = value;
+      this.changeSortBy(value);
       this.updateRouteQuery();
     },
-
-    changePerPageMethod() {
+    
+    changePerPageMethod(value) {
+      this.localPerPage = value;
+      this.changePage(1);
       this.changePerPage(this.localPerPage);
       this.updateRouteQuery();
     },
 
     handlePageChange(page) {
       this.changePage(page);
+      this.updateRouteQuery();
       this.scrollToTop();
     },
 
@@ -165,116 +187,6 @@ export default {
   flex-direction: column;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: top;
-  padding-bottom: 20px;
-}
-
-.header-title {
-  font-size: 22px;
-  font-weight: bold;
-}
-
-.header-items {
-  font-size: 15px;
-  color: #464545;
-}
-
-.selected-filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding-bottom: 25px;
-}
-
-.filter-item {
-  background: #f1f1f1;
-  padding: 10px 20px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-}
-
-.filter-item button {
-  background: none;
-  border: none;
-  font-size: 17px;
-  margin-left: 10px;
-  cursor: pointer;
-}
-
-.filter-item button:hover {
-  color: red;
-}
-
-.clear-filter-button {
-  background: none;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  color: #0f249a;
-}
-
-.clear-filter-button:hover {
-  text-decoration: underline;
-}
-
-.card-grid {
-  display: grid;
-  gap: 50px 20px;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-}
-
-.card {
-  overflow: hidden;
-  text-align: center;
-}
-
-.card img {
-  width: 100%;
-  height: auto;
-}
-
-.card .details {
-  text-align: left;
-}
-
-.product-name {
-  font-size: 16px;
-  letter-spacing: 1.2px;
-  line-height: 20px;
-  padding-top: 5px;
-}
-
-.product-brand-name {
-  font-size: 14px;
-  padding: 5px 0px;
-}
-
-.product-price {
-  font-size: 20px;
-  font-weight: 800;
-  padding-top: 5px;
-}
-
-.product-price span {
-  font-size: 15px;
-  font-weight: 500;
-  color: #464545;
-  text-decoration: line-through;
-}
-
-.web-id {
-  padding: 5px 0px;
-  font-size: 14px;
-}
-
-.active {
-  text-decoration: underline;
-}
-
 .per-page-filter {
   padding-top: 20px;
   display: flex;
@@ -283,29 +195,5 @@ export default {
 
 select {
   padding: 10px;
-}
-
-@media (min-width: 1200px) {
-  .card-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-@media (max-width: 1199px) and (min-width: 900px) {
-  .card-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 899px) and (min-width: 600px) {
-  .card-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 599px) {
-  .card-grid {
-    grid-template-columns: 1fr;
-  }
 }
 </style>

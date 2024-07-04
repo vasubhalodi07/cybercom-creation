@@ -21,6 +21,7 @@ export const GET_PRODUCT_LIST = gql`
         perPage
         pages
         page
+        title
         items {
           id
           webId

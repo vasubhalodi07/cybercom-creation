@@ -62,6 +62,7 @@ export const actions = {
 
     changePage({ commit }, page) {
         commit('SET_PAGE', page);
+        
     },
 };
 

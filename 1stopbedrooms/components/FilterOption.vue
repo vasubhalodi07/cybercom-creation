@@ -1,30 +1,34 @@
 <template>
-    <div class="filter-option">
+    <div class="filter-options">
         <div v-if="loading">Loading...</div>
         <div v-else>
-            <div v-for="(option, index) in filterOption" :key="index" class="filter-section">
-                <div class="filter-title">{{ option.title }}</div>
-                <div class="filter-options">
-                    <div v-for="(item, index) in option.facets" :key="index" class="filter-item">
-                        <input type="checkbox" :value="item.attrValue"
-                            :checked="isFilterSelected(option.attrCode, item.attrValue)"
-                            @change="toggleFilter(item.attrValue, option.attrCode, $event)" />
-                        <label>{{ item.attrLabel }} ({{ item.itemCount }})</label>
-                    </div>
-                </div>
-            </div>
+            <FilterSection v-for="(option, index) in filterOption" :key="index" :option="option" :index="index"
+                :open-sections="openSections" @toggle-section="toggleSection" @toggle-filter="toggleFilter"
+                :product-loading="productLoading" :selected-filters="selectedFilters" />
         </div>
     </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import FilterSection from '~/components/filter/FilterSection.vue';
 
 export default {
+    components: {
+        FilterSection
+    },
+    data() {
+        return {
+            openSections: []
+        };
+    },
     async created() {
         await this.fetchFilterOption();
         this.initializeFiltersFromQuery();
         this.updateSelectedFilterDisplay();
+        this.filterOption.forEach((option, index) => {
+            this.openSections.push(index);
+        });
     },
     watch: {
         selectedFilters: {
@@ -42,10 +46,15 @@ export default {
             error: state => state.error,
             selectedFilters: state => state.selectedFilters,
             selectedFilterDisplay: state => state.selectedFilterDisplay
+        }),
+        ...mapState('product', {
+            productLoading: state => state.loading,
+            page: state => state.page,
         })
     },
     methods: {
         ...mapActions('filter', ['fetchFilterOption', 'editSelectedFilters', 'editSelectedFilterDisplay']),
+        ...mapActions('product', ['changePage']),
 
         initializeFiltersFromQuery() {
             const query = this.$route.query;
@@ -61,11 +70,10 @@ export default {
             this.editSelectedFilters(filters);
         },
 
-        toggleFilter(value, attributeCode, event) {
+        toggleFilter({ value, attributeCode, checked }) {
             let filters = JSON.parse(JSON.stringify(this.selectedFilters));
             const filterIndex = filters.findIndex(filter => filter.attributeCode === attributeCode);
-
-            if (event.target.checked) {
+            if (checked) {
                 if (filterIndex === -1) {
                     filters.push({ attributeCode: attributeCode, value: [value] });
                 } else {
@@ -84,15 +92,13 @@ export default {
                     }
                 }
             }
-
             this.editSelectedFilters(filters);
+            this.changePage(1);
+            this.updateRouteQuery();
         },
 
-        isFilterSelected(attributeCode, value) {
-            const filterIndex = this.selectedFilters.findIndex(
-                filter => filter.attributeCode === attributeCode
-            );
-            return filterIndex !== -1 && this.selectedFilters[filterIndex].value.includes(value);
+        updateRouteQuery() {
+            this.$router.push({ query: { ...this.$route.query, page: this.page } });
         },
 
         updateQueryParams(resetPage = false) {
@@ -108,11 +114,7 @@ export default {
                     query[filter.attributeCode] = filter.value.join(',');
                 }
             });
-            if (resetPage) {
-                query.page = 1;
-            } else {
-                query.page = this.$route.query.page || 1;
-            }
+            query.page = this.$route.query.page || 1;
             this.$router.push({ query });
         },
 
@@ -135,6 +137,15 @@ export default {
             });
             this.editSelectedFilterDisplay(selectedFilterDisplay);
         },
+
+        toggleSection(index) {
+            const sectionIndex = this.openSections.indexOf(index);
+            if (sectionIndex === -1) {
+                this.openSections.push(index);
+            } else {
+                this.openSections.splice(sectionIndex, 1);
+            }
+        }
     }
 };
 </script>
@@ -142,28 +153,21 @@ export default {
 <style scoped>
 .filter-section {
     margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
 }
 
 .filter-title {
     font-weight: bold;
     margin-bottom: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
 }
 
 .filter-options {
-    max-height: 150px;
-    width: 250px;
+    max-width: 500px;
     overflow-y: auto;
-    overflow-x: auto;
-}
-
-.filter-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-}
-
-.filter-item input {
-    margin-right: 10px;
+    overflow-x: hidden;
 }
 
 .selected-filters {
@@ -174,64 +178,25 @@ export default {
     margin-bottom: 5px;
 }
 
-.filter-options::-webkit-scrollbar {
+.filter-section::-webkit-scrollbar {
     width: 10px;
     background-color: transparent;
 }
 
-.filter-options::-webkit-scrollbar-track {
+.filter-section::-webkit-scrollbar-track {
     background-color: transparent;
 }
 
-.filter-options::-webkit-scrollbar-thumb {
+.filter-section::-webkit-scrollbar-thumb {
     background-color: #87888d;
     border-radius: 5px;
 }
 
-.filter-options::-webkit-scrollbar-button {
+.filter-section::-webkit-scrollbar-button {
     background-color: transparent;
 }
 
-.filter-options::-webkit-scrollbar-button:start:decrement {
-    background-color: transparent;
-    background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg fill="black" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cpolygon points="10,0 20,20 0,20" /%3E%3C/svg%3E');
-    background-repeat: no-repeat;
-    background-size: 10px;
-    background-position: center;
-}
-
-.filter-options::-webkit-scrollbar-button:end:increment {
-    background-color: transparent;
-    background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg fill="black" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cpolygon points="0,0 20,0 10,20" /%3E%3C/svg%3E');
-    background-repeat: no-repeat;
-    background-size: 10px;
-    background-position: center;
-}
-
-.filter-item input[type="checkbox"] {
-    appearance: none;
-    margin-right: 10px;
-    width: 16px;
-    height: 16px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    position: relative;
-}
-
-.filter-item input[type="checkbox"]:checked {
-    background-color: #0f249a;
-    border-color: #0f249a;
-}
-
-.filter-item input[type="checkbox"]:checked::after {
-    content: '';
-    position: absolute;
-    top: 0px;
-    left: 4px;
-    width: 4px;
-    height: 8px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
+.arrow {
+    font-size: 12px;
 }
 </style>
