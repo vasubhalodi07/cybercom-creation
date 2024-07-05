@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { LISTING_DETAILS_FRAGMENT, LISTING_FILTERS_FRAGEMENT } from "../fragments/listingDetails";
 
 export const GET_PRODUCT_LIST = gql`
   query getProductList(
@@ -17,54 +18,12 @@ export const GET_PRODUCT_LIST = gql`
           facet: $facet
         }
       ) {
-        itemsCount
-        perPage
-        pages
-        page
-        title
-        items {
-          id
-          webId
-          name
-          brand {
-            id
-            name
-          }
-          reviews {
-            number
-            rating
-            votes {
-              voteName
-              voteCount
-              votePercent
-            }
-          }
-          images {
-            hoverImage {
-              style
-              alt
-              src
-            }
-            mainImage {
-              style
-              alt
-              src
-            }
-          }
-          price {
-            price
-            regularPrice
-            finalPrice
-            msrp
-            showMsrp
-            discount
-            getExcludePromo
-            getSale
-          }
-        }
+        __typename
+        ...ListingDetails
       }
     }
   }
+  ${LISTING_DETAILS_FRAGMENT}
 `;
 
 export const GET_FILTER_PRODUCT_LIST = gql`
@@ -73,23 +32,9 @@ export const GET_FILTER_PRODUCT_LIST = gql`
   ) {
     listing {
       listingCategory(slug: "bedroom/beds", request: { facet: $facet }) {
-        itemsCount
-        perPage
-        pages
-        page
-        minPrice
-        maxPrice
-        filtersBlock {
-          title
-          attrCode
-          facets {
-            itemCount
-            attrLabel
-            attrValue
-            virtualCategoryLink
-          }
-        }
+        ...ListingFilters
       }
     }
   }
+  ${LISTING_FILTERS_FRAGEMENT}
 `;

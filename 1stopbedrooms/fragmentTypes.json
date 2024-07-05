@@ -1,0 +1,63 @@
+{
+  "__schema": {
+    "types": [
+      {
+        "kind": "INTERFACE",
+        "name": "catalogSearchProductInterface",
+        "possibleTypes": [
+          {
+            "name": "catalogSearchProductSimpleItem"
+          },
+          {
+            "name": "catalogSearchProductDynamicItem"
+          },
+          {
+            "name": "catalogSearchProductBundleItem"
+          }
+        ]
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "catalogSearchFilterBlockItemIterface",
+        "possibleTypes": [
+          {
+            "name": "catalogSearchFacetCheckBox"
+          },
+          {
+            "name": "catalogSearchFacetPrice"
+          },
+          {
+            "name": "facetCheckBoxCat"
+          }
+        ]
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "ListingAdataInterface",
+        "possibleTypes": [
+          {
+            "name": "ListingBAData"
+          },
+          {
+            "name": "ListingCAData"
+          }
+        ]
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "catalogSearchPrimaryDynamicAttributeInterface",
+        "possibleTypes": [
+          {
+            "name": "catalogSearchPrimaryDynamicAttributeTextType"
+          },
+          {
+            "name": "catalogSearchPrimaryDynamicAttributeThumbnailType"
+          },
+          {
+            "name": "catalogSearchPrimaryDynamicAttributeSwatchThumbnailType"
+          }
+        ]
+      }
+    ]
+  }
+}
