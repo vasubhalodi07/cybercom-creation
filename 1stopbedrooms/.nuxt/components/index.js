@@ -1,3 +1,4 @@
+export { default as CoreTopbar } from '../../components/core/Topbar.vue'
 export { default as ListingFilterOption } from '../../components/listing/FilterOption.vue'
 export { default as ListingProductList } from '../../components/listing/ProductList.vue'
 export { default as ListingFilterItem } from '../../components/listing/filter/FilterItem.vue'
@@ -19,6 +20,9 @@ export { default as ListingProductDynamicTypeLAYOUTTEXT } from '../../components
 export { default as ListingProductDynamicTypeSWATCHTHUMBNAIL } from '../../components/listing/product/dynamic-type/SWATCH_THUMBNAIL.vue'
 export { default as ListingProductDynamicTypeTHUMBNAIL } from '../../components/listing/product/dynamic-type/THUMBNAIL.vue'
 export { default as ListingProductDynamicTYPETEXT } from '../../components/listing/product/dynamic-type/TYPE_TEXT.vue'
+export { default as ListingProductTagDiscountTag } from '../../components/listing/product/tag/DiscountTag.vue'
+export { default as ListingProductTagImageTag } from '../../components/listing/product/tag/ImageTag.vue'
+export { default as ListingProductTagSalesTag } from '../../components/listing/product/tag/SalesTag.vue'
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {

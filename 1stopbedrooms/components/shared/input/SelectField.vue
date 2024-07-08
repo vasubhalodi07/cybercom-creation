@@ -1,20 +1,22 @@
 <template>
   <div class="select-field">
-    <label :for="fieldId" class="select-label">{{ label }}</label>
-    <select
-      :id="fieldId"
-      v-model="selectedValue"
-      @change="emitChange"
-      class="styled-select"
-    >
-      <option
-        v-for="option in options"
-        :key="option.value"
-        :value="option.value"
+    <div class="select-wrapper">
+      <label :for="fieldId" class="select-label">{{ label }}</label>
+      <select
+        :id="fieldId"
+        v-model="selectedValue"
+        @change="emitChange"
+        class="styled-select"
       >
-        {{ option.text }}
-      </option>
-    </select>
+        <option
+          v-for="option in options"
+          :key="option.value"
+          :value="option.value"
+        >
+          {{ option.text }}
+        </option>
+      </select>
+    </div>
   </div>
 </template>
 
@@ -61,31 +63,51 @@ export default {
 .select-field {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+}
+
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 150px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: #fff;
 }
 
 .select-label {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  background: #fff;
   font-size: 12px;
   color: #888;
-  margin-bottom: 5px;
 }
 
 .styled-select {
+  width: 100%;
   font-size: 16px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
+  padding-top: 12px;
+  border: none;
+  background-color: transparent;
   color: #333;
   outline: none;
-  transition: border-color 0.3s ease;
+  appearance: none;
 }
 
 .styled-select:focus {
   border-color: #0f249a;
 }
 
-.styled-select option {
-  font-size: 16px;
+.select-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  pointer-events: none;
+  transform: translateY(-50%);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 6px solid #000;
 }
 </style>

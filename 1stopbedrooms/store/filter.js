@@ -46,12 +46,28 @@ export const actions = {
         }
     },
 
-    editSelectedFilters({ commit }, filters) {
-        commit("SET_SELECTED_FILTERS", filters);
+    updateSelectedFilterDisplay({ commit, state }) {
+        const selectedFilterDisplay = [];
+        state.selectedFilters.forEach((filter) => {
+            const option = state.filterOption.find((opt) => opt.attrCode === filter.attributeCode);
+            if (option) {
+                filter.value.forEach((value) => {
+                    const facet = option.facets.find((facet) => facet.attrValue === value);
+                    if (facet) {
+                        selectedFilterDisplay.push({
+                            attributeCode: filter.attributeCode,
+                            value: value,
+                            label: facet.attrLabel
+                        });
+                    }
+                })
+            }
+        })
+        commit('SET_SELECTED_FILTER_DISPLAY', selectedFilterDisplay);
     },
 
-    editSelectedFilterDisplay({ commit }, filterDisplay) {
-        commit("SET_SELECTED_FILTER_DISPLAY", filterDisplay);
+    editSelectedFilters({ commit }, filters) {
+        commit("SET_SELECTED_FILTERS", filters);
     },
 
     removeFilterAction({ commit, state }, filter) {

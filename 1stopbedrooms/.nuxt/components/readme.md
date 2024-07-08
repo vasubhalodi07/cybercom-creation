@@ -6,6 +6,7 @@ You can directly use them in pages and other components without the need to impo
 
 **Tip:** If a component is conditionally rendered with `v-if` and is big, it is better to use `Lazy` or `lazy-` prefix to lazy load.
 
+- `<CoreTopbar>` | `<core-topbar>` (components/core/Topbar.vue)
 - `<ListingFilterOption>` | `<listing-filter-option>` (components/listing/FilterOption.vue)
 - `<ListingProductList>` | `<listing-product-list>` (components/listing/ProductList.vue)
 - `<ListingFilterItem>` | `<listing-filter-item>` (components/listing/filter/FilterItem.vue)
@@ -27,3 +28,6 @@ You can directly use them in pages and other components without the need to impo
 - `<ListingProductDynamicTypeSWATCHTHUMBNAIL>` | `<listing-product-dynamic-type-s-w-a-t-c-h-t-h-u-m-b-n-a-i-l>` (components/listing/product/dynamic-type/SWATCH_THUMBNAIL.vue)
 - `<ListingProductDynamicTypeTHUMBNAIL>` | `<listing-product-dynamic-type-t-h-u-m-b-n-a-i-l>` (components/listing/product/dynamic-type/THUMBNAIL.vue)
 - `<ListingProductDynamicTYPETEXT>` | `<listing-product-dynamic-t-y-p-e-t-e-x-t>` (components/listing/product/dynamic-type/TYPE_TEXT.vue)
+- `<ListingProductTagDiscountTag>` | `<listing-product-tag-discount-tag>` (components/listing/product/tag/DiscountTag.vue)
+- `<ListingProductTagImageTag>` | `<listing-product-tag-image-tag>` (components/listing/product/tag/ImageTag.vue)
+- `<ListingProductTagSalesTag>` | `<listing-product-tag-sales-tag>` (components/listing/product/tag/SalesTag.vue)

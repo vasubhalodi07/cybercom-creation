@@ -21,7 +21,6 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-
 import FilterOptionSkeleton from "~/components/shared/skeleton/FilterOptionSkeleton.vue";
 import FilterSection from "~/components/listing/filter/FilterSection.vue";
 
@@ -31,21 +30,20 @@ export default {
     FilterOptionSkeleton,
     FilterSection,
   },
-  data() {
-    return {
-      openSections: [],
-    };
-  },
-  created() {
-    this.updateSelectedFilterDisplay();
-    this.filterOption.forEach((option, index) => {
-      this.openSections.push(index);
-    });
+  props: {
+    openSections: {
+      type: Array,
+      required: true,
+    },
+    loading: {
+      type: Boolean,
+      required: true,
+    },
   },
   watch: {
     selectedFilters: {
       handler() {
-        this.updateQueryParams(true);
+        this.updateQueryParams();
         this.updateSelectedFilterDisplay();
       },
       deep: true,
@@ -54,7 +52,6 @@ export default {
   computed: {
     ...mapState("filter", {
       filterOption: (state) => state.filterOption,
-      loading: (state) => state.loading,
       error: (state) => state.error,
       selectedFilters: (state) => state.selectedFilters,
       selectedFilterDisplay: (state) => state.selectedFilterDisplay,
@@ -66,8 +63,9 @@ export default {
   },
   methods: {
     ...mapActions("filter", [
+      "fetchFilterOption",
       "editSelectedFilters",
-      "editSelectedFilterDisplay",
+      "updateSelectedFilterDisplay",
     ]),
     ...mapActions("product", ["changePage"]),
 
@@ -97,13 +95,14 @@ export default {
       }
       this.editSelectedFilters(filters);
       this.updateRouteQuery();
+      this.fetchFilterOption();
     },
 
     updateRouteQuery() {
       this.$router.push({ query: { ...this.$route.query, page: this.page } });
     },
 
-    updateQueryParams(resetPage = false) {
+    updateQueryParams() {
       const preservedParams = ["sortBy", "perPage"];
       const query = {};
       preservedParams.forEach((param) => {
@@ -120,36 +119,15 @@ export default {
       this.$router.push({ query });
     },
 
-    updateSelectedFilterDisplay() {
-      const selectedFilterDisplay = [];
-      this.selectedFilters.forEach((filter) => {
-        const option = this.filterOption.find(
-          (opt) => opt.attrCode === filter.attributeCode
-        );
-        if (option) {
-          filter.value.forEach((value) => {
-            const facet = option.facets.find(
-              (facet) => facet.attrValue === value
-            );
-            if (facet) {
-              selectedFilterDisplay.push({
-                attributeCode: filter.attributeCode,
-                value: value,
-                label: facet.attrLabel,
-              });
-            }
-          });
-        }
-      });
-      this.editSelectedFilterDisplay(selectedFilterDisplay);
-    },
-
     toggleSection(index) {
       const sectionIndex = this.openSections.indexOf(index);
       if (sectionIndex === -1) {
-        this.openSections.push(index);
+        this.$emit("update:openSections", [...this.openSections, index]);
       } else {
-        this.openSections.splice(sectionIndex, 1);
+        this.$emit(
+          "update:openSections",
+          this.openSections.filter((i) => i !== index)
+        );
       }
     },
   },

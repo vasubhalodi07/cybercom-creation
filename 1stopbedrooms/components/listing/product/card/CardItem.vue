@@ -43,12 +43,10 @@ export default {
       this.isHovered = false;
     },
     handleThumbnailHover(webId) {
-      console.log(webId);
       const hoveredProduct = this.item.items.find(
         (item) => item.webId == webId
       );
       if (hoveredProduct) {
-        console.log(hoveredProduct);
         this.displayItem = hoveredProduct;
       }
     },

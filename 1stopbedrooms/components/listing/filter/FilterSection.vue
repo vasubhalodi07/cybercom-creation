@@ -5,8 +5,17 @@
       <span class="arrow">{{ openSections.includes(index) ? "▲" : "▼" }}</span>
     </div>
     <div v-if="openSections.includes(index)" class="filter-options">
+      <div v-if="option.title === 'Brand'" class="brand-search">
+        <input
+          type="text"
+          v-model="searchTerm"
+          placeholder="Search Brand"
+          @input="filterBrands"
+          class="search-input"
+        />
+      </div>
       <FilterItem
-        v-for="(item, itemIndex) in option.facets"
+        v-for="(item, itemIndex) in filteredItems"
         :key="itemIndex"
         :item="item"
         :option="option"
@@ -32,6 +41,27 @@ export default {
     openSections: Array,
     productLoading: Boolean,
     selectedFilters: Array,
+  },
+  data() {
+    return {
+      searchTerm: "",
+      filteredItems: this.option.facets,
+    };
+  },
+  methods: {
+    filterBrands() {
+      this.filteredItems = this.option.facets.filter((item) =>
+        item.attrLabel.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    },
+  },
+  watch: {
+    option: {
+      handler() {
+        this.filteredItems = this.option.facets;
+      },
+      deep: true,
+    },
   },
 };
 </script>
@@ -77,5 +107,16 @@ export default {
 
 .arrow {
   font-size: 12px;
+}
+
+.brand-search {
+  margin-bottom: 10px;
+}
+
+.search-input {
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 </style>

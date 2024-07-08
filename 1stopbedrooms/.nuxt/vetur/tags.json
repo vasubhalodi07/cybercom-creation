@@ -1,4 +1,7 @@
 {
+  "CoreTopbar": {
+    "description": "Auto imported from components/core/Topbar.vue"
+  },
   "ListingFilterOption": {
     "description": "Auto imported from components/listing/FilterOption.vue"
   },
@@ -61,5 +64,14 @@
   },
   "ListingProductDynamicTYPETEXT": {
     "description": "Auto imported from components/listing/product/dynamic-type/TYPE_TEXT.vue"
+  },
+  "ListingProductTagDiscountTag": {
+    "description": "Auto imported from components/listing/product/tag/DiscountTag.vue"
+  },
+  "ListingProductTagImageTag": {
+    "description": "Auto imported from components/listing/product/tag/ImageTag.vue"
+  },
+  "ListingProductTagSalesTag": {
+    "description": "Auto imported from components/listing/product/tag/SalesTag.vue"
   }
 }

@@ -44,6 +44,9 @@ export const PRODUCT_DETAILS_FRAGMENT = gql`
     labels
     slug
     url
+    delivery {
+      method
+    }
     tags {
       primaryDealTag
       primaryDealTagVisibility

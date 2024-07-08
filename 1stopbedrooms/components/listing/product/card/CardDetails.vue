@@ -14,12 +14,19 @@
     </div>
     <div class="web-id" v-if="isHovered">web ID: {{ displayItem.webId }}</div>
     <div class="product-brand-name" v-else>By {{ displayItem.brand.name }}</div>
+
     <CardPrice :price="displayItem.price" />
+
+    <SalesTag v-show="displayItem?.price?.getSale" />
+
     <CardRating
       v-if="displayItem.reviews.rating > 0"
       :rating="displayItem.reviews.rating"
       :number="displayItem.reviews.number"
     />
+    
+    <!-- <DiscountTag :text="displayItem.labels[0]" v-show="shouldShowDiscountTag" /> -->
+    <!-- <ProductDetailsDelivery :deliveryType="product?.delivery?.method" /> -->
   </div>
 </template>
 
@@ -33,6 +40,9 @@ import SWATCH_THUMBNAIL from "~/components/listing/product/dynamic-type/SWATCH_T
 import LAYOUT_TEXT from "~/components/listing/product/dynamic-type/LAYOUT_TEXT.vue";
 import LAYOUTIMAGE from "~/components/listing/product/dynamic-type/LAYOUTIMAGE.vue";
 
+import SalesTag from "../tag/SalesTag.vue";
+import DiscountTag from "../tag/DiscountTag.vue";
+
 export default {
   name: "CardDetails",
   components: {
@@ -43,6 +53,8 @@ export default {
     SWATCH_THUMBNAIL,
     LAYOUT_TEXT,
     LAYOUTIMAGE,
+    SalesTag,
+    DiscountTag,
   },
   props: {
     item: {
@@ -56,6 +68,13 @@ export default {
     isHovered: {
       required: true,
       type: Boolean,
+    },
+  },
+  computed: {
+    shouldShowDiscountTag() {
+      return (
+        this.product.labels.length && this.product.labels[0] !== "clearance"
+      );
     },
   },
   methods: {

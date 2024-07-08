@@ -1,33 +1,46 @@
 <template>
   <div class="image-container">
     <img
-      :src="currentImage.src"
-      :alt="currentImage.alt"
-      @load="imageLoaded = true"
-      v-show="imageLoaded"
+      :src="currentImage?.src"
+      :alt="currentImage?.alt || 'Image'"
+      @error="imageError = true"
+      v-show="!imageError"
     />
-    <div v-if="!imageLoaded" class="placeholder">Loading...</div>
+    <ImageTag :item="item" />
+    <div v-if="imageError" class="placeholder">No Image Available</div>
   </div>
 </template>
 
 <script>
+import ImageTag from "~/components/listing/product/tag/ImageTag.vue";
+
 export default {
   name: "CardImage",
+  components: {
+    ImageTag,
+  },
   props: {
     item: Object,
     isHovered: Boolean,
   },
   data() {
     return {
-      imageLoaded: false,
+      imageError: false,
     };
   },
   computed: {
     currentImage() {
-      console.log(this.isHovered);
-      return this.isHovered
-        ? this.item.images.hoverImage
-        : this.item.images.mainImage;
+      if (this.isHovered && this.item.images.hoverImage?.src) {
+        return this.item.images.hoverImage;
+      }
+      return (
+        this.item.images.mainImage || { src: "", alt: "No Image Available" }
+      );
+    },
+  },
+  watch: {
+    isHovered() {
+      this.imageError = false;
     },
   },
 };
@@ -54,5 +67,6 @@ export default {
 .placeholder {
   position: absolute;
   font-size: 18px;
+  color: #888;
 }
 </style>

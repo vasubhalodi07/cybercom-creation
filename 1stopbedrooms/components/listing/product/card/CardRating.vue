@@ -1,7 +1,10 @@
 <template>
   <div class="rating">
-    <span v-for="star in fullStars" :key="star" class="star full">★</span>
-    <span v-if="hasHalfStar" class="star half">★</span> ({{ number }})
+    <div class="stars">
+      <span v-for="star in fullStars" :key="star" class="star full">★</span>
+      <span v-if="hasHalfStar" class="star half">★</span>
+    </div>
+    <span class="number">({{ number }})</span>
   </div>
 </template>
 
@@ -27,19 +30,30 @@ export default {
 .rating {
   display: flex;
   align-items: center;
+  position: relative;
   padding-top: 5px;
+}
+
+.stars {
+  display: flex;
 }
 
 .star {
   font-size: 24px;
   color: #ffc107;
+  position: relative;
 }
 
 .star.half {
-  position: relative;
   display: inline-block;
   overflow: hidden;
-  color: #ffc107;
-  width: 7px;
+  width: 12px;
+}
+
+.number {
+  font-size: 14px;
+  color: #333;
+  background: white;
+  padding-left: 5px;
 }
 </style>

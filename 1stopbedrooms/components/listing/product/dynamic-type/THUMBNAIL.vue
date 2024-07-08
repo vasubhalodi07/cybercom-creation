@@ -36,7 +36,7 @@ export default {
 }
 
 .thumbnail-item {
-  padding: 10px 0px;
+  padding: 10px 0px 3px 0px;
 }
 
 .thumbnail-image {

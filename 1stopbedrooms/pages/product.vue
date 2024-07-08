@@ -1,13 +1,16 @@
 <template>
   <div class="product-container">
-    <FilterOption class="filter-section" />
+    <FilterOption
+      class="filter-section"
+      :open-sections="openSections"
+      :loading="loading"
+    />
     <ProductList class="product-list-section" />
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
-
+import { mapActions, mapState } from "vuex";
 import FilterOption from "~/components/listing/FilterOption.vue";
 import ProductList from "~/components/listing/ProductList.vue";
 
@@ -16,10 +19,18 @@ export default {
     FilterOption,
     ProductList,
   },
+  data() {
+    return {
+      openSections: [],
+      loading: true,
+    };
+  },
   async created() {
     await this.initializeFiltersFromQuery();
-    await this.fetchProducts();
-    await this.fetchFilterOption();
+    await this.fetchDataInParallel();
+    this.initializeOpenSections();
+    this.updateSelectedFilterDisplay();
+    this.loading = false;
   },
   methods: {
     ...mapActions("product", ["fetchProducts"]),
@@ -28,6 +39,7 @@ export default {
       "editSelectedFilters",
       "removeFilter",
       "resetFilter",
+      "updateSelectedFilterDisplay",
     ]),
 
     initializeFiltersFromQuery() {
@@ -50,6 +62,20 @@ export default {
 
     handleClearFilter() {
       this.resetFilter();
+    },
+
+    async fetchDataInParallel() {
+      try {
+        await Promise.all([this.fetchProducts(), this.fetchFilterOption()]);
+      } catch (error) {
+        console.error("Error fetching data in parallel:", error);
+      }
+    },
+
+    initializeOpenSections() {
+      this.openSections = this.$store.state.filter.filterOption.map(
+        (_, index) => index
+      );
     },
   },
 };
