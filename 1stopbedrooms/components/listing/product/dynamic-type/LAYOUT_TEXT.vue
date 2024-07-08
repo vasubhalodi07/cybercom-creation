@@ -1,10 +1,10 @@
 <template>
-  <div>Type Text</div>
+  <div>Layout Text</div>
 </template>
 
 <script>
 export default {
-  name: "TypeText",
+  name: "LAYOUT_TEXT",
 };
 </script>
 

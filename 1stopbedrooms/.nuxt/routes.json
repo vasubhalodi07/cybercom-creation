@@ -3,14 +3,12 @@
     "name": "product",
     "path": "/product",
     "component": "/home/vasu/User/cybercom-creation/1stopbedrooms/pages/product.vue",
-    "chunkName": "pages/product",
-    "_name": "_6be5f75a"
+    "chunkName": "pages/product"
   },
   {
     "name": "index",
     "path": "/",
     "component": "/home/vasu/User/cybercom-creation/1stopbedrooms/pages/index.vue",
-    "chunkName": "pages/index",
-    "_name": "_13c459b6"
+    "chunkName": "pages/index"
   }
 ]

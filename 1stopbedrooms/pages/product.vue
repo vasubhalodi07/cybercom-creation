@@ -18,8 +18,8 @@ export default {
   },
   async created() {
     await this.initializeFiltersFromQuery();
-    this.fetchProducts();
-    this.fetchFilterOption();
+    await this.fetchProducts();
+    await this.fetchFilterOption();
   },
   methods: {
     ...mapActions("product", ["fetchProducts"]),

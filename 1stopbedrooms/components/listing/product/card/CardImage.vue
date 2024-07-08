@@ -15,7 +15,7 @@ export default {
   name: "CardImage",
   props: {
     item: Object,
-    hoveredItemId: Number,
+    isHovered: Boolean,
   },
   data() {
     return {
@@ -24,12 +24,8 @@ export default {
   },
   computed: {
     currentImage() {
-      console.log(this.hoveredItemId);
-      console.log(this.item.id);
-
-      console.log(this.hoveredItemId == this.item.id);
-
-      return this.hoveredItemId == this.item.id && this.item.images.hoverImage
+      console.log(this.isHovered);
+      return this.isHovered
         ? this.item.images.hoverImage
         : this.item.images.mainImage;
     },

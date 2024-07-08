@@ -47,19 +47,19 @@
   "ListingProductCardRating": {
     "description": "Auto imported from components/listing/product/card/CardRating.vue"
   },
-  "ListingProductDynamicTypeLayoutImage": {
-    "description": "Auto imported from components/listing/product/dynamic-type/LayoutImage.vue"
+  "ListingProductDynamicTypeLAYOUTIMAGE": {
+    "description": "Auto imported from components/listing/product/dynamic-type/LAYOUTIMAGE.vue"
   },
-  "ListingProductDynamicTypeLayoutText": {
-    "description": "Auto imported from components/listing/product/dynamic-type/LayoutText.vue"
+  "ListingProductDynamicTypeLAYOUTTEXT": {
+    "description": "Auto imported from components/listing/product/dynamic-type/LAYOUT_TEXT.vue"
   },
-  "ListingProductDynamicTypeSwatchThumbnail": {
-    "description": "Auto imported from components/listing/product/dynamic-type/SwatchThumbnail.vue"
+  "ListingProductDynamicTypeSWATCHTHUMBNAIL": {
+    "description": "Auto imported from components/listing/product/dynamic-type/SWATCH_THUMBNAIL.vue"
   },
-  "ListingProductDynamicTypeThumbnail": {
-    "description": "Auto imported from components/listing/product/dynamic-type/Thumbnail.vue"
+  "ListingProductDynamicTypeTHUMBNAIL": {
+    "description": "Auto imported from components/listing/product/dynamic-type/THUMBNAIL.vue"
   },
-  "ListingProductDynamicTypeText": {
-    "description": "Auto imported from components/listing/product/dynamic-type/TypeText.vue"
+  "ListingProductDynamicTYPETEXT": {
+    "description": "Auto imported from components/listing/product/dynamic-type/TYPE_TEXT.vue"
   }
 }

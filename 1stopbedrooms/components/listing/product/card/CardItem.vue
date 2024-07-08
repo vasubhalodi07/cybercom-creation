@@ -4,8 +4,13 @@
     @mouseenter="hoverImage(item.id)"
     @mouseleave="unhoverImage"
   >
-    <CardImage :item="item" :hoveredItemId="hoveredItemId" />
-    <CardDetails :item="item" :hoveredItemId="hoveredItemId" />
+    <CardImage :item="displayItem" :isHovered="isHovered" />
+    <CardDetails
+      :item="item"
+      :displayItem="displayItem"
+      :isHovered="isHovered"
+      @hoverProduct="handleThumbnailHover"
+    />
   </div>
 </template>
 
@@ -22,6 +27,8 @@ export default {
   data() {
     return {
       hoveredItemId: 0,
+      displayItem: this.item,
+      isHovered: false,
     };
   },
   props: {
@@ -29,10 +36,21 @@ export default {
   },
   methods: {
     hoverImage(id) {
-      this.hoveredItemId = parseInt(id);
+      this.hoveredItemId = id;
+      this.isHovered = true;
     },
     unhoverImage() {
-      this.hoveredItemId = 0;
+      this.isHovered = false;
+    },
+    handleThumbnailHover(webId) {
+      console.log(webId);
+      const hoveredProduct = this.item.items.find(
+        (item) => item.webId == webId
+      );
+      if (hoveredProduct) {
+        console.log(hoveredProduct);
+        this.displayItem = hoveredProduct;
+      }
     },
   },
 };

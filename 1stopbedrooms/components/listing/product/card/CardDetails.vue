@@ -1,17 +1,24 @@
 <template>
   <div class="details">
-    <div class="product-name" :class="{ active: hoveredItemId == item.id }">
-      {{ item.name }}
+    <div>
+      <component
+        :is="
+          getComponentName(item.dynamicAttribute && item.dynamicAttribute.type)
+        "
+        :dynamicAttribute="item.dynamicAttribute"
+        @hoverProduct="hoverProduct"
+      />
     </div>
-    <div v-if="hoveredItemId == item.id" class="web-id">
-      web ID: {{ item.webId }}
+    <div class="product-name" :class="{ underline: isHovered }">
+      {{ displayItem.name }}
     </div>
-    <div v-else class="product-brand-name">By {{ item.brand.name }}</div>
-    <CardPrice :price="item.price" />
+    <div class="web-id" v-if="isHovered">web ID: {{ displayItem.webId }}</div>
+    <div class="product-brand-name" v-else>By {{ displayItem.brand.name }}</div>
+    <CardPrice :price="displayItem.price" />
     <CardRating
-      v-if="item.reviews.rating > 0"
-      :rating="item.reviews.rating"
-      :number="item.reviews.number"
+      v-if="displayItem.reviews.rating > 0"
+      :rating="displayItem.reviews.rating"
+      :number="displayItem.reviews.number"
     />
   </div>
 </template>
@@ -20,15 +27,51 @@
 import CardPrice from "~/components/listing/product/card/CardPrice.vue";
 import CardRating from "~/components/listing/product/card/CardRating.vue";
 
+import TYPE_TEXT from "~/components/listing/product/dynamic-type/TYPE_TEXT.vue";
+import THUMBNAIL from "~/components/listing/product/dynamic-type/THUMBNAIL.vue";
+import SWATCH_THUMBNAIL from "~/components/listing/product/dynamic-type/SWATCH_THUMBNAIL.vue";
+import LAYOUT_TEXT from "~/components/listing/product/dynamic-type/LAYOUT_TEXT.vue";
+import LAYOUTIMAGE from "~/components/listing/product/dynamic-type/LAYOUTIMAGE.vue";
+
 export default {
   name: "CardDetails",
   components: {
     CardPrice,
     CardRating,
+    TYPE_TEXT,
+    THUMBNAIL,
+    SWATCH_THUMBNAIL,
+    LAYOUT_TEXT,
+    LAYOUTIMAGE,
   },
   props: {
-    item: Object,
-    hoveredItemId: Number,
+    item: {
+      required: true,
+      type: Object,
+    },
+    displayItem: {
+      required: true,
+      type: Object,
+    },
+    isHovered: {
+      required: true,
+      type: Boolean,
+    },
+  },
+  methods: {
+    getComponentName(type) {
+      const componentMap = {
+        TEXT: "TYPE_TEXT",
+        THUMBNAIL: "THUMBNAIL",
+        SWATCH_THUMBNAIL: "SWATCH_THUMBNAIL",
+        LAYOUT_TEXT: "LAYOUT_TEXT",
+        LAYOUTIMAGE: "LAYOUTIMAGE",
+      };
+      return componentMap[type] || null;
+    },
+    hoverProduct(webId) {
+      this.$emit("hoverProduct", webId);
+    },
   },
 };
 </script>
@@ -45,6 +88,10 @@ export default {
   padding-top: 5px;
 }
 
+.product-name.underline {
+  text-decoration: underline;
+}
+
 .product-brand-name {
   font-size: 14px;
   padding: 5px 0px;
@@ -53,9 +100,5 @@ export default {
 .web-id {
   padding: 5px 0px;
   font-size: 14px;
-}
-
-.active {
-  text-decoration: underline;
 }
 </style>

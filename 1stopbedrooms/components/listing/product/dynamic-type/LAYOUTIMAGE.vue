@@ -1,10 +1,10 @@
 <template>
-  <div>SwatchThumbnail</div>
+  <div>Layout Image</div>
 </template>
 
 <script>
 export default {
-  name: "SwatchThumbnail",
+  name: "LAYOUTIMAGE",
 };
 </script>
 

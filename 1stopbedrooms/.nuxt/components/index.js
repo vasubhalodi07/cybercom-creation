@@ -14,11 +14,11 @@ export { default as ListingProductCardImage } from '../../components/listing/pro
 export { default as ListingProductCardItem } from '../../components/listing/product/card/CardItem.vue'
 export { default as ListingProductCardPrice } from '../../components/listing/product/card/CardPrice.vue'
 export { default as ListingProductCardRating } from '../../components/listing/product/card/CardRating.vue'
-export { default as ListingProductDynamicTypeLayoutImage } from '../../components/listing/product/dynamic-type/LayoutImage.vue'
-export { default as ListingProductDynamicTypeLayoutText } from '../../components/listing/product/dynamic-type/LayoutText.vue'
-export { default as ListingProductDynamicTypeSwatchThumbnail } from '../../components/listing/product/dynamic-type/SwatchThumbnail.vue'
-export { default as ListingProductDynamicTypeThumbnail } from '../../components/listing/product/dynamic-type/Thumbnail.vue'
-export { default as ListingProductDynamicTypeText } from '../../components/listing/product/dynamic-type/TypeText.vue'
+export { default as ListingProductDynamicTypeLAYOUTIMAGE } from '../../components/listing/product/dynamic-type/LAYOUTIMAGE.vue'
+export { default as ListingProductDynamicTypeLAYOUTTEXT } from '../../components/listing/product/dynamic-type/LAYOUT_TEXT.vue'
+export { default as ListingProductDynamicTypeSWATCHTHUMBNAIL } from '../../components/listing/product/dynamic-type/SWATCH_THUMBNAIL.vue'
+export { default as ListingProductDynamicTypeTHUMBNAIL } from '../../components/listing/product/dynamic-type/THUMBNAIL.vue'
+export { default as ListingProductDynamicTYPETEXT } from '../../components/listing/product/dynamic-type/TYPE_TEXT.vue'
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {

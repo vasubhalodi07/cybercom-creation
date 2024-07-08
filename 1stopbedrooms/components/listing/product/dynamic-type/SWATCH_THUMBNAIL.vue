@@ -1,10 +1,10 @@
 <template>
-  <div>Layout Text</div>
+  <div>SwatchThumbnail</div>
 </template>
 
 <script>
 export default {
-  name: "LayoutText",
+  name: "SWATCH_THUMBNAIL",
 };
 </script>
 

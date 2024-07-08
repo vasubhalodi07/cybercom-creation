@@ -19,9 +19,7 @@
 
       <CardGrid
         :products="products?.items"
-        :hoveredItemId="hoveredItemId"
-        @hoverImage="hoverImage"
-        @unhoverImage="unhoverImage"
+        v-if="products?.items && products?.items.length > 0"
       />
 
       <div class="per-page-filter">
@@ -65,7 +63,6 @@ export default {
   },
   data() {
     return {
-      hoveredItemId: null,
       perPageOptions: [
         { value: "PER_PAGE_36", text: "36" },
         { value: "PER_PAGE_48", text: "48" },
@@ -154,14 +151,6 @@ export default {
       this.changePage(page);
       this.updateRouteQuery();
       this.scrollToTop();
-    },
-
-    hoverImage(id) {
-      this.hoveredItemId = parseInt(id);
-    },
-
-    unhoverImage() {
-      this.hoveredItemId = null;
     },
 
     scrollToTop() {

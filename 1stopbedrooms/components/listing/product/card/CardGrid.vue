@@ -1,13 +1,6 @@
 <template>
   <div class="card-grid">
-    <CardItem
-      v-for="item in products"
-      :key="item.id"
-      :item="item"
-      :hoveredItemId="hoveredItemId"
-      @hoverImage="hoverImage"
-      @unhoverImage="unhoverImage"
-    />
+    <CardItem v-for="item in products" :key="item.id" :item="item" />
   </div>
 </template>
 
@@ -21,15 +14,6 @@ export default {
   },
   props: {
     products: Array,
-    hoveredItemId: Number,
-  },
-  methods: {
-    hoverImage(id) {
-      this.$emit("hoverImage", id);
-    },
-    unhoverImage() {
-      this.$emit("unhoverImage");
-    },
   },
 };
 </script>
