@@ -59,6 +59,8 @@ export default {
     ...mapState("product", {
       productLoading: (state) => state.loading,
       page: (state) => state.page,
+      perPage: (state) => state.perPage,
+      sortBy: (state) => state.sortBy,
     }),
   },
   methods: {
@@ -99,7 +101,17 @@ export default {
     },
 
     updateRouteQuery() {
-      this.$router.push({ query: { ...this.$route.query, page: this.page } });
+      console.log(this.sortBy);
+      console.log(this.perPage);
+      
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          page: this.page,
+          sortBy: this.sortBy,
+          perPage: this.perPage,
+        },
+      });
     },
 
     updateQueryParams() {

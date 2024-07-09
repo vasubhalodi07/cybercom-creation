@@ -37,7 +37,7 @@ export default {
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: "https://www.sandbox9.1sb.pp.ua/graphql/1/listing",
+        httpEndpoint: "https://www.sandbox9.1sb.pp.ua/graphql/1",
         httpLinkOptions: {
           headers: {
             Authorization: `Basic ${Buffer.from(

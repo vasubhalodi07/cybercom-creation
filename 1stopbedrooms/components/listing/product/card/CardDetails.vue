@@ -26,6 +26,7 @@
     />
     
     <!-- <DiscountTag :text="displayItem.labels[0]" v-show="shouldShowDiscountTag" /> -->
+     
     <!-- <ProductDetailsDelivery :deliveryType="product?.delivery?.method" /> -->
   </div>
 </template>
